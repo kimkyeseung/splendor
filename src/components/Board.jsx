@@ -9,6 +9,7 @@ import TokenController from './TokenController'
 import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
 import Player from '../container/Player'
+import Deck from './Deck'
 import { Link } from 'react-router-dom'
 
 const Header = styled.header`
@@ -34,7 +35,16 @@ const Board = ({
   handleNobleClick
 }) => {
   const { currentPlayer } = ctx
-  const { board, tokenStore, selectedTokens, fields, nobleTiles } = G
+  const {
+    board,
+    tokenStore,
+    selectedTokens,
+    fields,
+    nobleTiles,
+    developOneDeck,
+    developTwoDeck,
+    developThreeDeck,
+  } = G
 
   const {
     dev10, dev11, dev12, dev13,
@@ -74,6 +84,7 @@ const Board = ({
             Developments={
               <>
                 <Card.Row>
+                  <Deck cards={developThreeDeck} grade={3} />
                   {developmentThree.map((dev, index) => (
                     <Card key={dev} onClick={ev => {
                       handleSpaceClick(dev, index, 3)
@@ -81,6 +92,7 @@ const Board = ({
                   ))}
                 </Card.Row>
                 <Card.Row>
+                  <Deck cards={developTwoDeck} grade={2} />
                   {developmentTwo.map((dev, index) => (
                     <Card key={dev} onClick={ev => {
                       handleSpaceClick(dev, index, 2)
@@ -88,6 +100,7 @@ const Board = ({
                   ))}
                 </Card.Row>
                 <Card.Row>
+                  <Deck cards={developOneDeck} grade={1} />
                   {developmentOne.map((dev, index) => (
                     <Card key={dev} onClick={ev => {
                       handleSpaceClick(dev, index, 1)
