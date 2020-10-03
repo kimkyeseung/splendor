@@ -1,20 +1,18 @@
 import React from 'react'
-import { Box } from './units/Box'
+import { Box, Flex } from './units'
 
-const Layout = ({ Developments, Nobles, Tokens, ...props }) => {
-  return (
-    <Box display="flex">
-      <Box>
-        {Developments}
-      </Box>
-      <Box>
-        {Tokens}
-      </Box>
-      <Box>
-        {Nobles}
-      </Box>
+const Layout = ({ Developments, Nobles, Tokens, ...props }) => (
+  <Flex>
+    <Box>
+      {Developments}
     </Box>
-  )
-}
+    <Box>
+      {Tokens}
+    </Box>
+    <Box>
+      {Nobles}
+    </Box>
+  </Flex>
+)
 
 export default Layout

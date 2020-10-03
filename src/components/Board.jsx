@@ -11,7 +11,9 @@ import NobleController from './NobleController'
 import Player from '../container/Player'
 import { Link } from 'react-router-dom'
 
-const Header = styled.header``
+const Header = styled.header`
+  padding: 1rem;
+`
 
 const Board = ({
   G, ctx,

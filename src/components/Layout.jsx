@@ -1,12 +1,12 @@
 import React from 'react'
-import { Box } from './units'
+import { Box, Flex } from './units'
 
 const Layout = ({ Header, LeftPanel, RightPanel, Main, Footer, ...props }) => {
   return (
     <Box>
       <Box>{Header}</Box>
-      <Box display="flex">
-        <Box width={256}>
+      <Flex>
+        <Box width="20%">
           {LeftPanel}
         </Box>
         <Box flex='1 1 auto'>
@@ -15,7 +15,7 @@ const Layout = ({ Header, LeftPanel, RightPanel, Main, Footer, ...props }) => {
         <Box width={256}>
           {RightPanel}
         </Box>
-      </Box>
+      </Flex>
       <Box>{Footer}</Box>
     </Box>
   )
