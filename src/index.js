@@ -1,12 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { createGlobalStyle } from 'styled-components'
+import {
+  BrowserRouter as Router,
+} from 'react-router-dom'
+import * as serviceWorker from './serviceWorker'
+
+const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Galada&family=Lobster&display=swap');
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Galada', 'Lobster', 'serif';
+  }
+  font-family: 'Galada','Lobster', 'serif';
+`
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <GlobalStyle />
+    <Router>
+      <App />
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
