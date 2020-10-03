@@ -26,7 +26,8 @@ const normalStyle = css`
 `
 
 const emptyStyle = css`
-  border: 2px dotted gray; 
+  border: 2px dotted gray;
+  box-shadow: none;
 `
 
 const Space = styled.div`
