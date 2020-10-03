@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import Lobby from './container/LobbyContainer'
 import Game from './components/Game'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from 'react-router-dom'
 import { withRouter } from 'react-router'
-
+import qs from 'query-string'
 
 const Main = styled.div`
   background: linear-gradient(#e66465, #9198e5);
@@ -55,15 +54,16 @@ class App extends Component {
 
     history.push({
       pathname: '/game',
-      query: {
+      search: qs.stringify({
         gameId: new Date().getTime(),
         players: playerNames.slice(0, playerNum)
-      }
+      })
     })
   }
 
   render() {
     const { playerNum, playerNames } = this.state
+    const { location } = this.props
 
     return (
       <Main>
@@ -77,7 +77,7 @@ class App extends Component {
               startGame={this.startGame} />
           </Route>
           <Route path="/game">
-            <Game />
+            <Game {...qs.parse(location.search)} />
           </Route>
         </Switch>
       </Main>
