@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App';
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import {
   BrowserRouter as Router,
 } from 'react-router-dom'
@@ -17,12 +17,32 @@ const GlobalStyle = createGlobalStyle`
   font-family: 'Galada','Lobster', 'serif';
 `
 
+const theme = {
+  main: '#2c3e50',
+  grayscale: [
+    '#f8fafb',
+    '#f1f5f5',
+    '#eaeeef',
+    '#e1e4e6',
+    '#ced3d6',
+    '#a9afb3',
+    '#878d91',
+    '#4d5256',
+    '#363a3c',
+    '#292a2b'
+  ],
+  font: '#363a3c',
+  fontWhite: '#fafafa'
+}
+
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalStyle />
-    <Router>
-      <App />
-    </Router>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <Router>
+        <App />
+      </Router>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -6,10 +6,10 @@ const Layout = ({ Developments, Nobles, Tokens, ...props }) => (
     <Box>
       {Developments}
     </Box>
-    <Box>
+    <Box width="fit-content">
       {Tokens}
     </Box>
-    <Box>
+    <Box width="fit-content">
       {Nobles}
     </Box>
   </Flex>

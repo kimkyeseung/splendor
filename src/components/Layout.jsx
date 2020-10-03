@@ -12,7 +12,7 @@ const Layout = ({ Header, LeftPanel, RightPanel, Main, Footer, ...props }) => {
         <Box flex='1 1 auto'>
           {Main}
         </Box>
-        <Box width={256}>
+        <Box width="fit-content">
           {RightPanel}
         </Box>
       </Flex>

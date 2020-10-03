@@ -7,15 +7,13 @@ import {
   Switch,
   Route
 } from 'react-router-dom'
+import { Box } from './components/units'
 import { withRouter } from 'react-router'
 import qs from 'query-string'
 
-const Main = styled.div`
-  background: linear-gradient(#e66465, #9198e5);
+const Main = styled(Box)`
   position: fixed;
-  height: 100%;
-  width: 100%;
-  margin: 0;
+  background: linear-gradient(#e66465, #9198e5);
 `
 
 class App extends Component {

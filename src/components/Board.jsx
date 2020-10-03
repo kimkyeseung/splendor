@@ -13,6 +13,8 @@ import { Link } from 'react-router-dom'
 
 const Header = styled.header`
   padding: 1rem;
+  background: ${({ theme }) => theme.main};
+  & > a { color: ${({ theme }) => theme.fontWhite}; }
 `
 
 const Board = ({
