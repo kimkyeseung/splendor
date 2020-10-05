@@ -8,7 +8,7 @@ const normalStyle = css`
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  & > header {
+  & > .header {
     height: 50px;
     box-sizing: border-box;
     background: rgba(255, 255, 255, 0.8);

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import config from '../config'
+import { Flex } from './units'
 
 const { theme } = config
 
@@ -20,11 +21,10 @@ const roundShape = css`
   padding-top: 0.2rem;
 `
 
-const StyledCost = styled.div`
+const StyledCost = styled(Flex)`
   color: white;
   border: 1px solid;
   font-size: 1.2em;
-  text-align: center;
   margin: 0.2rem;
   -webkit-text-stroke-width: .6px;
   -webkit-text-stroke-color: black;
@@ -32,7 +32,7 @@ const StyledCost = styled.div`
   ${({ value }) => value && theme.basic[value]};
 `
 
-const Cost = ({ amount, ...props }) => <StyledCost {...props}>{amount}</StyledCost>
+const Cost = ({ amount, ...props }) => <StyledCost justifyContent="center" {...props}>{amount}</StyledCost>
 
 Cost.propTypes = {
   value: PropTypes.string,

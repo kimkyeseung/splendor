@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components'
 import Value from './Value'
 import Cost from './Cost'
 import Space from './Space'
+import { Flex } from './units'
 
 import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
 
@@ -14,10 +15,10 @@ const Card = ({ dev, onClick }) => {
   const { grade, cost, value, victoryPoint } = DEVELOPMENT_CARDS[dev]
   return (
     <Space onClick={onClick} backgroundUrl={`image/${value + grade}.jpg`}>
-      <header>
+      <Flex className="header">
         <p className="vp">{victoryPoint ? victoryPoint : ''}</p>
         <Value value={value} />
-      </header>
+      </Flex>
       <div className="cost">
         {Object.keys(cost).map((token, i) => <Cost key={i} value={token} amount={cost[token]} />)}
       </div>
