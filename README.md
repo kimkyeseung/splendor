@@ -1,68 +1,56 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## feature
 
-In the project directory, you can run:
+## TODO
 
-### `npm start`
+### 게임 운영
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 마크업
+- [x] 카드 뒷면 스타일 작업
+- [x] 개발카드 단계별 덱 표시하기
+- [x] Left패널에 플레이어별 상황 보여주기
+  - [ ] 아바타 이미지 표시하기
+  - [x] 토큰 총합 표시하기
+  - [ ] 예약한 카드 수 표시
+  - [ ] 턴 수 표시
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### 개발카드
+- [x] 개발 카드 클릭 시 플레이어 필드에 추가
+  - [x] 보석 토큰이 해당 개발 카드의 비용만큼 있을때 차감하고 가져오기
+  - [x] 개발 카드를 구입해놓은 경우 그 만큼 할인받기
+  - [x] 보석 토큰이나 개발 토큰이 부족하여 살 수 없는 경우 무효처리
+  - [x] 보석 토큰을 이용하여 구매후 중앙창고(은행)의 보석이 회복되어야 한다.
+  - [x] 황금 토큰이용하여 개발 카드 구매 후 황금토큰이 줄어들고 다른 토큰이 마이너스가 되면 안된다.
+  - [x] 개발 카드 구매할지 킵할지 선택 가능해야 한다.
+  - [x] 개발 카드 킵 기능
+- [x] 로비 컴포넌트에서 인원수에 맞춰서 게임 시작
+- [ ] 킵한 카드를 구매할 수 있어야 한다.
 
-### `npm test`
+### 토큰
+- [x] 보석토큰 가져오기
+  - [x] 보석 토큰 마크업
+  - [x] 보석 가져오는 조건(다른색3개, 같은색2개)에 따른 로직처리
+    - [x] 같은 색상의 보석 2개 가져오기는 그 보석이 4개 이상 남았을때만 가능하다.
+  - [x] 보석 가져온 후 보석 토큰이 10개 이상이면 10개가 되도록 반납한다.
+  - [x] 보석 가져오기 취소 기능
+- [x] 보석 가져오기 컨트롤러(모달 대신) 컴포넌트 제작
+- [x] 토큰 갯수만큼 두꼐 다르게 표시하기(실제로 쌓여있는 모습처럼 보이기)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 귀족
+- [x] 귀족 타일 마크업
+- [x] 귀족 타일 조건 달성시 자동으로 가져오는 기능
+  - [x] 귀족 조건 2개 이상 동시 달성시 하나만 선택해야한다.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### 기타 개발
+- [x] 게임 시작 전후 라우트 분리
+- [x] 레이아웃 컴포넌트 제작
+- [ ] 토큰 가져오는 상태에서 개발카드 클릭하거나 개발카드 가져오는 상태에서 토큰 클릭 이벤트 막기
+- [ ] 토큰 제한, 게임 세팅 및 전체 세부설정 config 로 통합적으로 관리하기
+- [ ] 멀티플레이 가능해야 한다
+- [ ] 효과음, 배경음
+  - [ ] 게임접속시 배경음
+  - [ ] 게임시작시 배경음
+  - [ ] 승리시 배경음
+  - [ ] 토큰 집을 때 효과음
+  - [ ] 개발카드 선택시 효과음
+  - [ ] 귀족카드 획득시 효과음
