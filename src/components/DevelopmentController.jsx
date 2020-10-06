@@ -32,25 +32,30 @@ const Message = styled.div`
 
 const DevelopmentController = ({
   message,
-  development,
+  focusedDevelopment,
   deselectDevelopment,
   buySelectedDevelopment,
   reserveSelectedDevelopment
 }) => {
+  const { development, blind, grade } = focusedDevelopment
 
   return (
-    <Controller isOpen={development ? true : false}>
+    <Controller isOpen={!!development}>
       <Message>{message}</Message>
       <Flex>
         <TokkenWrapper>
-          <Card dev={development} onClick={() => {
-            deselectDevelopment()
-          }} />
+          <Card
+            dev={development}
+            grade={grade}
+            blind={blind}
+            onClick={() => {
+              deselectDevelopment()
+            }} />
         </TokkenWrapper>
-        <button onClick={ev => {
+        {!blind && <button onClick={ev => {
           ev.preventDefault()
           buySelectedDevelopment()
-        }}>구매</button>
+        }}>구매</button>}
         <button onClick={ev => {
           ev.preventDefault()
           reserveSelectedDevelopment()

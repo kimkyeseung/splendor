@@ -1,20 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import Space from './Space'
+import Card from './Card'
 
-const backColors = [
-  '#27ae60',
-  '#f39c12',
-  '#2980b9'
-]
-
-const Back = styled(Space)`
+const Back = styled.div`
   position: absolute;
-  border: 12px solid white;
   top: ${({ index }) => `${index / 3}px`};
   left: ${({ index }) => `${index / 3}px`};
-  background: ${({ grade }) => backColors[grade - 1]};
 `
 
 const Dummmy = styled(Space)`
@@ -22,11 +15,13 @@ const Dummmy = styled(Space)`
   overflow: visible;
 `
 
-const Deck = ({ cards = [], grade }) => {
+const Deck = ({ cards = [], onClick }) => {
 
   return cards.length
     ? <Dummmy>
-      {cards.map((id, index) => <Back grade={grade} index={index} key={id} />)}
+      {cards.map((id, index) => <Back key={id} index={index}>
+        <Card dev={id} blind onClick={onClick} />
+      </Back>)}
     </Dummmy>
     : <Space empty />
 }

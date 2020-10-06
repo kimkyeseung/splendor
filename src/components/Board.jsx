@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import { Flex } from './units'
 import Card from './Card'
 import Noble from './Noble'
 import Token from './Token'
@@ -10,7 +12,6 @@ import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
 import Player from '../container/Player'
 import Deck from './Deck'
-import { Link } from 'react-router-dom'
 
 const Header = styled.header`
   padding: 1rem;
@@ -83,30 +84,36 @@ const Board = ({
           <BoardLayout
             Developments={
               <>
-                <Card.Row>
-                  <Deck cards={developThreeDeck} grade={3} />
+                <Flex>
+                  <Deck
+                    onClick={() => {
+                      const dev = developThreeDeck[developThreeDeck.length - 1]
+                      handleSpaceClick(dev, -1, 3)
+                    }}
+                    cards={developThreeDeck}
+                    grade={3} />
                   {developmentThree.map((dev, index) => (
-                    <Card key={dev} onClick={ev => {
+                    <Card key={dev} onClick={() => {
                       handleSpaceClick(dev, index, 3)
                     }} grade={3} dev={dev} />
                   ))}
-                </Card.Row>
-                <Card.Row>
+                </Flex>
+                <Flex>
                   <Deck cards={developTwoDeck} grade={2} />
                   {developmentTwo.map((dev, index) => (
-                    <Card key={dev} onClick={ev => {
+                    <Card key={dev} onClick={() => {
                       handleSpaceClick(dev, index, 2)
                     }} grade={2} dev={dev} />
                   ))}
-                </Card.Row>
-                <Card.Row>
+                </Flex>
+                <Flex>
                   <Deck cards={developOneDeck} grade={1} />
                   {developmentOne.map((dev, index) => (
-                    <Card key={dev} onClick={ev => {
+                    <Card key={dev} onClick={() => {
                       handleSpaceClick(dev, index, 1)
                     }} grade={1} dev={dev} />
                   ))}
-                </Card.Row>
+                </Flex>
               </>
             }
             Tokens={
@@ -147,7 +154,7 @@ const Board = ({
             deselectDevelopment={deselectDevelopment}
             buySelectedDevelopment={buySelectedDevelopment}
             reserveSelectedDevelopment={reserveSelectedDevelopment}
-            development={focusedDevelopment.development} />}
+            focusedDevelopment={focusedDevelopment} />}
           {tokenOverloaded
             ? <TokenController
               message="초과한 토큰을 반납하세요"

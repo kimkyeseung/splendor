@@ -1,5 +1,11 @@
 import styled, { css } from 'styled-components'
 
+const backColors = [
+  '#27ae60',
+  '#f39c12',
+  '#2980b9'
+]
+
 const normalStyle = css`
   display: flex;
   flex-direction: column;
@@ -30,6 +36,11 @@ const emptyStyle = css`
   box-shadow: none;
 `
 
+const backStyle = css`
+  border: 12px solid white;
+  background: ${({ grade }) => backColors[grade - 1]};
+`
+
 const Space = styled.div`
   height: 180px;
   width: 150px;
@@ -42,6 +53,8 @@ const Space = styled.div`
   -moz-box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.25);
   box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.25);
   ${({ empty }) => empty ? emptyStyle : normalStyle};
+  ${({ blind }) => blind && backStyle};
 `
+
 
 export default Space

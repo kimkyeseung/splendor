@@ -8,11 +8,16 @@ import { Flex } from './units'
 
 import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
 
-const Card = ({ dev, onClick }) => {
+const Card = ({ dev, blind, onClick }) => {
   if (!dev) {
     return <Space empty />
   }
   const { grade, cost, value, victoryPoint } = DEVELOPMENT_CARDS[dev]
+
+  if (blind) {
+    return <Space onClick={onClick} grade={grade} blind />
+  }
+
   return (
     <Space onClick={onClick} backgroundUrl={`image/${value + grade}.jpg`}>
       <Flex className="header">
@@ -30,11 +35,5 @@ Card.propTypes = {
   dev: PropTypes.oneOf(Object.keys(DEVELOPMENT_CARDS)),
   onClick: PropTypes.func
 }
-
-Card.Row = styled.section`
-  display: flex;
-  justify-content: space-between;
-  max-width: 900px;
-`
 
 export default Card

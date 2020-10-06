@@ -47,7 +47,8 @@ class BoardContainer extends Component {
         focusedDevelopment: {
           grade,
           index,
-          development
+          development,
+          blind: index === -1
         }
       })
     })
