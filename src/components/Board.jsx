@@ -7,6 +7,7 @@ import Noble from './Noble'
 import Token from './Token'
 import Layout from './Layout'
 import BoardLayout from './BoardLayout'
+import DevelopmentRow from './DevelopmentRow'
 import TokenController from './TokenController'
 import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
@@ -84,36 +85,24 @@ const Board = ({
           <BoardLayout
             Developments={
               <>
-                <Flex>
-                  <Deck
-                    onClick={() => {
-                      const dev = developThreeDeck[developThreeDeck.length - 1]
-                      handleSpaceClick(dev, -1, 3)
-                    }}
-                    cards={developThreeDeck}
-                    grade={3} />
-                  {developmentThree.map((dev, index) => (
-                    <Card key={dev} onClick={() => {
-                      handleSpaceClick(dev, index, 3)
-                    }} grade={3} dev={dev} />
-                  ))}
-                </Flex>
-                <Flex>
-                  <Deck cards={developTwoDeck} grade={2} />
-                  {developmentTwo.map((dev, index) => (
-                    <Card key={dev} onClick={() => {
-                      handleSpaceClick(dev, index, 2)
-                    }} grade={2} dev={dev} />
-                  ))}
-                </Flex>
-                <Flex>
-                  <Deck cards={developOneDeck} grade={1} />
-                  {developmentOne.map((dev, index) => (
-                    <Card key={dev} onClick={() => {
-                      handleSpaceClick(dev, index, 1)
-                    }} grade={1} dev={dev} />
-                  ))}
-                </Flex>
+                <DevelopmentRow
+                  deck={developThreeDeck}
+                  list={developmentThree}
+                  handler={handleSpaceClick}
+                  grade={3}
+                />
+                <DevelopmentRow
+                  deck={developTwoDeck}
+                  list={developmentTwo}
+                  handler={handleSpaceClick}
+                  grade={2}
+                />
+                <DevelopmentRow
+                  deck={developOneDeck}
+                  list={developmentOne}
+                  handler={handleSpaceClick}
+                  grade={1}
+                />
               </>
             }
             Tokens={
