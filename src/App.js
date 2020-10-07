@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import Lobby from './container/LobbyContainer'
+import MainContainer from './container/MainContainer'
+import LobbyContainer from './container/LobbyContainer'
 import Game from './components/Game'
 import GameClient from './components/GameClient'
 import styled from 'styled-components'
@@ -12,7 +13,7 @@ import { Box } from './components/units'
 import { withRouter } from 'react-router'
 import qs from 'query-string'
 
-const Main = styled(Box)`
+const Body = styled(Box)`
   position: fixed;
   background: linear-gradient(#e66465, #9198e5);
 `
@@ -65,10 +66,10 @@ class App extends Component {
     const { location } = this.props
 
     return (
-      <Main>
+      <Body>
         <Switch>
           <Route path="/" exact>
-            <Lobby
+            <MainContainer
               playerNum={playerNum}
               setPlayerNum={this.setPlayerNum}
               setPlayerName={this.setPlayerName}
@@ -79,8 +80,9 @@ class App extends Component {
             <Game {...qs.parse(location.search)} />
           </Route>
           <Route path="/play" exact render={(props) => GameClient()} />
+          <Route path="/lobby/:id" component={LobbyContainer} />
         </Switch>
-      </Main>
+      </Body>
     )
   }
 }
