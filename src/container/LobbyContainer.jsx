@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import { Empty, Flex } from '../components/units'
 
@@ -105,8 +106,11 @@ class Lobby extends Component {
           <StartButton onClick={ev => {
             ev.preventDefault()
             startGame()
-          }}>시작하기</StartButton>
+          }}>
+            시작하기
+          </StartButton>
         </Select>
+        <Link to="/play">참가</Link>
       </div>
     )
   }

@@ -4,18 +4,19 @@ import Board from '../container/BoardContainer'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import { game } from '../lib'
 
-const Game = ({ players, gameId }) => {
-  const Splendor = game(players)
+const GameClient = () => {
+  const Splendor = game(2)
   const SplendorGame = Client({
     game: Splendor,
-    board: (props) => <Board {...props} />,
-    numPlayers: players.length,
+    board: props => <Board {...props} />,
     multiplayer: SocketIO({ server: 'localhost:8000' }),
   })
 
+  const playerId = new Date().getTime().toString(36)
+
   return (
-    <SplendorGame />
+    <SplendorGame playerID={playerId} />
   )
 }
 
-export default Game
+export default GameClient

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Lobby from './container/LobbyContainer'
 import Game from './components/Game'
+import GameClient from './components/GameClient'
 import styled from 'styled-components'
 import {
   BrowserRouter as Router,
@@ -77,6 +78,7 @@ class App extends Component {
           <Route path="/game">
             <Game {...qs.parse(location.search)} />
           </Route>
+          <Route path="/play" exact render={(props) => GameClient()} />
         </Switch>
       </Main>
     )
