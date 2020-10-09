@@ -1,4 +1,5 @@
 import React from 'react'
+import reset from "styled-reset";
 import ReactDOM from 'react-dom'
 import App from './App';
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
@@ -8,11 +9,16 @@ import {
 import * as serviceWorker from './serviceWorker'
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Galada&family=Lobster&display=swap');
+  ${reset}
+  @import url('https://fonts.googleapis.com/css2?family=Galada');
+  @import url('https://fonts.googleapis.com/css2?family=Lobster');
+  * {
+    box-sizing: border-box;
+  }
   body {
     padding: 0;
     margin: 0;
-    font-family: 'Galada', 'Lobster', 'serif';
+    font-family: 'Galada', 'Lobster', 'serif' !important;
   }
   font-family: 'Galada','Lobster', 'serif';
 `
