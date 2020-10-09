@@ -1,7 +1,27 @@
 import React, { Component } from 'react'
 import { LobbyApi } from '../lib/api'
+import { Client } from 'boardgame.io/react'
+import Board from './BoardContainer'
+import { SocketIO } from 'boardgame.io/multiplayer'
+import { game } from '../lib'
 
 const api = new LobbyApi()
+
+const GameClient = () => {
+  const Splendor = game(2)
+  const SplendorGame = Client({
+    game: Splendor,
+    board: props => <Board {...props} />,
+    multiplayer: SocketIO({ server: 'localhost:8000' }),
+  })
+
+  const playerId = new Date().getTime().toString(36)
+
+  return (
+    <SplendorGame playerID={playerId} />
+  )
+}
+
 
 class LobbyContainer extends Component {
   constructor(props) {
@@ -12,6 +32,7 @@ class LobbyContainer extends Component {
     }
     this.joinRoom = this.joinRoom.bind(this)
     this.checkRoomState = this.checkRoomState.bind(this)
+    this.getGameClient = this.getGameClient.bind(this)
   }
 
   componentDidMount() {
@@ -54,8 +75,9 @@ class LobbyContainer extends Component {
       return
     }
 
-    api.whosInRoom(id).then(
-      (players) => {
+    api.whosInRoom(id)
+      .then((players) => {
+        console.log(111, players)
         const joinedPlayers = players.filter((p) => p.name);
         this.setState({
           joined: joinedPlayers,
@@ -63,35 +85,55 @@ class LobbyContainer extends Component {
         const myPlayerNum = joinedPlayers.length;
         this.joinRoom(myPlayerNum);
       },
-      (error) => {
-        console.log("room does not exist");
-        this.setState({
-          id: null,
-        });
-      }
-    )
-  }
-
-  checkRoomState = () => {
-    if (this.state.id) {
-      api.whosInRoom(this.state.id).then(
-        (players) => {
-          const joinedPlayers = players.filter((p) => p.name);
-          this.setState({
-            joined: joinedPlayers,
-          });
-        },
         (error) => {
-          console.log("room does not exist");
+          console.log("room does not exist", error);
           this.setState({
             id: null,
           });
         }
-      );
+      )
+  }
+
+  checkRoomState = () => {
+    const { id } = this.state
+
+    if (!id) {
+      return
     }
+    api.whosInRoom(id).then(
+      (players) => {
+        const joinedPlayers = players.filter((p) => p.name);
+        this.setState({
+          joined: joinedPlayers,
+        });
+      },
+      (error) => {
+        console.log("room does not exist");
+        // this.setState({
+        //   id: null,
+        // });
+      }
+    );
+  }
+
+  getGameClient = () => {
+    return (
+      <GameClient
+        gameID={this.state.id}
+        players={this.state.joined}
+        playerID={String(this.state.myID)}
+        credentials={this.state.userAuthToken}
+      ></GameClient>
+    );
   };
 
   render() {
+    const { joined } = this.state
+
+    if (joined.length === 2) {
+      return this.getGameClient()
+    }
+
     return (
       <div>로비입니다.</div>
     )

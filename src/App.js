@@ -74,13 +74,14 @@ class App extends Component {
               setPlayerNum={this.setPlayerNum}
               setPlayerName={this.setPlayerName}
               playerNames={playerNames}
-              startGame={this.startGame} />
+              startGame={this.startGame}
+              {...this.props}/>
           </Route>
           <Route path="/game">
             <Game {...qs.parse(location.search)} />
           </Route>
           <Route path="/play" exact render={(props) => GameClient()} />
-          <Route path="/lobby/:id" component={LobbyContainer} />
+          <Route path="/lobby/:id" render={props => <LobbyContainer {...props}/>} />
         </Switch>
       </Body>
     )

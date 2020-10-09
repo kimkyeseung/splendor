@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import { Empty, Flex } from '../components/units'
+import { LobbyApi } from '../lib/api'
+
+const api = new LobbyApi()
 
 const Title = styled.div`
   text-align: center;
@@ -57,6 +60,36 @@ const StartButton = styled.button`
 class MainContainer extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      loading: false
+    }
+    this.createGame = this.createGame.bind(this)
+  }
+
+  createGame = () => {
+    const { loading } = this.state
+    const { history } = this.props
+
+    if (loading) {
+      return
+    }
+
+    this.setState({
+      loading: true,
+    }, () => {
+      api.createRoom(2)
+        .then((roomId) => {
+          console.log("Created room with roomID = ", roomId);
+          this.setState({ loading: false }, () => {
+            history.push("/lobby/" + roomId);
+          })
+        },
+          (err) => {
+            console.log(err);
+            this.setState({ loading: false });
+          }
+        )
+    })
   }
 
   render() {
@@ -111,6 +144,15 @@ class MainContainer extends Component {
           </StartButton>
         </Select>
         <Link to="/play">참가</Link>
+
+        <div
+          className="card"
+          onClick={() => this.createGame()}
+        >
+          <div className="card-inside start">
+            <h1>new game</h1>
+          </div>
+        </div>
       </div>
     )
   }
