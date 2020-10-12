@@ -4,6 +4,8 @@ import { Client } from 'boardgame.io/react'
 import Board from './BoardContainer'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import { game } from '../lib'
+import Lobby from '../components/Lobby'
+import qs from 'query-string'
 
 const api = new LobbyApi()
 
@@ -52,7 +54,9 @@ class LobbyContainer extends Component {
     const { id } = this.state
 
     if (id) {
-      api.joinRoom(id, username, playerNo)
+      const { location } = this.props
+      const { isHost } = qs.parse(location.search)
+      api.joinRoom(id, username, playerNo, isHost)
         .then(
           (authToken) => {
             console.log("Joined room as player ", playerNo)
@@ -77,26 +81,24 @@ class LobbyContainer extends Component {
 
     api.whosInRoom(id)
       .then((players) => {
-        console.log(111, players)
-        const joinedPlayers = players.filter((p) => p.name);
+        const joinedPlayers = players.filter((p) => p.name)
         this.setState({
           joined: joinedPlayers,
-        });
+        })
         const myPlayerNum = joinedPlayers.length;
-        this.joinRoom(myPlayerNum);
+        this.joinRoom(myPlayerNum)
       },
         (error) => {
-          console.log("room does not exist", error);
+          console.log("room does not exist", error)
           this.setState({
             id: null,
-          });
+          })
         }
       )
   }
 
   checkRoomState = () => {
     const { id } = this.state
-
     if (!id) {
       return
     }
@@ -109,9 +111,9 @@ class LobbyContainer extends Component {
       },
       (error) => {
         console.log("room does not exist");
-        // this.setState({
-        //   id: null,
-        // });
+        this.setState({
+          id: null,
+        });
       }
     );
   }
@@ -128,14 +130,20 @@ class LobbyContainer extends Component {
   };
 
   render() {
-    const { joined } = this.state
+    const { joined, id } = this.state
+    const { history } = this.props
 
-    if (joined.length === 2) {
-      return this.getGameClient()
+    // if (joined.length === 2) {
+    //   return this.getGameClient()
+    // }
+    if (!id) {
+      return <div>생성된 게임이 없습니다.</div>
     }
 
     return (
-      <div>로비입니다.</div>
+      <Lobby players={joined} gameId={id} startGame={() => {
+        history.push()
+      }} />
     )
   }
 }

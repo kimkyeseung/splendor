@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import { Empty, Flex } from '../components/units'
 import { LobbyApi } from '../lib/api'
+import qs from 'query-string'
 
 const api = new LobbyApi()
 
@@ -68,7 +69,6 @@ class MainContainer extends Component {
 
   createGame = () => {
     const { loading } = this.state
-    const { history } = this.props
 
     if (loading) {
       return
@@ -79,9 +79,10 @@ class MainContainer extends Component {
     }, () => {
       api.createRoom(2)
         .then((roomId) => {
+          const { history } = this.props
           console.log("Created room with roomID = ", roomId);
           this.setState({ loading: false }, () => {
-            history.push("/lobby/" + roomId);
+            history.push(`/lobby/${roomId}?${qs.stringify({ isHost: true })}`);
           })
         },
           (err) => {
