@@ -10,7 +10,7 @@ import qs from 'query-string'
 const api = new LobbyApi()
 
 const GameClient = () => {
-  const Splendor = game(2)
+  const Splendor = game()
   const SplendorGame = Client({
     game: Splendor,
     board: props => <Board {...props} />,
@@ -35,6 +35,7 @@ class LobbyContainer extends Component {
     this.joinRoom = this.joinRoom.bind(this)
     this.checkRoomState = this.checkRoomState.bind(this)
     this.getGameClient = this.getGameClient.bind(this)
+    this.startGame = this.startGame.bind(this)
   }
 
   componentDidMount() {
@@ -43,10 +44,16 @@ class LobbyContainer extends Component {
     window.addEventListener("beforeunload", this.cleanup.bind(this));
   }
 
+  componentWillUnmount() {
+    window.removeEventListener("beforeunload", this.cleanup.bind(this));
+  }
+
   cleanup() {
     console.log("cleaning up");
-    api.leaveRoom(this.state.id, this.state.myID, this.state.userAuthToken);
-    clearInterval(this.interval);
+    const { id, myID, userAuthToken } = this.state
+
+    api.leaveRoom(id, myID, userAuthToken)
+    clearInterval(this.interval)
   }
 
   joinRoom = playerNo => {
@@ -85,7 +92,7 @@ class LobbyContainer extends Component {
         this.setState({
           joined: joinedPlayers,
         })
-        const myPlayerNum = joinedPlayers.length;
+        const myPlayerNum = joinedPlayers.length
         this.joinRoom(myPlayerNum)
       },
         (error) => {
@@ -104,7 +111,24 @@ class LobbyContainer extends Component {
     }
     api.whosInRoom(id).then(
       (players) => {
-        const joinedPlayers = players.filter((p) => p.name);
+        const joinedPlayers = []
+        let started = false
+        players.forEach(p => {
+          if (p.name) {
+            joinedPlayers.push(p)
+          }
+          if (p.data?.started) {
+            started = true
+          }
+        })
+        if (started) {
+          return this.setState({
+            started: true,
+            joined: joinedPlayers
+          }, () => {
+            clearInterval(this.interval)
+          })
+        }
         this.setState({
           joined: joinedPlayers,
         });
@@ -119,30 +143,57 @@ class LobbyContainer extends Component {
   }
 
   getGameClient = () => {
+    const { joined, id, myID, userAuthToken, } = this.state
+
+    const Splendor = game(joined.length)
+    const SplendorGame = Client({
+      game: Splendor,
+      board: props => <Board {...props} />,
+      multiplayer: SocketIO({ server: 'localhost:8000' })
+    })
+
     return (
-      <GameClient
-        gameID={this.state.id}
-        players={this.state.joined}
-        playerID={String(this.state.myID)}
-        credentials={this.state.userAuthToken}
-      ></GameClient>
-    );
-  };
+      <SplendorGame
+        gameID={id}
+        players={joined}
+        playerID={String(myID)}
+        credentials={userAuthToken}
+      ></SplendorGame>
+    )
+  }
+
+  startGame() {
+    const { id, myID, userAuthToken, joined } = this.state
+    if (!id) {
+      return
+    }
+
+    api.startGame(id, myID, userAuthToken)
+      .then(() => {
+        this.setState({ started: true }, () => {
+          clearInterval(this.interval)
+        })
+      })
+      .catch(err => {
+        console.log('게임 시작 에러가 발생하였습니다. ', err)
+      })
+  }
 
   render() {
-    const { joined, id } = this.state
+    const { joined, id, started } = this.state
     const { history } = this.props
 
-    // if (joined.length === 2) {
-    //   return this.getGameClient()
-    // }
+    if (started) {
+      return this.getGameClient()
+    }
+
     if (!id) {
       return <div>생성된 게임이 없습니다.</div>
     }
 
     return (
       <Lobby players={joined} gameId={id} startGame={() => {
-        history.push()
+        this.startGame()
       }} />
     )
   }

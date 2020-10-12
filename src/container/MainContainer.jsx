@@ -77,7 +77,7 @@ class MainContainer extends Component {
     this.setState({
       loading: true,
     }, () => {
-      api.createRoom(2)
+      api.createRoom()
         .then((roomId) => {
           const { history } = this.props
           console.log("Created room with roomID = ", roomId);

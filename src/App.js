@@ -77,10 +77,10 @@ class App extends Component {
               startGame={this.startGame}
               {...this.props}/>
           </Route>
-          <Route path="/game">
+          <Route path="/game/:id">
             <Game {...qs.parse(location.search)} />
           </Route>
-          <Route path="/play" exact render={(props) => GameClient()} />
+          {/* <Route path="/play" exact render={(props) => <Game />()} /> */}
           <Route path="/lobby/:id" render={props => <LobbyContainer {...props}/>} />
         </Switch>
       </Body>

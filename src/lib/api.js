@@ -1,4 +1,4 @@
-import { GAME_NAME, GAME_SERVER_URL, APP_PRODUCTION } from "./config";
+import { GAME_NAME, GAME_SERVER_URL, APP_PRODUCTION } from "./config"
 import ky from "ky"
 const server = APP_PRODUCTION
   ? `https://${window.location.hostname}`
@@ -7,14 +7,14 @@ const server = APP_PRODUCTION
 export class LobbyApi {
   constructor() {
     this.api = ky.create({
-      prefixUrl: `${server}/games/${GAME_NAME}`,
+      prefixUrl: `${server}/games/${GAME_NAME}`
     })
   }
 
-  async createRoom(numPlayers) {
+  async createRoom() {
     try {
       const data = await this.api
-        .post("create", { numPlayers: numPlayers })
+        .post('create', { numPlayers: 4 })
         .json()
       return data.matchID
     } catch (error) {
@@ -32,24 +32,38 @@ export class LobbyApi {
     }
     const data = await this.api
       .post(roomId + "/join", { json: payload })
-      .json();
+      .json()
     const { playerCredentials } = data
 
     return playerCredentials
   }
 
-  async leaveRoom(roomID, userid, playerCredentials) {
-    const payload = { playerID: userid, credentials: playerCredentials }
+  async leaveRoom(roomId, userId, credentials) {
+    const payload = { playerID: userId, credentials }
     try {
-      await this.api.post(roomID + "/leave", { json: payload }).json()
+      await this.api.post(roomId + "/leave", { json: payload }).json()
     } catch (error) {
-      console.log("error in leaveRoom: ", error)
+      console.log('error in leaveRoom: ', error)
     }
   }
 
   async whosInRoom(roomID) {
-    const data = await this.api.get(roomID).json();
-    console.log({ data })
-    return data.players;
+    const data = await this.api.get(roomID).json()
+    console.log('whosInRoom: ', { data })
+    return data.players
+  }
+
+  async startGame(roomId, userId, credentials) {
+    const payload = {
+      playerID: userId,
+      credentials,
+      data: { started: true }
+    }
+    try {
+      await this.api.post(`${roomId}/update`, { json: payload })
+      return roomId
+    } catch (error) {
+      console.log('error in startRoom: ', error)
+    }
   }
 }
