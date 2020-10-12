@@ -18,7 +18,7 @@ class Player extends Component {
       <div>
         <Name>{field.name}</Name>
         <FieldSummary
-          active={player === `player${currentPlayer}`}
+          active={`${player}` === `${currentPlayer}`}
           field={G.fields[player]} />
       </div>
     )

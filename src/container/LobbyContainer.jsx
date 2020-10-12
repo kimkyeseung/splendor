@@ -9,22 +9,6 @@ import qs from 'query-string'
 
 const api = new LobbyApi()
 
-const GameClient = () => {
-  const Splendor = game()
-  const SplendorGame = Client({
-    game: Splendor,
-    board: props => <Board {...props} />,
-    multiplayer: SocketIO({ server: 'localhost:8000' }),
-  })
-
-  const playerId = new Date().getTime().toString(36)
-
-  return (
-    <SplendorGame playerID={playerId} />
-  )
-}
-
-
 class LobbyContainer extends Component {
   constructor(props) {
     super(props)
@@ -45,6 +29,7 @@ class LobbyContainer extends Component {
   }
 
   componentWillUnmount() {
+    this.cleanup()
     window.removeEventListener("beforeunload", this.cleanup.bind(this));
   }
 
@@ -61,19 +46,19 @@ class LobbyContainer extends Component {
     const { id } = this.state
 
     if (id) {
-      const { location } = this.props
+      const { location, history } = this.props
       const { isHost } = qs.parse(location.search)
       api.joinRoom(id, username, playerNo, isHost)
-        .then(
-          (authToken) => {
-            console.log("Joined room as player ", playerNo)
-            this.setState({
-              myID: playerNo,
-              userAuthToken: authToken
-            })
-          },
+        .then((authToken) => {
+          console.log('게임에 참가하였습니다. 플레이어: ', playerNo)
+          this.setState({
+            myID: playerNo,
+            userAuthToken: authToken
+          })
+        },
           (err) => {
-            console.log(err)
+            console.log('게임 창가에 오류가 발생하였습니다.', err)
+            history.push('/')
           }
         )
     }
@@ -91,9 +76,10 @@ class LobbyContainer extends Component {
         const joinedPlayers = players.filter((p) => p.name)
         this.setState({
           joined: joinedPlayers,
+        }, () => {
+          const myPlayerNum = joinedPlayers.length
+          this.joinRoom(myPlayerNum)
         })
-        const myPlayerNum = joinedPlayers.length
-        this.joinRoom(myPlayerNum)
       },
         (error) => {
           console.log("room does not exist", error)

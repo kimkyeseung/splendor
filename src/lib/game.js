@@ -63,7 +63,7 @@ const game = (playerNames) => {
       const fields = {}
       const defaultValues = { white: 0, red: 0, blue: 0, green: 0, black: 0, yellow: 0 }
       Array(numPlayers).fill(1).forEach((a, i) => {
-        fields[`player${i}`] = {
+        fields[i] = {
           name: playerNames[i],
           developments: { ...defaultValues },
           tokenAssets: { ...defaultValues },
@@ -96,7 +96,7 @@ const game = (playerNames) => {
     moves: {
       selectDevelopment(G, ctx, devId, current, next, cb = () => { }) {
         const { fields, board } = G
-        const { hand } = fields[`player${ctx.currentPlayer}`]
+        const { hand } = fields[ctx.currentPlayer]
         if (hand.development) {
           const { index, grade, development } = current
           board[`dev${grade}${index}`] = development
@@ -110,7 +110,7 @@ const game = (playerNames) => {
 
       deselectDevelopment(G, ctx, current, cb = () => { }) {
         const { fields, board } = G
-        const { hand } = fields[`player${ctx.currentPlayer}`]
+        const { hand } = fields[ctx.currentPlayer]
 
         if (!hand.development) {
           return
@@ -134,7 +134,7 @@ const game = (playerNames) => {
           tokenStore,
           nobleTiles
         } = G
-        const currentPlayer = fields[`player${ctx.currentPlayer}`]
+        const currentPlayer = fields[ctx.currentPlayer]
         const { developments, tokenAssets, hand } = currentPlayer
 
         const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
@@ -178,7 +178,7 @@ const game = (playerNames) => {
 
         cb()
         currentPlayer.done = true
-        // ctx.events.endTurn()
+        ctx.events.endTurn()
 
         } else {
           alert('비용이 모자랍니다.')
@@ -194,7 +194,7 @@ const game = (playerNames) => {
           board,
           tokenStore
         } = G
-        const currentPlayer = fields[`player${ctx.currentPlayer}`]
+        const currentPlayer = fields[ctx.currentPlayer]
         const { reservedDevs, tokenAssets, hand } = currentPlayer
 
         const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
@@ -224,7 +224,7 @@ const game = (playerNames) => {
           } else {
             cb()
             currentPlayer.done = true
-            // ctx.events.endTurn()
+            ctx.events.endTurn()
           }
         } else {
           alert('더 이상 예약할 수 없습니다.')
@@ -233,7 +233,7 @@ const game = (playerNames) => {
 
       selectToken(G, ctx, token, cb = () => { }) {
         const { tokenStore, fields } = G
-        const { hand } = fields[`player${ctx.currentPlayer}`]
+        const { hand } = fields[ctx.currentPlayer]
         if (tokenStore[token]) {
           tokenStore[token]--
           hand.tokens.push(token)
@@ -244,7 +244,7 @@ const game = (playerNames) => {
 
       deselectToken(G, ctx, index, cb = () => { }) {
         const { tokenStore, fields } = G
-        const { hand } = fields[`player${ctx.currentPlayer}`]
+        const { hand } = fields[ctx.currentPlayer]
         const [token] = hand.tokens.splice(index, 1)
         tokenStore[token]++
         const result = getTokenValidator(hand.tokens)
@@ -253,7 +253,7 @@ const game = (playerNames) => {
 
       cancelSelectedToken(G, ctx, cb = () => { }) {
         const { tokenStore, fields } = G
-        const { hand } = fields[`player${ctx.currentPlayer}`]
+        const { hand } = fields[ctx.currentPlayer]
         hand.tokens.forEach(token => {
           tokenStore[token]++
         })
@@ -263,7 +263,7 @@ const game = (playerNames) => {
 
       getTokens(G, ctx, cb) {
         const { fields } = G
-        const currentPlayer = fields[`player${ctx.currentPlayer}`]
+        const currentPlayer = fields[ctx.currentPlayer]
         const { hand, tokenAssets } = currentPlayer
         hand.tokens.forEach(token => {
           tokenAssets[token]++
@@ -278,7 +278,7 @@ const game = (playerNames) => {
         } else {
           cb()
           currentPlayer.done = true
-          // ctx.events.endTurn()
+          ctx.events.endTurn()
         }
       }
     },
@@ -287,13 +287,13 @@ const game = (playerNames) => {
       // endIf: (G, ctx) => ({ next: '3' }),
       onBegin: (G, ctx) => {
         const { fields } = G
-        const currentPlayer = fields[`player${ctx.currentPlayer}`]
+        const currentPlayer = fields[ctx.currentPlayer]
         currentPlayer.done = false
       },
 
       onMove: (G, ctx) => {
         const { fields, nobleTiles } = G
-        const currentPlayer = fields[`player${ctx.currentPlayer}`]
+        const currentPlayer = fields[ctx.currentPlayer]
         const { developments, tokenAssets, hand, done } = currentPlayer
         if (!done) {
           return
@@ -319,7 +319,7 @@ const game = (playerNames) => {
           moves: {
             returnTokens(G, ctx, token, cb = () => { }) {
               const { fields, tokenStore } = G
-              const { tokenAssets } = fields[`player${ctx.currentPlayer}`]
+              const { tokenAssets } = fields[ctx.currentPlayer]
               tokenAssets[token]--
               tokenStore[token]++
               const tokenCount = Object.values(tokenAssets).reduce((a, t) => a + t)
@@ -335,7 +335,7 @@ const game = (playerNames) => {
           moves: {
             selectGetNoble(G, ctx, noble, cb = () => { }) {
               const { fields, nobleTiles } = G
-              const currentPlayer = fields[`player${ctx.currentPlayer}`]
+              const currentPlayer = fields[ctx.currentPlayer]
               const { hand, nobles } = currentPlayer
               nobles.push(noble)
               hand.gettableNobles = []

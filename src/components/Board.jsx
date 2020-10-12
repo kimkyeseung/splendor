@@ -57,7 +57,7 @@ const Board = ({
   const developmentTwo = [dev20, dev21, dev22, dev23]
   const developmentThree = [dev30, dev31, dev32, dev33]
 
-  const { hand, tokenAssets } = fields[`player${currentPlayer}`]
+  const { hand, tokenAssets } = fields[currentPlayer]
   const tokenIndex = ['white', 'blue', 'green', 'red', 'black', 'yellow']
 
   return (

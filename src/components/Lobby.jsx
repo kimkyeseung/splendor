@@ -16,11 +16,14 @@ const Wrapper = styled.div`
   padding: 1rem;
 `
 
-const Lobby = ({ id, players = [], startGame }) => {
+const Lobby = ({ gameId, players = [], startGame }) => {
   return (
     <Flex justifyContent="center">
       <Wrapper>
-        <div>game ID: {id}</div>
+        <div>game ID: {gameId}</div>
+        <div>
+          <input value={`http://localhost:3000/lobby/${gameId}`} />
+        </div>
         <div>
           {players.reduce((list, player, index) => {
 
