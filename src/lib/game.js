@@ -163,22 +163,22 @@ const game = (playerNames) => {
           tokenAssets.yellow -= lack
           tokenStore.yellow += lack
 
-        developments[value] += valueAmount
-        currentPlayer.victoryPoints += victoryPoint
+          developments[value] += valueAmount
+          currentPlayer.victoryPoints += victoryPoint
 
-        const deck = {
-          '1': developOneDeck,
-          '2': developTwoDeck,
-          '3': developThreeDeck
-        }
-        const { grade, index } = current
-        board[`dev${grade}${index}`] = deck[grade].pop()
-        hand.development = null
+          const deck = {
+            '1': developOneDeck,
+            '2': developTwoDeck,
+            '3': developThreeDeck
+          }
+          const { grade, index } = current
+          board[`dev${grade}${index}`] = deck[grade].pop()
+          hand.development = null
 
 
-        cb()
-        currentPlayer.done = true
-        ctx.events.endTurn()
+          cb()
+          currentPlayer.done = true
+          ctx.events.endTurn()
 
         } else {
           alert('비용이 모자랍니다.')
@@ -186,6 +186,7 @@ const game = (playerNames) => {
       },
 
       reserveDevelopment(G, ctx, current, cb = () => { }) {
+        console.log('reserve Dev')
         const {
           fields,
           developOneDeck,
@@ -238,8 +239,11 @@ const game = (playerNames) => {
           tokenStore[token]--
           hand.tokens.push(token)
         }
-        const result = getTokenValidator(hand.tokens, tokenStore)
-        cb(result)
+        // const result = getTokenValidator(hand.tokens, tokenStore)
+        // if (cb && typeof cb === 'function') {
+        //   cb(result)
+        // }
+        return G
       },
 
       deselectToken(G, ctx, index, cb = () => { }) {
@@ -286,12 +290,14 @@ const game = (playerNames) => {
     turn: {
       // endIf: (G, ctx) => ({ next: '3' }),
       onBegin: (G, ctx) => {
+        console.log('onBegin')
         const { fields } = G
         const currentPlayer = fields[ctx.currentPlayer]
         currentPlayer.done = false
       },
 
       onMove: (G, ctx) => {
+        console.log('onMove')
         const { fields, nobleTiles } = G
         const currentPlayer = fields[ctx.currentPlayer]
         const { developments, tokenAssets, hand, done } = currentPlayer

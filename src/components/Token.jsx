@@ -48,7 +48,7 @@ const One = styled.div`
 const Token = ({ color, count, ...props }) => (
   <StyledToken {...props}>
     <div className="tokenBundle">
-      {Array(count).fill().map((num, i) => <One key={i} index={i} value={color} className="token"></One>)}
+      {Array(count).fill().map((num, i) => <One key={i} index={i} value={color} />)}
     </div>
     <div className="count">{count}</div>
   </StyledToken>
