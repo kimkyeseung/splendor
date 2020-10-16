@@ -40,6 +40,8 @@ const theme = {
   title: '#face41',
   boxBorder: '#6ea791',
   boxBackground: '#367c69',
+  primary: ['#2ecc71', '#27ae60'],
+  secondary: ['#34495e', '#2c3e50'],
   font: {
     title: 'Galada, Lobster'
   },

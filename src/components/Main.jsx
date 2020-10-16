@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import { Space, Flex } from '../components/units'
-import { Box } from './Box'
+import { Box, Button } from './ui'
 
 const Title = styled.div`
   text-align: center;
@@ -24,20 +24,6 @@ const Message = styled.div`
 
 const activeCss = css`
   background: blue;
-`
-
-const Button = styled.button`
-  border: 1px solid gray;
-  border-radius: 4px;
-  outline: none;
-  ${({ isActive }) => isActive && activeCss}
-`
-
-Button.Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  max-width: 120px;
-  margin: 0 auto;
 `
 
 const Input = styled.div`
@@ -73,7 +59,6 @@ const Main = ({ createGame, setPlayerNum, playerNum, playerNames, setPlayerName,
                 key={num}
                 isActive={playerNum === num}
                 onClick={ev => {
-                  ev.preventDefault()
                   setPlayerNum(num)
                 }}>{num}</Button>
             ))}
