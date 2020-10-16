@@ -9,11 +9,11 @@ import {
   Switch,
   Route
 } from 'react-router-dom'
-import { Box } from './components/units'
+import { Block } from './components/units'
 import { withRouter } from 'react-router'
 import qs from 'query-string'
 
-const Body = styled(Box)`
+const Body = styled(Block)`
   position: fixed;
   background: ${({ theme }) => theme.background};
 `

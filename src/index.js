@@ -16,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     margin: 0;
-    font-family: 'Galada', 'Lobster', 'serif' !important;
+    font-family: Comfortaa;
   }
 `
 
@@ -24,6 +24,7 @@ const theme = {
   main: '#2c3e50',
   background: '#131920',
   white: '#fff',
+  black: '#000',
   grayscale: [
     '#f8fafb',
     '#f1f5f5',
@@ -36,8 +37,12 @@ const theme = {
     '#363a3c',
     '#292a2b'
   ],
-  font: '#fafafa',
   title: '#face41',
+  boxBorder: '#6ea791',
+  boxBackground: '#367c69',
+  font: {
+    title: 'Galada, Lobster'
+  },
 }
 
 ReactDOM.render(

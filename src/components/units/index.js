@@ -1,3 +1,3 @@
-export { Box } from './Box'
+export { Block } from './Block'
 export { Space } from './Space'
 export { Flex } from './Flex'

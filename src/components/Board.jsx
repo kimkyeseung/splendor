@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Flex } from './units'
-import Card from './Card'
 import Noble from './Noble'
 import Token from './Token'
 import Layout from './Layout'
@@ -12,12 +11,11 @@ import TokenController from './TokenController'
 import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
 import Player from '../container/Player'
-import Deck from './Deck'
 
 const Header = styled.header`
   padding: 1rem;
   background: ${({ theme }) => theme.main};
-  & > a { color: ${({ theme }) => theme.fontWhite}; }
+  & > a { color: ${({ theme }) => theme.white}; }
 `
 
 const Board = ({
