@@ -22,6 +22,8 @@ const GlobalStyle = createGlobalStyle`
 
 const theme = {
   main: '#2c3e50',
+  background: '#131920',
+  white: '#fff',
   grayscale: [
     '#f8fafb',
     '#f1f5f5',
@@ -34,8 +36,8 @@ const theme = {
     '#363a3c',
     '#292a2b'
   ],
-  font: '#363a3c',
-  fontWhite: '#fafafa'
+  font: '#fafafa',
+  title: '#face41',
 }
 
 ReactDOM.render(

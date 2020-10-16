@@ -15,7 +15,7 @@ import qs from 'query-string'
 
 const Body = styled(Box)`
   position: fixed;
-  background: linear-gradient(#e66465, #9198e5);
+  background: ${({ theme }) => theme.background};
 `
 
 class App extends Component {

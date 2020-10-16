@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
-import { Empty, Flex } from '../components/units'
+import { Space, Flex } from '../components/units'
 import { LobbyApi } from '../lib/api'
 import qs from 'query-string'
 
@@ -10,8 +10,9 @@ const api = new LobbyApi()
 
 const Title = styled.div`
   text-align: center;
-  color: white;
   font-size: 200px;
+  color: ${({ theme }) => theme.white};
+  text-shadow: 6px 6px ${({ theme }) => theme.title};
 `
 
 const Select = styled.div`
@@ -98,12 +99,12 @@ class MainContainer extends Component {
 
     return (
       <div>
-        <Empty height={200} />
+        <Space height={160} />
         <Title>Splendor</Title>
-        <Empty height={100} />
+        <Space height={100} />
         <Select>
           <Message>게임에 참여할 인원을 선택해주세요</Message>
-          <Empty height={20} />
+          <Space height={20} />
           <Flex>
             {[2, 3, 4].map(num => (
               <Button
@@ -117,10 +118,10 @@ class MainContainer extends Component {
           </Flex>
         </Select>
 
-        <Empty height={30} />
+        <Space height={30} />
         <Select>
           <Message>플레이어의 이름을 입력해주세요</Message>
-          <Empty height={20} />
+          <Space height={20} />
           <Input.Wrapper>
             {Array(playerNum).fill().map((num, i) => (
               <Input key={i}>
@@ -135,7 +136,7 @@ class MainContainer extends Component {
           </Input.Wrapper>
         </Select>
 
-        <Empty height={30} />
+        <Space height={30} />
         <Select>
           <StartButton onClick={ev => {
             ev.preventDefault()
