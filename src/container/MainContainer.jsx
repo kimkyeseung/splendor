@@ -10,12 +10,23 @@ class MainContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading: false
+      loading: false,
+      playModal: false
     }
     this.createGame = this.createGame.bind(this)
+    this.toggleModal = this.toggleModal.bind(this)
   }
 
-  createGame = () => {
+  toggleModal(modalName, cb) {
+    if (!modalName) {
+      return
+    }
+    this.setState(prevState => ({
+      [modalName]: !prevState[modalName]
+    }), cb)
+  }
+
+  createGame() {
     const { loading } = this.state
 
     if (loading) {
@@ -42,9 +53,13 @@ class MainContainer extends Component {
   }
 
   render() {
+    const { playModal } = this.state
+
     return (
       <Main
         createGame={this.createGame}
+        toggleModal={this.toggleModal}
+        playModal={playModal}
         {...this.props} />
     )
   }

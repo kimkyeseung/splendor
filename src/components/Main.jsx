@@ -1,8 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { Space, Flex } from '../components/units'
-import { Box, Button } from './ui'
+import { Box, Button, Modal } from './ui'
 
 const Title = styled.div`
   text-align: center;
@@ -22,10 +21,6 @@ const Message = styled.div`
 
 `
 
-const activeCss = css`
-  background: blue;
-`
-
 const Input = styled.div`
   display: flex;
   justify-content: space-between;
@@ -38,18 +33,44 @@ const Input = styled.div`
 Input.Wrapper = styled.div`
 `
 
-const StartButton = styled.button`
-
+const Item = styled.div`
+  &:not(:first-child):not(:last-child) {
+    padding: 0 1.25rem;
+  }
 `
 
-const Main = ({ createGame, setPlayerNum, playerNum, playerNames, setPlayerName, startGame }) => {
+const Main = ({
+  playModal,
+  toggleModal,
+  createGame,
+  setPlayerNum,
+  playerNum,
+  playerNames,
+  setPlayerName,
+  startGame
+}) => {
   return (
     <>
       <Space height={160} />
       <Title>Splendor</Title>
       <Space height={100} />
       <Box>
+        <Flex>
+          <Item>
+            <Button to="/play">join game</Button>
+          </Item>
+          <Item>
+            <Button onClick={() => createGame()}>new game</Button>
+          </Item>
+          <Item>
+            <Button onClick={() => toggleModal('playModal')}>pass & play</Button>
+          </Item>
+        </Flex>
+      </Box>
 
+      <Modal isOpen={playModal} onClose={() => {
+        toggleModal('playModal')
+      }}>
         <Select>
           <Message>게임에 참여할 인원을 선택해주세요</Message>
           <Space height={20} />
@@ -57,8 +78,8 @@ const Main = ({ createGame, setPlayerNum, playerNum, playerNames, setPlayerName,
             {[2, 3, 4].map(num => (
               <Button
                 key={num}
-                isActive={playerNum === num}
-                onClick={ev => {
+                primary={playerNum === num}
+                onClick={() => {
                   setPlayerNum(num)
                 }}>{num}</Button>
             ))}
@@ -82,27 +103,16 @@ const Main = ({ createGame, setPlayerNum, playerNum, playerNames, setPlayerName,
             ))}
           </Input.Wrapper>
         </Select>
-
         <Space height={30} />
         <Select>
-          <StartButton onClick={ev => {
+          <Button onClick={ev => {
             ev.preventDefault()
             startGame()
           }}>
             시작하기
-          </StartButton>
+          </Button>
         </Select>
-        <Link to="/play">참가</Link>
-
-        <div
-          className="card"
-          onClick={() => createGame()}
-        >
-          <div className="card-inside start">
-            <h1>new game</h1>
-          </div>
-        </div>
-      </Box>
+      </Modal>
     </>
   )
 }

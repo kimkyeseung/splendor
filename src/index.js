@@ -43,7 +43,8 @@ const theme = {
   primary: ['#2ecc71', '#27ae60'],
   secondary: ['#34495e', '#2c3e50'],
   font: {
-    title: 'Galada, Lobster'
+    title: 'Galada, Lobster',
+    context: 'Comfortaa'
   },
 }
 
