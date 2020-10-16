@@ -10,8 +10,6 @@ import * as serviceWorker from './serviceWorker'
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
-  @import url('https://fonts.googleapis.com/css2?family=Galada');
-  @import url('https://fonts.googleapis.com/css2?family=Lobster');
   * {
     box-sizing: border-box;
   }
@@ -20,7 +18,6 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     font-family: 'Galada', 'Lobster', 'serif' !important;
   }
-  font-family: 'Galada','Lobster', 'serif';
 `
 
 const theme = {
