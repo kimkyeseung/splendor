@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 import MainContainer from './container/MainContainer'
 import LobbyContainer from './container/LobbyContainer'
 import Game from './components/Game'
-import GameClient from './components/GameClient'
 import styled from 'styled-components'
 import {
-  BrowserRouter as Router,
   Switch,
   Route
 } from 'react-router-dom'

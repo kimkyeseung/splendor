@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Flex } from './units'
+import { Box } from './ui'
 import Noble from './Noble'
 import Token from './Token'
 import Layout from './Layout'
@@ -10,6 +11,7 @@ import DevelopmentRow from './DevelopmentRow'
 import TokenController from './TokenController'
 import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
+import Aside from './Aside'
 import Player from '../container/Player'
 
 const Header = styled.header`
@@ -67,7 +69,7 @@ const Board = ({
           </Header>
         }
         LeftPanel={
-          <div>
+          <Aside>
             {Object.keys(G.fields).map(player => (
               <Player
                 key={player}
@@ -77,7 +79,7 @@ const Board = ({
                 player={player}
                 ctx={ctx} />
             ))}
-          </div>
+          </Aside>
         }
         Main={
           <BoardLayout
@@ -125,7 +127,6 @@ const Board = ({
             }
           />
         }
-        RightPanel={<div>Right</div>}
         Footer={<div className="hand">
           {hand.tokens.length
             ? <TokenController

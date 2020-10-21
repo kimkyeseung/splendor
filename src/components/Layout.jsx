@@ -3,10 +3,10 @@ import { Block, Flex } from './units'
 
 const Layout = ({ Header, LeftPanel, RightPanel, Main, Footer, ...props }) => {
   return (
-    <Block>
+    <Block style={{ border: '10px solid purple'}}>
       <Block>{Header}</Block>
-      <Flex>
-        <Block width="20%">
+      <Flex style={{ border: '10px solid red'}}>
+        <Block width="20%" style={{ alignSelf: 'stretch' }}>
           {LeftPanel}
         </Block>
         <Block flex='1 1 auto'>

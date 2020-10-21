@@ -6,7 +6,7 @@ export const Block = styled.div`
   padding: ${({ padding }) => typeof padding === 'string' ? padding : `${padding}px`};
   display: ${({ display }) => display};
   width: ${({ width }) => typeof width === 'string' ? width : `${width}px`};
-  height: ${({ height }) => typeof height === 'string' ? height : `${height}px`};
+  height: ${({ height }) => height && typeof height === 'string' ? height : `${height}px`};
 `
 
 Block.propTypes = {
@@ -19,7 +19,6 @@ Block.propTypes = {
 Block.defaultProps = {
   display: 'block',
   width: '100%',
-  height: '100%',
   margin: 0,
   padding: 0
 }
