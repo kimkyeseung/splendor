@@ -10,6 +10,7 @@ class MainContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      error: false,
       loading: false,
       playModal: false
     }
@@ -45,15 +46,19 @@ class MainContainer extends Component {
           })
         },
           (err) => {
-            console.log(err);
-            this.setState({ loading: false });
+            console.log(err)
+            this.setState({ loading: false, error: true })
           }
         )
     })
   }
 
   render() {
-    const { playModal } = this.state
+    const { playModal, error } = this.state
+
+    if (error) {
+      return <div>Error!</div>
+    }
 
     return (
       <Main

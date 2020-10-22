@@ -1,8 +1,8 @@
-import { GAME_NAME, GAME_SERVER_URL, APP_PRODUCTION } from "./config"
-import ky from "ky"
+import { GAME_NAME, GAME_SERVER_URL, APP_PRODUCTION } from './config'
+import ky from 'ky'
 const server = APP_PRODUCTION
   ? `https://${window.location.hostname}`
-  : GAME_SERVER_URL;
+  : GAME_SERVER_URL
 
 export class LobbyApi {
   constructor() {
@@ -12,14 +12,11 @@ export class LobbyApi {
   }
 
   async createRoom() {
-    try {
-      const data = await this.api
-        .post('create', { numPlayers: 4 })
-        .json()
-      return data.matchID
-    } catch (error) {
-      console.log({ error })
-    }
+    const data = await this.api
+      .post('create', { numPlayers: 4 })
+      .json()
+
+    return data.matchID
   }
 
   async joinRoom(roomId, username, userid, isHost) {

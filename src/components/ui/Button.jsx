@@ -53,12 +53,12 @@ const StyledButton = styled.button`
   ${buttonStyle}
 `
 
-export const Button = ({ isActive, children, to, ...props }) => (
+export const Button = ({ active, children, to, ...props }) => (
   to
-    ? <StyledLink to={to} isActive={isActive} {...props}>
+    ? <StyledLink to={to} active={active} {...props}>
       <span>{children}</span>
     </StyledLink>
-    : <StyledButton isActive={isActive} {...props}>
+    : <StyledButton active={active} {...props}>
       <span>{children}</span>
     </StyledButton>
 )

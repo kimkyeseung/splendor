@@ -35,9 +35,9 @@ class LobbyContainer extends Component {
 
   cleanup() {
     console.log("cleaning up");
-    const { id, myID, userAuthToken } = this.state
+    const { id, myId, userAuthToken } = this.state
 
-    api.leaveRoom(id, myID, userAuthToken)
+    api.leaveRoom(id, myId, userAuthToken)
     clearInterval(this.interval)
   }
 
@@ -52,7 +52,7 @@ class LobbyContainer extends Component {
         .then((authToken) => {
           console.log('게임에 참가하였습니다. 플레이어: ', playerNo)
           this.setState({
-            myID: playerNo,
+            myId: playerNo,
             userAuthToken: authToken
           })
         },
@@ -129,7 +129,7 @@ class LobbyContainer extends Component {
   }
 
   getGameClient = () => {
-    const { joined, id, myID, userAuthToken, } = this.state
+    const { joined, id, myId, userAuthToken, } = this.state
 
     const Splendor = game(joined.length)
     const SplendorGame = Client({
@@ -142,19 +142,19 @@ class LobbyContainer extends Component {
       <SplendorGame
         gameID={id}
         players={joined}
-        playerID={String(myID)}
+        playerID={String(myId)}
         credentials={userAuthToken}
       ></SplendorGame>
     )
   }
 
   startGame() {
-    const { id, myID, userAuthToken, joined } = this.state
+    const { id, myId, userAuthToken, joined } = this.state
     if (!id) {
       return
     }
 
-    api.startGame(id, myID, userAuthToken)
+    api.startGame(id, myId, userAuthToken)
       .then(() => {
         this.setState({ started: true }, () => {
           clearInterval(this.interval)
@@ -166,7 +166,7 @@ class LobbyContainer extends Component {
   }
 
   render() {
-    const { joined, id, started } = this.state
+    const { joined, myId, id, started } = this.state
     const { history } = this.props
 
     if (started) {
@@ -178,7 +178,7 @@ class LobbyContainer extends Component {
     }
 
     return (
-      <Lobby players={joined} gameId={id} startGame={() => {
+      <Lobby players={joined} myId={myId} gameId={id} startGame={() => {
         this.startGame()
       }} />
     )

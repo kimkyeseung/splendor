@@ -13,7 +13,9 @@ import qs from 'query-string'
 
 const Body = styled(Block)`
   position: fixed;
+  height: 100%;
   background: ${({ theme }) => theme.background};
+  color:  ${({ theme }) => theme.white};
 `
 
 class App extends Component {
