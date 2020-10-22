@@ -17,7 +17,6 @@ class BoardContainer extends Component {
     this.state = {
       confirmable: false,
       focusedDevelopment: {},
-      tokenOverloaded: 0
     }
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.deselectDevelopment = this.deselectDevelopment.bind(this)
@@ -93,48 +92,31 @@ class BoardContainer extends Component {
     }
     const { G, ctx, moves } = this.props
     const { selectToken } = moves
-    selectToken(token, (confirmable) => {
-      this.setState({ confirmable })
-    })
+    selectToken(token)
   }
 
   deselectToken(index) {
     const { G, ctx, moves } = this.props
     const { deselectToken } = moves
-    deselectToken(index, (confirmable) => {
-      this.setState({ confirmable })
-    })
+    deselectToken(index)
   }
 
   confirmSelectedToken() {
     const { G, ctx, moves } = this.props
-    const { selectToken, getTokens } = moves
-    getTokens((tokenOverloaded = 0) => {
-      this.setState({
-        confirmable: false,
-        tokenOverloaded
-      })
-    })
+    const { getTokens } = moves
+    getTokens()
   }
 
   cancelSelectedToken() {
     const { G, ctx, moves } = this.props
     const { cancelSelectedToken } = moves
-    cancelSelectedToken(() => {
-      this.setState({
-        confirmable: false
-      })
-    })
+    cancelSelectedToken()
   }
 
   returnToken(token) {
     const { G, ctx, moves } = this.props
     const { returnTokens } = moves
-    returnTokens(token, () => {
-      this.setState({
-        tokenOverloaded: 0
-      })
-    })
+    returnTokens(token)
   }
 
   handleNobleClick(noble) {

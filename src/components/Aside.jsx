@@ -6,6 +6,7 @@ const StyledAside = styled.aside`
   /* background-color: ${({ theme }) => theme.white}; */
   background: green;
   height: 100%;
+  padding: 1rem;
 `
 
 const Aside = ({ props, children }) => {

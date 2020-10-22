@@ -6,6 +6,7 @@ import {
   buyDevelopmentValidator,
   reserveDevelopmentValidator
 } from './validator'
+import { INVALID_MOVE } from 'boardgame.io/core'
 import { takeTokens, returnTokens, getLackAmount } from '../lib/utils'
 
 const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
@@ -89,7 +90,8 @@ const game = (playerNames) => {
         developOneDeck,
         developTwoDeck,
         developThreeDeck,
-        nobleTiles
+        nobleTiles,
+        tokenOverloaded: 0
       }
     },
 
@@ -232,18 +234,13 @@ const game = (playerNames) => {
         }
       },
 
-      selectToken(G, ctx, token, cb = () => { }) {
+      selectToken(G, ctx, token) {
         const { tokenStore, fields } = G
         const { hand } = fields[ctx.currentPlayer]
         if (tokenStore[token]) {
           tokenStore[token]--
           hand.tokens.push(token)
         }
-        // const result = getTokenValidator(hand.tokens, tokenStore)
-        // if (cb && typeof cb === 'function') {
-        //   cb(result)
-        // }
-        return G
       },
 
       deselectToken(G, ctx, index, cb = () => { }) {
@@ -251,7 +248,7 @@ const game = (playerNames) => {
         const { hand } = fields[ctx.currentPlayer]
         const [token] = hand.tokens.splice(index, 1)
         tokenStore[token]++
-        const result = getTokenValidator(hand.tokens)
+        const result = getTokenValidator(hand.tokens, tokenStore)
         cb(result)
       },
 
@@ -265,10 +262,14 @@ const game = (playerNames) => {
         cb()
       },
 
-      getTokens(G, ctx, cb) {
-        const { fields } = G
+      getTokens(G, ctx) {
+        const { tokenStore, fields } = G
         const currentPlayer = fields[ctx.currentPlayer]
         const { hand, tokenAssets } = currentPlayer
+        if (!getTokenValidator(hand.tokens, tokenStore)) {
+          console.log('invalid Move yeah')
+          return INVALID_MOVE
+        }
         hand.tokens.forEach(token => {
           tokenAssets[token]++
         })
@@ -277,10 +278,11 @@ const game = (playerNames) => {
         const tokenLimit = 10
         const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
         if (tokenCount > tokenLimit) {
+          G.tokenOverloaded = tokenCount - tokenLimit
           ctx.events.setStage('returnTokens')
-          cb(tokenCount - tokenLimit)
+          // cb(tokenCount - tokenLimit)
         } else {
-          cb()
+          // cb()
           currentPlayer.done = true
           ctx.events.endTurn()
         }
@@ -323,7 +325,7 @@ const game = (playerNames) => {
       stages: {
         returnTokens: {
           moves: {
-            returnTokens(G, ctx, token, cb = () => { }) {
+            returnTokens(G, ctx, token) {
               const { fields, tokenStore } = G
               const { tokenAssets } = fields[ctx.currentPlayer]
               tokenAssets[token]--
@@ -331,7 +333,7 @@ const game = (playerNames) => {
               const tokenCount = Object.values(tokenAssets).reduce((a, t) => a + t)
               const tokenLimit = 10
               if (tokenCount <= tokenLimit) {
-                cb()
+                G.tokenOverloaded = 0
                 ctx.events.endTurn()
               }
             }

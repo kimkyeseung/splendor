@@ -24,7 +24,6 @@ const Board = ({
   G, ctx,
   confirmable,
   focusedDevelopment,
-  tokenOverloaded,
   handleSpaceClick,
   deselectDevelopment,
   buySelectedDevelopment,
@@ -46,6 +45,7 @@ const Board = ({
     developOneDeck,
     developTwoDeck,
     developThreeDeck,
+    tokenOverloaded
   } = G
 
   const {

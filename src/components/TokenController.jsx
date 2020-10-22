@@ -25,7 +25,13 @@ const Message = styled.div`
 
 `
 
-const TokenController = ({ message, onClose, tokens = [], onTokenClick, confirmSelectedToken, confirmable }) => {
+const TokenController = ({
+  message,
+  onClose,
+  tokens = [],
+  onTokenClick,
+  confirmSelectedToken
+}) => {
   return (
     <Controller>
       <Message>{message}</Message>
@@ -49,7 +55,7 @@ const TokenController = ({ message, onClose, tokens = [], onTokenClick, confirmS
               ))}
           </Flex>
         </TokenWrapper>
-        <button disabled={!confirmable} onClick={ev => {
+        <button onClick={ev => {
           ev.preventDefault()
           confirmSelectedToken()
         }}>confirm</button>
