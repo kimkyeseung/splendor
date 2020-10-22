@@ -43,6 +43,13 @@ const buttonStyle = css`
     display: block;
     padding: 0.75rem 1.25rem;
   }
+  &:disabled {
+    cursor: default;
+    background-color: ${({ theme }) => theme.grayscale[1]};
+    &:hover {
+      background-color: ${({ theme }) => theme.grayscale[1]};
+    }
+  }
 `
 
 const StyledLink = styled(Link)`

@@ -19,14 +19,8 @@ export class LobbyApi {
     return data.matchID
   }
 
-  async joinRoom(roomId, username, userid, isHost) {
+  async joinRoom(roomId, username, userid) {
     const payload = { playerID: userid, playerName: username }
-    if (isHost) {
-      payload.data = {
-        host: true,
-        started: false
-      }
-    }
     const data = await this.api
       .post(roomId + "/join", { json: payload })
       .json()

@@ -51,7 +51,7 @@ const GameId = styled.div`
 `
 
 
-const Lobby = ({ gameId, players = [], startGame, myId }) => {
+const Lobby = ({ gameId, players = [], isHost, startGame, myId }) => {
   const textAreaRef = useRef(null)
 
   const copyText = () => {
@@ -101,12 +101,12 @@ const Lobby = ({ gameId, players = [], startGame, myId }) => {
                 <Empty key={3}>wait for Player</Empty>
               ])}
             </List>
-            <div>
-              <Button primary onClick={ev => {
+            {isHost && <div>
+              <Button primary disabled={players.length < 2} onClick={ev => {
                 ev.preventDefault()
                 startGame()
               }}>시작하기</Button>
-            </div>
+            </div>}
           </Wrapper>
         </Flex>
       </Box>

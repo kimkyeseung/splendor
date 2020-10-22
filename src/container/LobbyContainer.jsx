@@ -41,14 +41,13 @@ class LobbyContainer extends Component {
     clearInterval(this.interval)
   }
 
-  joinRoom = playerNo => {
-    const username = "Player " + playerNo
+  joinRoom(playerNo) {
+    const username = 'Player ' + playerNo
     const { id } = this.state
 
     if (id) {
       const { location, history } = this.props
-      const { isHost } = qs.parse(location.search)
-      api.joinRoom(id, username, playerNo, isHost)
+      api.joinRoom(id, username, playerNo)
         .then((authToken) => {
           console.log('게임에 참가하였습니다. 플레이어: ', playerNo)
           this.setState({
@@ -120,7 +119,7 @@ class LobbyContainer extends Component {
         });
       },
       (error) => {
-        console.log("room does not exist");
+        console.log('room does not exist');
         this.setState({
           id: null,
         });
@@ -141,7 +140,7 @@ class LobbyContainer extends Component {
     return (
       <SplendorGame
         gameID={id}
-        players={joined}
+        players={joined.filter(player => player.name && player.id)}
         playerID={String(myId)}
         credentials={userAuthToken}
       ></SplendorGame>
@@ -178,9 +177,14 @@ class LobbyContainer extends Component {
     }
 
     return (
-      <Lobby players={joined} myId={myId} gameId={id} startGame={() => {
-        this.startGame()
-      }} />
+      <Lobby
+        players={joined}
+        myId={myId}
+        gameId={id}
+        isHost={joined.length && joined[0].id === myId}
+        startGame={() => {
+          this.startGame()
+        }} />
     )
   }
 }

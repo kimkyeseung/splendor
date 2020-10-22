@@ -40,9 +40,8 @@ class MainContainer extends Component {
       api.createRoom()
         .then((roomId) => {
           const { history } = this.props
-          console.log("Created room with roomID = ", roomId);
           this.setState({ loading: false }, () => {
-            history.push(`/lobby/${roomId}?${qs.stringify({ isHost: true })}`);
+            history.push(`/lobby/${roomId}`)
           })
         },
           (err) => {
