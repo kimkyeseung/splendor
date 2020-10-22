@@ -14,10 +14,6 @@ class BoardContainer extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      confirmable: false,
-      focusedDevelopment: {},
-    }
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.deselectDevelopment = this.deselectDevelopment.bind(this)
     this.buySelectedDevelopment = this.buySelectedDevelopment.bind(this)
@@ -37,53 +33,30 @@ class BoardContainer extends Component {
   handleSpaceClick(dev, index, grade) {
     const { moves } = this.props
     const { selectDevelopment } = moves
+    const position = { index, grade }
 
-    const { focusedDevelopment: current } = this.state
-    const next = { index, grade }
-
-    selectDevelopment(dev, current, next, (development) => {
-      this.setState({
-        focusedDevelopment: {
-          grade,
-          index,
-          development,
-          blind: index === -1
-        }
-      })
-    })
+    selectDevelopment(dev, position)
   }
 
   deselectDevelopment() {
     const { moves } = this.props
     const { deselectDevelopment } = moves
-    const { focusedDevelopment } = this.state
 
-    deselectDevelopment(focusedDevelopment, () => {
-      this.setState({ focusedDevelopment: {} })
-    })
+    deselectDevelopment()
   }
 
   buySelectedDevelopment() {
     const { moves } = this.props
     const { buyDevelopment } = moves
-    const { focusedDevelopment } = this.state
 
-    buyDevelopment(focusedDevelopment, () => {
-      this.setState({ focusedDevelopment: {} })
-    })
+    buyDevelopment()
   }
 
   reserveSelectedDevelopment() {
     const { moves } = this.props
     const { reserveDevelopment } = moves
-    const { focusedDevelopment } = this.state
 
-    reserveDevelopment(focusedDevelopment, (tokenOverloaded = 0) => {
-      this.setState({
-        focusedDevelopment: {},
-        tokenOverloaded
-      })
-    })
+    reserveDevelopment()
   }
 
   handleTokenClick(token) {
@@ -92,36 +65,42 @@ class BoardContainer extends Component {
     }
     const { G, ctx, moves } = this.props
     const { selectToken } = moves
+
     selectToken(token)
   }
 
   deselectToken(index) {
     const { G, ctx, moves } = this.props
     const { deselectToken } = moves
+
     deselectToken(index)
   }
 
   confirmSelectedToken() {
     const { G, ctx, moves } = this.props
     const { getTokens } = moves
+
     getTokens()
   }
 
   cancelSelectedToken() {
     const { G, ctx, moves } = this.props
     const { cancelSelectedToken } = moves
+
     cancelSelectedToken()
   }
 
   returnToken(token) {
     const { G, ctx, moves } = this.props
     const { returnTokens } = moves
+
     returnTokens(token)
   }
 
   handleNobleClick(noble) {
     const { G, ctx, moves } = this.props
     const { selectGetNoble } = moves
+
     selectGetNoble(noble)
   }
 
@@ -142,7 +121,6 @@ class BoardContainer extends Component {
         deselectToken={this.deselectToken}
         returnToken={this.returnToken}
         handleNobleClick={this.handleNobleClick}
-        {...this.state}
       />
     )
   }

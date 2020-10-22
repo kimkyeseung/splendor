@@ -13,6 +13,7 @@ import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
 import Aside from './Aside'
 import Player from '../container/Player'
+import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
 
 const Header = styled.header`
   padding: 1rem;
@@ -23,7 +24,6 @@ const Header = styled.header`
 const Board = ({
   G, ctx,
   confirmable,
-  focusedDevelopment,
   handleSpaceClick,
   deselectDevelopment,
   buySelectedDevelopment,
@@ -45,7 +45,8 @@ const Board = ({
     developOneDeck,
     developTwoDeck,
     developThreeDeck,
-    tokenOverloaded
+    tokenOverloaded,
+    targetDevelopment = {}
   } = G
 
   const {
@@ -137,12 +138,13 @@ const Board = ({
               confirmSelectedToken={confirmSelectedToken}
               onClose={cancelSelectedToken} />
             : null}
-          {focusedDevelopment && <DevelopmentController
+          {hand.development && <DevelopmentController
             message="개발카드를 어떻게 하시겠습니까?"
             deselectDevelopment={deselectDevelopment}
             buySelectedDevelopment={buySelectedDevelopment}
             reserveSelectedDevelopment={reserveSelectedDevelopment}
-            focusedDevelopment={focusedDevelopment} />}
+            focusedDevelopment={DEVELOPMENT_CARDS[hand.development]}
+            blind={targetDevelopment.index === -1}/>}
           {tokenOverloaded
             ? <TokenController
               message="초과한 토큰을 반납하세요"

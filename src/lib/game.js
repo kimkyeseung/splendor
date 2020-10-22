@@ -91,42 +91,74 @@ const game = (playerNames) => {
         developTwoDeck,
         developThreeDeck,
         nobleTiles,
-        tokenOverloaded: 0
+        tokenOverloaded: 0,
+        focusedDevelopment: {}
       }
     },
 
     moves: {
-      selectDevelopment(G, ctx, devId, current, next, cb = () => { }) {
-        const { fields, board } = G
+      selectDevelopment(G, ctx, dev, position) {
+        const {
+          fields,
+          board,
+          targetDevelopment,
+          developOneDeck,
+          developTwoDeck,
+          developThreeDeck
+        } = G
         const { hand } = fields[ctx.currentPlayer]
         if (hand.development) {
-          const { index, grade, development } = current
+          const { development } = DEVELOPMENT_CARDS[hand.development]
+          const { grade, index } = targetDevelopment
           board[`dev${grade}${index}`] = development
         }
-        hand.development = devId
-        const { grade, index } = next
-        board[`dev${grade}${index}`] = null
-
-        cb(hand.development)
+        hand.development = dev
+        const { grade, index } = position
+        G.targetDevelopment = position
+        if (index >= 0) {
+          board[`dev${grade}${index}`] = null
+        } else {
+          const deck = {
+            '1': developOneDeck,
+            '2': developTwoDeck,
+            '3': developThreeDeck
+          }
+          deck[grade].pop()
+        }
       },
 
-      deselectDevelopment(G, ctx, current, cb = () => { }) {
-        const { fields, board } = G
+      deselectDevelopment(G, ctx) {
+        const {
+          fields,
+          board,
+          targetDevelopment,
+          developOneDeck,
+          developTwoDeck,
+          developThreeDeck
+        } = G
         const { hand } = fields[ctx.currentPlayer]
 
-        if (!hand.development) {
+        if (!hand.development || !targetDevelopment) {
           return
         }
 
-        const { grade, index } = current
+        const { grade, index } = targetDevelopment
 
-        board[`dev${grade}${index}`] = hand.development
+        if (index >= 0) {
+          board[`dev${grade}${index}`] = hand.development
+        } else {
+          const deck = {
+            '1': developOneDeck,
+            '2': developTwoDeck,
+            '3': developThreeDeck
+          }
+          deck[grade].push(hand.development)
+        }
+        G.targetDevelopment = null
         hand.development = null
-
-        cb()
       },
 
-      buyDevelopment(G, ctx, current, cb = () => { }) {
+      buyDevelopment(G, ctx) {
         const {
           fields,
           developOneDeck,
@@ -134,13 +166,13 @@ const game = (playerNames) => {
           developThreeDeck,
           board,
           tokenStore,
-          nobleTiles
+          nobleTiles,
+          targetDevelopment
         } = G
         const currentPlayer = fields[ctx.currentPlayer]
         const { developments, tokenAssets, hand } = currentPlayer
 
-        const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
-        const { value, valueAmount, victoryPoint, cost } = targetDevelopment
+        const { value, valueAmount, victoryPoint, cost } = DEVELOPMENT_CARDS[hand.development]
 
         const lackAmount = getLackAmount({ developments, token: tokenAssets }, cost)
         const buyable = tokenAssets.yellow >= lackAmount
@@ -173,34 +205,29 @@ const game = (playerNames) => {
             '2': developTwoDeck,
             '3': developThreeDeck
           }
-          const { grade, index } = current
+          const { grade, index } = targetDevelopment
           board[`dev${grade}${index}`] = deck[grade].pop()
+          G.targetDevelopment = null
           hand.development = null
 
-
-          cb()
           currentPlayer.done = true
-          ctx.events.endTurn()
-
         } else {
           alert('비용이 모자랍니다.')
         }
       },
 
-      reserveDevelopment(G, ctx, current, cb = () => { }) {
-        console.log('reserve Dev')
+      reserveDevelopment(G, ctx) {
         const {
           fields,
           developOneDeck,
           developTwoDeck,
           developThreeDeck,
           board,
-          tokenStore
+          tokenStore,
+          targetDevelopment
         } = G
         const currentPlayer = fields[ctx.currentPlayer]
         const { reservedDevs, tokenAssets, hand } = currentPlayer
-
-        const targetDevelopment = DEVELOPMENT_CARDS[hand.development]
 
         const able = reserveDevelopmentValidator(reservedDevs)
         if (able) {
@@ -208,29 +235,29 @@ const game = (playerNames) => {
             tokenStore.yellow--
             tokenAssets.yellow++
           }
-          reservedDevs.push(targetDevelopment.id)
+          reservedDevs.push(DEVELOPMENT_CARDS[hand.development].id)
 
-          const deck = {
-            '1': developOneDeck,
-            '2': developTwoDeck,
-            '3': developThreeDeck
+          const { grade, index } = targetDevelopment
+          if (index >= 0) {
+            const deck = {
+              '1': developOneDeck,
+              '2': developTwoDeck,
+              '3': developThreeDeck
+            }
+            board[`dev${grade}${index}`] = deck[grade].pop()
           }
-          const { grade, index } = current
-          board[`dev${grade}${index}`] = deck[grade].pop()
           hand.development = null
 
           const tokenLimit = 10
           const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
           if (tokenCount > tokenLimit) {
             ctx.events.setStage('returnTokens')
-            cb(tokenCount - tokenLimit)
+            G.tokenOverloaded = tokenCount - tokenLimit
           } else {
-            cb()
             currentPlayer.done = true
-            ctx.events.endTurn()
           }
         } else {
-          alert('더 이상 예약할 수 없습니다.')
+          return INVALID_MOVE
         }
       },
 
@@ -280,11 +307,8 @@ const game = (playerNames) => {
         if (tokenCount > tokenLimit) {
           G.tokenOverloaded = tokenCount - tokenLimit
           ctx.events.setStage('returnTokens')
-          // cb(tokenCount - tokenLimit)
         } else {
-          // cb()
           currentPlayer.done = true
-          ctx.events.endTurn()
         }
       }
     },

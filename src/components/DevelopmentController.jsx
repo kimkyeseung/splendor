@@ -35,17 +35,18 @@ const DevelopmentController = ({
   focusedDevelopment,
   deselectDevelopment,
   buySelectedDevelopment,
-  reserveSelectedDevelopment
+  reserveSelectedDevelopment,
+  blind
 }) => {
-  const { development, blind, grade } = focusedDevelopment
+  const { grade } = focusedDevelopment
 
   return (
-    <Controller isOpen={!!development}>
+    <Controller isOpen={true}>
       <Message>{message}</Message>
       <Flex>
         <TokkenWrapper>
           <Card
-            dev={development}
+            dev={focusedDevelopment.id}
             grade={grade}
             blind={blind}
             onClick={() => {

@@ -9,13 +9,13 @@ const DevelopmentRow = ({ deck, list, handler, grade }) => (
     <Deck
       onClick={() => {
         const dev = deck[deck.length - 1]
-        handler(dev, -1, 3)
+        handler(dev, -1, grade)
       }}
       cards={deck}
       grade={grade} />
     {list.map((dev, index) => (
       <Card key={dev} onClick={() => {
-        handler(dev, index, 3)
+        handler(dev, index, grade)
       }} grade={grade} dev={dev} />
     ))}
   </Flex>

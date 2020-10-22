@@ -80,6 +80,7 @@ const Lobby = ({ gameId, players = [], startGame, myId }) => {
                 copyText()
               }}>Copy</Button>
             </Flex>
+            <a href={`http://localhost:3000/lobby/${gameId}`} target="_blank" >go</a>
             <List>
               {players.reduce((list, player, index) => {
                 const isMe = myId === player.id
