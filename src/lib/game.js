@@ -354,10 +354,10 @@ const game = (playerNames) => {
               const { tokenAssets } = fields[ctx.currentPlayer]
               tokenAssets[token]--
               tokenStore[token]++
+              G.tokenOverloaded--
               const tokenCount = Object.values(tokenAssets).reduce((a, t) => a + t)
               const tokenLimit = 10
-              if (tokenCount <= tokenLimit) {
-                G.tokenOverloaded = 0
+              if (tokenCount <= tokenLimit && G.tokenOverloaded === 0) {
                 ctx.events.endTurn()
               }
             }

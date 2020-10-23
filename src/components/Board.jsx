@@ -130,14 +130,6 @@ const Board = ({
           />
         }
         Footer={<div className="hand">
-          {hand.tokens.length
-            ? <TokenController
-              message="Select tokens to import"
-              tokens={hand.tokens}
-              onTokenClick={deselectToken}
-              confirmSelectedToken={confirmSelectedToken}
-              onClose={cancelSelectedToken} />
-            : null}
           {hand.development && <DevelopmentController
             message="개발카드를 어떻게 하시겠습니까?"
             deselectDevelopment={deselectDevelopment}
@@ -145,15 +137,7 @@ const Board = ({
             reserveSelectedDevelopment={reserveSelectedDevelopment}
             focusedDevelopment={DEVELOPMENT_CARDS[hand.development]}
             blind={targetDevelopment.index === -1} />}
-          {tokenOverloaded
-            ? <TokenController
-              message="초과한 토큰을 반납하세요"
-              tokens={tokenAssets}
-              deselectToken={deselectToken}
-              onTokenClick={returnToken}
-              confirmSelectedToken={confirmSelectedToken}
-              onClose={cancelSelectedToken} />
-            : null}
+
           {hand.gettableNobles && hand.gettableNobles.length
             ? <NobleController
               message="가져올 귀족 타일을 선택하세요"
@@ -162,6 +146,23 @@ const Board = ({
             />
             : null}
         </div>} />
+      {isMyTurn && hand.tokens.length
+        ? <TokenController
+          message="Select tokens to import"
+          tokens={hand.tokens}
+          onTokenClick={deselectToken}
+          confirmSelectedToken={confirmSelectedToken}
+          onClose={cancelSelectedToken} />
+        : null}
+      {isMyTurn && tokenOverloaded
+        ? <TokenController
+          message={`Return the exceeded tokens: ${tokenOverloaded}`}
+          tokens={tokenAssets}
+          deselectToken={deselectToken}
+          onTokenClick={returnToken}
+          confirmSelectedToken={confirmSelectedToken}
+          onClose={cancelSelectedToken} />
+        : null}
     </>
   )
 }
