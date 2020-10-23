@@ -1,4 +1,4 @@
 export { Block } from './Block'
-export { Space } from './Space'
+export { Blank } from './Blank'
 export { Flex } from './Flex'
 export { Portal } from './Portal'

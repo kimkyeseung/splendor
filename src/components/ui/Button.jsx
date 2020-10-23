@@ -21,7 +21,7 @@ const secondaryCss = css`
 const buttonStyle = css`
   position: relative;
   display: block;
-  margin: 1rem auto;
+  margin: 0 auto;
   padding: 0;
   overflow: hidden;
   border-width: 0;

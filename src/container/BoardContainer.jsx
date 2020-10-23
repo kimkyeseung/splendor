@@ -15,6 +15,9 @@ class BoardContainer extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      modal: null
+    }
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.deselectDevelopment = this.deselectDevelopment.bind(this)
     this.buySelectedDevelopment = this.buySelectedDevelopment.bind(this)
@@ -114,6 +117,7 @@ class BoardContainer extends Component {
 
   render() {
     const { G, ctx, playerID } = this.props
+    const { modal } = this.state
     const isMyTurn = playerID === ctx.currentPlayer
 
     return (
@@ -131,6 +135,7 @@ class BoardContainer extends Component {
         deselectToken={this.deselectToken}
         returnToken={this.returnToken}
         handleNobleClick={this.handleNobleClick}
+        modal={modal}
       />
     )
   }

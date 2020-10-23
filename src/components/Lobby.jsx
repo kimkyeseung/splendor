@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import { Space, Flex } from './units'
+import { Blank, Flex } from './units'
 import { Box, Button, Modal } from './ui'
 import { toast } from 'react-toastify'
 
@@ -66,9 +66,9 @@ const Lobby = ({ gameId, players = [], isHost, startGame, myId }) => {
 
   return (
     <>
-      <Space height={160} />
+      <Blank height={160} />
       <Title>Splendor</Title>
-      <Space height={100} />
+      <Blank height={100} />
       <Box>
         <Flex justifyContent="center">
           <Wrapper>

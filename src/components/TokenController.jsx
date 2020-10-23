@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import styled, { css } from 'styled-components'
+import React from 'react'
+import styled from 'styled-components'
 import Token from './Token'
-import { Flex } from './units'
+import { Flex, Blank } from './units'
+import { Box, Button, Modal } from './ui'
 
 const TokenWrapper = styled.div`
   width: fit-content;
@@ -9,20 +10,9 @@ const TokenWrapper = styled.div`
   display: flex;
 `
 
-const Controller = styled.div`
-  margin-right: auto;
-  margin-left: auto;
-  border: 1px solid blue;
-  display: block;
-  position: relative;
-  max-width: 800px;
-`
-
-Controller.Wrapper = styled.div`
-`
-
 const Message = styled.div`
-
+  font-size: 1.2em;
+  color: ${({ theme }) => theme.grayscale[8]};
 `
 
 const TokenController = ({
@@ -33,35 +23,34 @@ const TokenController = ({
   confirmSelectedToken
 }) => {
   return (
-    <Controller>
+    <Modal isOpen={true} dimmed={false} onClose={onClose}>
       <Message>{message}</Message>
+      <Blank height={20} />
       <Flex>
-        <TokenWrapper>
-          <Flex>
-            {Array.isArray(tokens)
-              ? tokens.map((token, i) => (
-                <Token
-                  onClick={() => {
-                    onTokenClick(i)
-                  }}
-                  color={token}
-                  key={token + i} />))
-              : Object.keys(tokens).map((token, i) => (
-                tokens[token]
-                  ? <Token key={token} onClick={() => {
-                    onTokenClick(token)
-                  }} color={token} count={tokens[token]} />
-                  : null
-              ))}
-          </Flex>
-        </TokenWrapper>
-        <button onClick={ev => {
+        {Array.isArray(tokens)
+          ? tokens.map((token, i) => (
+            <Token
+              onClick={() => {
+                onTokenClick(i)
+              }}
+              color={token}
+              key={token + i} />))
+          : Object.keys(tokens).map((token, i) => (
+            tokens[token]
+              ? <Token key={token} onClick={() => {
+                onTokenClick(token)
+              }} color={token} count={tokens[token]} />
+              : null
+          ))}
+      </Flex>
+      <Blank height={20} />
+      <Flex>
+        <Button primary onClick={ev => {
           ev.preventDefault()
           confirmSelectedToken()
-        }}>confirm</button>
-        <button onClick={onClose}>close</button>
+        }}>Confirm</Button>
       </Flex>
-    </Controller>
+    </Modal>
   )
 }
 

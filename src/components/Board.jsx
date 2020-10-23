@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Flex } from './units'
-import { Box } from './ui'
 import { toast } from 'react-toastify'
 import Noble from './Noble'
 import Token from './Token'
@@ -14,6 +13,7 @@ import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
 import Aside from './Aside'
 import Player from '../container/Player'
+import { Box, Button, Modal } from './ui'
 import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
 
 const Header = styled.header`
@@ -24,7 +24,7 @@ const Header = styled.header`
 
 const Board = ({
   G, ctx, isMyTurn,
-  confirmable,
+  modal,
   handleSpaceClick,
   deselectDevelopment,
   buySelectedDevelopment,
@@ -132,9 +132,8 @@ const Board = ({
         Footer={<div className="hand">
           {hand.tokens.length
             ? <TokenController
-              message="가져올 토큰을 선택하세요"
+              message="Select tokens to import"
               tokens={hand.tokens}
-              confirmable={confirmable}
               onTokenClick={deselectToken}
               confirmSelectedToken={confirmSelectedToken}
               onClose={cancelSelectedToken} />
@@ -145,7 +144,7 @@ const Board = ({
             buySelectedDevelopment={buySelectedDevelopment}
             reserveSelectedDevelopment={reserveSelectedDevelopment}
             focusedDevelopment={DEVELOPMENT_CARDS[hand.development]}
-            blind={targetDevelopment.index === -1}/>}
+            blind={targetDevelopment.index === -1} />}
           {tokenOverloaded
             ? <TokenController
               message="초과한 토큰을 반납하세요"

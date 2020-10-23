@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Space, Flex } from '../components/units'
+import { Blank, Flex } from '../components/units'
 import { Box, Button, Modal } from './ui'
 
 const Title = styled.div`
@@ -51,9 +51,9 @@ const Main = ({
 }) => {
   return (
     <>
-      <Space height={160} />
+      <Blank height={160} />
       <Title>Splendor</Title>
-      <Space height={100} />
+      <Blank height={100} />
       <Box>
         <Flex>
           <Item>
@@ -73,7 +73,7 @@ const Main = ({
       }}>
         <Select>
           <Message>게임에 참여할 인원을 선택해주세요</Message>
-          <Space height={20} />
+          <Blank height={20} />
           <Flex>
             {[2, 3, 4].map(num => (
               <Button
@@ -86,10 +86,10 @@ const Main = ({
           </Flex>
         </Select>
 
-        <Space height={30} />
+        <Blank height={30} />
         <Select>
           <Message>플레이어의 이름을 입력해주세요</Message>
-          <Space height={20} />
+          <Blank height={20} />
           <Input.Wrapper>
             {Array(playerNum).fill().map((num, i) => (
               <Input key={i}>
@@ -103,7 +103,7 @@ const Main = ({
             ))}
           </Input.Wrapper>
         </Select>
-        <Space height={30} />
+        <Blank height={30} />
         <Select>
           <Button onClick={ev => {
             ev.preventDefault()

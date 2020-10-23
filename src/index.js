@@ -42,6 +42,7 @@ const theme = {
   boxBackground: '#367c69',
   primary: ['#2ecc71', '#27ae60'],
   secondary: ['#34495e', '#2c3e50'],
+  warning: ['#e74c3c', '#c0392b'],
   font: {
     title: 'Galada, Lobster',
     context: 'Comfortaa'
