@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import MainContainer from './container/MainContainer'
 import LobbyContainer from './container/LobbyContainer'
+import { ToastContainer } from 'react-toastify'
 import Game from './components/Game'
 import styled from 'styled-components'
 import {
@@ -10,6 +11,7 @@ import {
 import { Block } from './components/units'
 import { withRouter } from 'react-router'
 import qs from 'query-string'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Body = styled(Block)`
   position: fixed;
@@ -82,6 +84,7 @@ class App extends Component {
           </Route>
           <Route path="/lobby/:id" render={props => <LobbyContainer {...props} />} />
         </Switch>
+        <ToastContainer />
       </Body>
     )
   }

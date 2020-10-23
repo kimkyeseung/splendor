@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { Space, Flex } from './units'
 import { Box, Button, Modal } from './ui'
+import { toast } from 'react-toastify'
 
 const Title = styled.div`
   text-align: center;

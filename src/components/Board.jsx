@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Flex } from './units'
 import { Box } from './ui'
+import { toast } from 'react-toastify'
 import Noble from './Noble'
 import Token from './Token'
 import Layout from './Layout'
@@ -22,7 +23,7 @@ const Header = styled.header`
 `
 
 const Board = ({
-  G, ctx,
+  G, ctx, isMyTurn,
   confirmable,
   handleSpaceClick,
   deselectDevelopment,

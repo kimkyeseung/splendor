@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Board from '../components/Board'
+import { toast } from 'react-toastify'
 
 class BoardContainer extends Component {
   static propTypes = {
@@ -26,8 +27,15 @@ class BoardContainer extends Component {
     this.handleNobleClick = this.handleNobleClick.bind(this)
   }
 
-  componentDidUpdate({ G }) {
-    console.log(G)
+  componentDidUpdate(prevProps) {
+    const { ctx, playerID } = this.props
+    if (ctx.currentPlayer !== prevProps.ctx.currentPlayer) {
+      const isMyTurn = playerID === ctx.currentPlayer
+
+      isMyTurn
+        ? toast.success(`It's My Turn`)
+        : toast(`It's ${playerID}'s Turn`)
+    }
   }
 
   handleSpaceClick(dev, index, grade) {
@@ -105,12 +113,14 @@ class BoardContainer extends Component {
   }
 
   render() {
-    const { G, ctx } = this.props
+    const { G, ctx, playerID } = this.props
+    const isMyTurn = playerID === ctx.currentPlayer
 
     return (
       <Board
         G={G}
         ctx={ctx}
+        isMyTurn={isMyTurn}
         handleSpaceClick={this.handleSpaceClick}
         deselectDevelopment={this.deselectDevelopment}
         buySelectedDevelopment={this.buySelectedDevelopment}
