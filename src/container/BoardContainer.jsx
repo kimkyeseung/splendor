@@ -37,7 +37,7 @@ class BoardContainer extends Component {
 
       isMyTurn
         ? toast.success(`It's My Turn`)
-        : toast(`It's ${playerID}'s Turn`)
+        : toast(`It's ${ctx.currentPlayer}'s Turn`)
     }
   }
 
@@ -116,9 +116,9 @@ class BoardContainer extends Component {
   }
 
   render() {
-    const { G, ctx, playerID } = this.props
+    const { G, ctx, playerID, isMultiplayer } = this.props
     const { modal } = this.state
-    const isMyTurn = playerID === ctx.currentPlayer
+    const isMyTurn = isMultiplayer ? playerID === ctx.currentPlayer : true
 
     return (
       <Board
