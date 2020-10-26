@@ -7,7 +7,7 @@ import {
   reserveDevelopmentValidator
 } from './validator'
 import { INVALID_MOVE } from 'boardgame.io/core'
-import { takeTokens, returnTokens, getLackAmount } from '../lib/utils'
+import { takeTokens, returnTokens, getLackAmount, getWinner } from '../lib/utils'
 
 const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
   const { grade, id } = DEVELOPMENT_CARDS[cardId]
@@ -383,13 +383,14 @@ const game = (playerNames) => {
     },
 
     endIf: (G, ctx) => {
+      const { fields } = G
+      const isFinal = Object.keys(fields)
+        .some((player) => fields[player].victoryPoints >= 15)
+
+      if (isFinal && ctx.playOrderPos === ctx.playOrder.length - 1) {
+        return getWinner(G)
+      }
       return false
-      // if (IsVictory(G.cells)) {
-      //   return { winner: ctx.currentPlayer }
-      // }
-      // if (G.cells.filter(c => c === null).length === 0) {
-      //   return { draw: true }
-      // }
     },
 
     ai: {

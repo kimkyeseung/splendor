@@ -22,3 +22,30 @@ export const getLackAmount = ({ developments, token }, cost) => {
 
   return lack
 }
+
+export const getWinner = G => {
+  const { fields } = G
+  let highest = 0
+  const winners = Object.keys(fields).reduce((group, playerId) => {
+    const { victoryPoints } = fields[playerId]
+    if (victoryPoints > highest) {
+      highest = victoryPoints
+      group = [playerId]
+    } else if (victoryPoints === highest) {
+      group.push(playerId)
+    }
+    return group
+  }, [])
+
+  if (winners.length === 1) {
+    return { winner: winners[0] }
+  }
+  const devCounts = winners.map(player => {
+    const devCount = Object.values(fields[player].developments).reduce((count, value) => count + value)
+
+    return { player, count: devCount }
+  })
+
+  const [winner] = devCounts.sort((a, b) => a.count - b.count)
+  return { winner }
+}
