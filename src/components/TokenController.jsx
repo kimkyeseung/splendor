@@ -4,12 +4,6 @@ import Token from './Token'
 import { Flex, Blank } from './units'
 import { Button, Modal } from './ui'
 
-const TokenWrapper = styled.div`
-  width: fit-content;
-  margin: 0 auto;
-  display: flex;
-`
-
 const Message = styled.div`
   font-size: 1.2em;
   color: ${({ theme }) => theme.grayscale[8]};

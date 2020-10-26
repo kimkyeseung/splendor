@@ -147,6 +147,13 @@ const Board = ({
           focusedDevelopment={DEVELOPMENT_CARDS[hand.development]}
           blind={targetDevelopment.index === -1} />
         : null}
+      {isMyTurn && hand.gettableNobles && hand.gettableNobles.length
+        ? <NobleController
+          message="Select Noble tile to import"
+          nobles={hand.gettableNobles}
+          onNobleClick={handleNobleClick}
+        />
+        : null}
       {isMyTurn && hand.tokens.length
         ? <TokenController
           message="Select tokens to import"

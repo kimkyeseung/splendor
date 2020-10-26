@@ -1,45 +1,32 @@
-import React, { Component } from 'react'
-import styled, { css } from 'styled-components'
-import Token from './Token'
+import React from 'react'
+import styled from 'styled-components'
 import Noble from './Noble'
-import { Flex } from './units'
-
-const TokenWrapper = styled.div`
-  width: fit-content;
-  margin: 0 auto;
-  display: flex;
-`
-
-const Controller = styled.div`
-  margin-right: auto;
-  margin-left: auto;
-  border: 1px solid blue;
-  display: block;
-  position: relative;
-  max-width: 800px;
-`
-
-Controller.Wrapper = styled.div`
-`
+import { Flex, Blank } from './units'
+import { Modal } from './ui'
 
 const Message = styled.div`
+  font-size: 1.2em;
+  color: ${({ theme }) => theme.grayscale[8]};
+`
 
+const LargeTile = styled.div`
+  transform: scale(1.5);
+  margin: 3rem 1rem 2rem;
 `
 
 const NobleController = ({ message, nobles = [], onNobleClick }) => {
   return (
-    <Controller>
+    <Modal isOpen={true} closable={false}>
       <Message>{message}</Message>
-      <Flex>
-        <TokenWrapper>
-          <Flex>
-            {nobles.map(noble => (
-              <Noble key={noble} noble={noble} handler={onNobleClick} />
-            ))}
-          </Flex>
-        </TokenWrapper>
+      <Blank height={20} />
+      <Flex jutifyContent="center">
+        {nobles.map(noble => (
+          <LargeTile key={noble}>
+            <Noble noble={noble} handler={onNobleClick} />
+          </LargeTile>
+        ))}
       </Flex>
-    </Controller>
+    </Modal>
   )
 }
 
