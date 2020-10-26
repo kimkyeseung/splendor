@@ -19,7 +19,7 @@ const Card = ({ dev, blind, onClick }) => {
   }
 
   return (
-    <Space onClick={onClick} backgroundUrl={`image/${value + grade}.jpg`}>
+    <Space onClick={onClick} backgroundUrl={`/image/${value + grade}.jpg`}>
       <Flex className="header">
         <p className="vp">{victoryPoint ? victoryPoint : ''}</p>
         <Value value={value} />

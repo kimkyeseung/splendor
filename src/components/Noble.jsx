@@ -8,7 +8,7 @@ const sideSize = 150
 
 const background = css`
   background-repeat: no-repeat;
-  background-image: url('image/noble_img_sprite.jpg');
+  background-image: url('/image/noble_img_sprite.jpg');
   background-size: cover;
   background-position-y: 0;
   &.NB01 { background-position-x: 0; }
