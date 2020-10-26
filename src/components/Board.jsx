@@ -130,14 +130,6 @@ const Board = ({
           />
         }
         Footer={<div className="hand">
-          {hand.development && <DevelopmentController
-            message="개발카드를 어떻게 하시겠습니까?"
-            deselectDevelopment={deselectDevelopment}
-            buySelectedDevelopment={buySelectedDevelopment}
-            reserveSelectedDevelopment={reserveSelectedDevelopment}
-            focusedDevelopment={DEVELOPMENT_CARDS[hand.development]}
-            blind={targetDevelopment.index === -1} />}
-
           {hand.gettableNobles && hand.gettableNobles.length
             ? <NobleController
               message="가져올 귀족 타일을 선택하세요"
@@ -146,6 +138,15 @@ const Board = ({
             />
             : null}
         </div>} />
+      {isMyTurn && hand.development
+        ? <DevelopmentController
+          message="What would you like to do with this development card?"
+          deselectDevelopment={deselectDevelopment}
+          buySelectedDevelopment={buySelectedDevelopment}
+          reserveSelectedDevelopment={reserveSelectedDevelopment}
+          focusedDevelopment={DEVELOPMENT_CARDS[hand.development]}
+          blind={targetDevelopment.index === -1} />
+        : null}
       {isMyTurn && hand.tokens.length
         ? <TokenController
           message="Select tokens to import"

@@ -1,33 +1,17 @@
-import React, { Component } from 'react'
-import styled, { css } from 'styled-components'
+import React from 'react'
+import styled from 'styled-components'
 import Card from './Card'
-import { Flex } from './units'
-
-const TokkenWrapper = styled.div`
-  width: fit-content;
-  margin: 0 auto;
-  display: flex;
-`
-
-const Controller = styled.div`
-  margin-right: auto;
-  margin-left: auto;
-  border: 1px solid blue;
-  display: none;
-  position: relative;
-  max-width: 800px;
-  ${({ isOpen }) => isOpen && visibleStyle}
-`
-
-const visibleStyle = css`
-  display: block;
-`
-
-Controller.Wrapper = styled.div`
-`
+import { Flex, Blank } from './units'
+import { Button, Modal } from './ui'
 
 const Message = styled.div`
+  font-size: 1.2em;
+  color: ${({ theme }) => theme.grayscale[8]};
+`
 
+const LargeCard = styled.div`
+  transform: scale(1.5);
+  margin: 4rem 0;
 `
 
 const DevelopmentController = ({
@@ -41,10 +25,11 @@ const DevelopmentController = ({
   const { grade } = focusedDevelopment
 
   return (
-    <Controller isOpen={true}>
+    <Modal isOpen={true} dimmed={false} onClose={deselectDevelopment}>
       <Message>{message}</Message>
-      <Flex>
-        <TokkenWrapper>
+      <Blank height={20} />
+      <Flex justifyContent="center">
+        <LargeCard>
           <Card
             dev={focusedDevelopment.id}
             grade={grade}
@@ -52,20 +37,23 @@ const DevelopmentController = ({
             onClick={() => {
               deselectDevelopment()
             }} />
-        </TokkenWrapper>
-        {!blind && <button onClick={ev => {
+        </LargeCard>
+      </Flex>
+      <Blank height={20} />
+      <Flex>
+        {!blind && <Button primary onClick={ev => {
           ev.preventDefault()
           buySelectedDevelopment()
-        }}>구매</button>}
-        <button onClick={ev => {
+        }}>Purchase</Button>}
+        <Button secondary onClick={ev => {
           ev.preventDefault()
           reserveSelectedDevelopment()
-        }}>예약</button>
-        <button onClick={() => {
+        }}>Reserve</Button>
+        <Button onClick={() => {
           deselectDevelopment()
-        }}>취소</button>
+        }}>Cancel</Button>
       </Flex>
-    </Controller>
+    </Modal>
   )
 }
 

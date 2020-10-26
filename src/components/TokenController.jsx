@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Token from './Token'
 import { Flex, Blank } from './units'
-import { Box, Button, Modal } from './ui'
+import { Button, Modal } from './ui'
 
 const TokenWrapper = styled.div`
   width: fit-content;

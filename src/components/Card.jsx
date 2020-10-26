@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
 import Value from './Value'
 import Cost from './Cost'
 import Space from './Space'
@@ -25,7 +24,8 @@ const Card = ({ dev, blind, onClick }) => {
         <Value value={value} />
       </Flex>
       <div className="cost">
-        {Object.keys(cost).map((token, i) => <Cost key={i} value={token} amount={cost[token]} />)}
+        {Object.keys(cost)
+          .map((token, i) => <Cost key={i} value={token} amount={cost[token]} />)}
       </div>
     </Space>
   )

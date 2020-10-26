@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import PropTypes from 'prop-types'
 
 const backColors = [
   '#27ae60',
@@ -56,5 +57,10 @@ const Space = styled.div`
   ${({ blind }) => blind && backStyle};
 `
 
+Space.propTypes = {
+  backgroundUrl: PropTypes.string,
+  onClick: PropTypes.func,
+  blind: PropTypes.bool
+}
 
 export default Space
