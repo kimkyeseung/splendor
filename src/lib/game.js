@@ -273,23 +273,20 @@ const game = (playerNames) => {
         }
       },
 
-      deselectToken(G, ctx, index, cb = () => { }) {
+      deselectToken(G, ctx, index) {
         const { tokenStore, fields } = G
         const { hand } = fields[ctx.currentPlayer]
         const [token] = hand.tokens.splice(index, 1)
         tokenStore[token]++
-        const result = getTokenValidator(hand.tokens, tokenStore)
-        cb(result)
       },
 
-      cancelSelectedToken(G, ctx, cb = () => { }) {
+      cancelSelectedToken(G, ctx) {
         const { tokenStore, fields } = G
         const { hand } = fields[ctx.currentPlayer]
         hand.tokens.forEach(token => {
           tokenStore[token]++
         })
         hand.tokens.length = 0
-        cb()
       },
 
       getTokens(G, ctx) {

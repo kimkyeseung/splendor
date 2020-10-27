@@ -12,6 +12,7 @@ import NobleController from './NobleController'
 import Aside from './Aside'
 import Player from '../container/Player'
 import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
+import Result from './Result'
 
 const Header = styled.header`
   padding: 1rem;
@@ -20,8 +21,9 @@ const Header = styled.header`
 `
 
 const Board = ({
-  G, ctx, isMyTurn,
-  modal,
+  G, ctx,
+  playerID,
+  isMultiplayer,
   handleSpaceClick,
   deselectDevelopment,
   buySelectedDevelopment,
@@ -33,7 +35,7 @@ const Board = ({
   returnToken,
   handleNobleClick
 }) => {
-  const { currentPlayer } = ctx
+  const { currentPlayer, gameover } = ctx
   const {
     board,
     tokenStore,
@@ -58,6 +60,9 @@ const Board = ({
 
   const { hand, tokenAssets } = fields[currentPlayer]
   const tokenIndex = ['white', 'blue', 'green', 'red', 'black', 'yellow']
+
+  const isMyTurn = playerID === ctx.currentPlayer
+  const controllerVisible = !isMultiplayer || isMyTurn
 
   return (
     <>
@@ -128,7 +133,7 @@ const Board = ({
         }
         Footer={<div className="hand">
         </div>} />
-      {isMyTurn && hand.development
+      {controllerVisible && hand.development
         ? <DevelopmentController
           message="What would you like to do with this development card?"
           deselectDevelopment={deselectDevelopment}
@@ -137,14 +142,14 @@ const Board = ({
           focusedDevelopment={DEVELOPMENT_CARDS[hand.development]}
           blind={targetDevelopment.index === -1} />
         : null}
-      {isMyTurn && hand.gettableNobles && hand.gettableNobles.length
+      {controllerVisible && hand.gettableNobles && hand.gettableNobles.length
         ? <NobleController
           message="Select Noble tile to import"
           nobles={hand.gettableNobles}
           onNobleClick={handleNobleClick}
         />
         : null}
-      {isMyTurn && hand.tokens.length
+      {controllerVisible && hand.tokens.length
         ? <TokenController
           message="Select tokens to import"
           tokens={hand.tokens}
@@ -152,7 +157,7 @@ const Board = ({
           confirmSelectedToken={confirmSelectedToken}
           onClose={cancelSelectedToken} />
         : null}
-      {isMyTurn && tokenOverloaded
+      {controllerVisible && tokenOverloaded
         ? <TokenController
           message={`Return the exceeded tokens: ${tokenOverloaded}`}
           tokens={tokenAssets}
@@ -161,6 +166,11 @@ const Board = ({
           confirmSelectedToken={confirmSelectedToken}
           onClose={cancelSelectedToken} />
         : null}
+      {gameover && <Result
+        G={G}
+        ctx={ctx}
+        playerID={playerID}
+        winner={gameover.winner} />}
     </>
   )
 }

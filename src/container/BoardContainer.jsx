@@ -118,13 +118,13 @@ class BoardContainer extends Component {
   render() {
     const { G, ctx, playerID, isMultiplayer } = this.props
     const { modal } = this.state
-    const isMyTurn = isMultiplayer ? playerID === ctx.currentPlayer : true
 
     return (
       <Board
         G={G}
         ctx={ctx}
-        isMyTurn={isMyTurn}
+        playerID={playerID}
+        isMultiplayer={isMultiplayer}
         handleSpaceClick={this.handleSpaceClick}
         deselectDevelopment={this.deselectDevelopment}
         buySelectedDevelopment={this.buySelectedDevelopment}
