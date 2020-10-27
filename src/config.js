@@ -38,30 +38,6 @@ const basicGreen = css`
 
 const config = {}
 
-config.defaultSetting = {
-  maximumPlayerNumber: 4,
-  minimumPlayerNumber: 2,
-  playerTokenLimit: 10,
-  playerReserveDevelopmentLimit: 3,
-  playerDefaultToken: {
-    "red": 0,
-    "blue": 0,
-    "green": 0,
-    "white": 0,
-    "black": 0,
-    "yellow": 0
-  },
-  "player.defaultDevelopments": [],
-  "field.tokenStoreDefaultToken": {
-    "red": 0,
-    "blue": 0,
-    "green": 0,
-    "white": 0,
-    "black": 0,
-    "yellow": 0
-  }
-}
-
 config.theme = {
   basic: {
     white: basicWhite,

@@ -5,17 +5,27 @@ import { Link } from 'react-router-dom'
 import { Flex, Blank } from './units'
 import { Button, Modal } from './ui'
 
+const Title = styled.div`
+  text-align: center;
+  font-size: 60px;
+  color: ${({ theme }) => theme.title};
+  font-family: ${({ theme }) => theme.font.title};
+`
 const Message = styled.div`
-  font-size: 5em;
+  font-size: 3em;
   color: ${({ theme }) => theme.grayscale[8]};
+  text-align: center;
 `
 
-const Result = ({ G, ctx, playerID, winner }) => {
+const Result = ({ G, ctx, playerID, winner, history }) => {
   const isWin = winner === playerID
   const { fields } = G
 
   return (
-    <Modal isOpen={true}>
+    <Modal isOpen={true} closable={false}>
+      <Blank height={20} />
+      <Title>Splendor</Title>
+      <Blank height={20} />
       <Message>{isWin ? 'You Win' : 'You Lose'}</Message>
       <Blank height={20} />
       <div>
@@ -27,12 +37,11 @@ const Result = ({ G, ctx, playerID, winner }) => {
         ))}
       </div>
       <Blank height={20} />
-      <Flex>
-        <Link to={'/'}>
-          <Button onClick={ev => {
-            ev.preventDefault()
-          }}>Go to Main</Button>
-        </Link>
+      <Flex justifyContent="center">
+        <Button onClick={ev => {
+          ev.preventDefault()
+          history.push('/')
+        }}>Go to Main</Button>
       </Flex>
     </Modal>
   )

@@ -8,6 +8,7 @@ import {
 } from './validator'
 import { INVALID_MOVE } from 'boardgame.io/core'
 import { takeTokens, returnTokens, getLackAmount, getWinner } from '../lib/utils'
+import { DEFAULT_SETTING } from './config'
 
 const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
   const { grade, id } = DEVELOPMENT_CARDS[cardId]
@@ -337,7 +338,7 @@ const game = (playerNames) => {
         )
 
         G.isFinal = G.isFinal || Object.keys(fields).some(
-          player => fields[player].victoryPoints >= 15
+          player => fields[player].victoryPoints >= DEFAULT_SETTING.victoryPointGoal
         )
 
         if (gettableNobles.length) {

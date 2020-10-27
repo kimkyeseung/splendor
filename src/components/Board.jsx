@@ -33,7 +33,8 @@ const Board = ({
   cancelSelectedToken,
   deselectToken,
   returnToken,
-  handleNobleClick
+  handleNobleClick,
+  history
 }) => {
   const { currentPlayer, gameover } = ctx
   const {
@@ -170,7 +171,8 @@ const Board = ({
         G={G}
         ctx={ctx}
         playerID={playerID}
-        winner={gameover.winner} />}
+        winner={gameover.winner}
+        history={history}/>}
     </>
   )
 }

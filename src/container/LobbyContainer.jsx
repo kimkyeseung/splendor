@@ -5,7 +5,6 @@ import Board from './BoardContainer'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import { game } from '../lib'
 import Lobby from '../components/Lobby'
-import qs from 'query-string'
 
 const api = new LobbyApi()
 
@@ -46,7 +45,7 @@ class LobbyContainer extends Component {
     const { id } = this.state
 
     if (id) {
-      const { location, history } = this.props
+      const { history } = this.props
       api.joinRoom(id, username, playerNo)
         .then((authToken) => {
           console.log('게임에 참가하였습니다. 플레이어: ', playerNo)
@@ -80,8 +79,8 @@ class LobbyContainer extends Component {
           this.joinRoom(myPlayerNum)
         })
       },
-        (error) => {
-          console.log("room does not exist", error)
+        (err) => {
+          console.log("room does not exist", err)
           this.setState({
             id: null,
           })
@@ -94,6 +93,7 @@ class LobbyContainer extends Component {
     if (!id) {
       return
     }
+
     api.whosInRoom(id).then(
       (players) => {
         const joinedPlayers = []
@@ -116,24 +116,27 @@ class LobbyContainer extends Component {
         }
         this.setState({
           joined: joinedPlayers,
-        });
+        })
       },
-      (error) => {
-        console.log('room does not exist');
+      (err) => {
+        console.log('room does not exist ', err)
         this.setState({
           id: null,
-        });
+        })
       }
     );
   }
 
   getGameClient = () => {
     const { joined, id, myId, userAuthToken, } = this.state
+    const { history } = this.props
 
     const Splendor = game(joined.length)
     const SplendorGame = Client({
       game: Splendor,
-      board: props => <Board {...props} />,
+      board: props => (
+        <Board {...props} history={history} />
+      ),
       multiplayer: SocketIO({ server: 'localhost:8000' })
     })
 
