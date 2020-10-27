@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components'
 
 export const Blank = styled.div`
   display: block;
-  box-sizing: border-box;
   height: ${({ height }) => height ? `${height}px` : '100px'};
   width: ${({ width }) => width ? `${width}px` : '100%'};
 `

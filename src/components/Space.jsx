@@ -17,7 +17,6 @@ const normalStyle = css`
   background-repeat: no-repeat;
   & > .header {
     height: 50px;
-    box-sizing: border-box;
     background: rgba(255, 255, 255, 0.8);
     display: flex;
     justify-content: space-between;

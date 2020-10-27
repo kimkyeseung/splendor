@@ -33,7 +33,6 @@ const One = styled.div`
   width: ${tokenSize}px;
   height: ${tokenSize}px;
   border-radius: 100%;
-  box-sizing: border-box;
   -webkit-box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.25);
   -moz-box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.25);
   box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.25);

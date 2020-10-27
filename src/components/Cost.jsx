@@ -7,17 +7,15 @@ import { Flex } from './units'
 const { theme } = config
 
 const solidShape = css`
-  width: 8px; height: 12px;
   border-radius: 4px;
-  padding: 0.2rem 0.4rem 0.6rem;
+  padding: 0.25rem;
+  padding-bottom: 0;
   margin: 0.2rem auto;
-  padding-top: 0.2rem auto;
 `
 
 const roundShape = css`
   width: 24px; height: 24px;
   border-radius: 100%;
-  box-sizing: border-box;
   padding-top: 0.2rem;
 `
 

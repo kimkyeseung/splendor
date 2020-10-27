@@ -28,7 +28,6 @@ const normalStyle = css`
   & > header {
     width: 40px;
     height: 100%;
-    box-sizing: border-box;
     background: rgba(255, 255, 255, 0.8);
     padding: 0.2rem;
     display: flex;
@@ -41,6 +40,9 @@ const normalStyle = css`
       text-align: center;
       -webkit-text-stroke-width: 1px;
       -webkit-text-stroke-color: black;
+    }
+    & > .condition {
+      padding: 0 0.4rem;
     }
   }
 `

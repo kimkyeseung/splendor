@@ -33,7 +33,6 @@ const StyledDevelopment = styled.div`
 const StyledToken = styled.div`
   border: 1px solid gray;
   height: 24px; width: 24px;
-  box-sizing: border-box;
   border-radius: 100%;
   color: white;
   text-align: center;
@@ -63,7 +62,6 @@ Token.Wrapper = styled.div`
 
 const VictoryPoint = styled.div`
   height: 40px; width: 40px;
-  box-sizing: border-box;
   border-radius: 100%;
   text-align: center;
   line-height: 40px;
