@@ -6,8 +6,8 @@ import Card from './Card'
 
 const Back = styled.div`
   position: absolute;
-  top: ${({ index }) => `${index / 3}px`};
-  left: ${({ index }) => `${index / 3}px`};
+  top: ${({ index }) => `${index / 2.5}px`};
+  left: ${({ index }) => `${index / 2.5}px`};
 `
 
 const Dummmy = styled(Space)`
@@ -15,13 +15,28 @@ const Dummmy = styled(Space)`
   overflow: visible;
 `
 
+const Effect = styled.div`
+  transition: all 0.2s;
+  &:hover {
+    transform: translate(2px, -6px);
+  }
+`
+
 const Deck = ({ cards = [], onClick }) => {
 
   return cards.length
     ? <Dummmy>
-      {cards.map((id, index) => <Back key={id} index={index}>
-        <Card dev={id} blind onClick={onClick} />
-      </Back>)}
+      {cards.map((id, index) => (
+        index === cards.length - 1
+          ? <Effect key={id}>
+            <Back index={index}>
+              <Card dev={id} blind onClick={onClick} />
+            </Back>
+          </Effect>
+          : <Back key={id} index={index}>
+            <Card dev={id} blind onClick={onClick} />
+          </Back>
+      ))}
     </Dummmy>
     : <Space empty />
 }

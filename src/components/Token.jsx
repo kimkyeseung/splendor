@@ -19,6 +19,13 @@ const StyledToken = styled.div`
   }
 `
 
+const Effect = styled.div`
+  transition: all 0.2s;
+  &:hover {
+    transform: translateY(-4px);
+  }
+`
+
 const One = styled.div`
   position: absolute;
   display: flex;
@@ -48,7 +55,11 @@ const One = styled.div`
 const Token = ({ color, count, ...props }) => (
   <StyledToken {...props}>
     <div className="tokenBundle">
-      {Array(count).fill().map((num, i) => <One key={i} index={i} value={color} />)}
+      {Array(count).fill().map(
+        (num, index, array) => index !== array.length - 1
+          ? <One key={index} index={index} value={color} />
+          : <Effect key={index}><One index={index} value={color} /></Effect>
+      )}
     </div>
     <div className="count">{count}</div>
   </StyledToken>

@@ -39,7 +39,7 @@ const emptyStyle = css`
 `
 
 const backStyle = css`
-  border: 12px solid white;
+  border: 8px solid white;
   background: ${({ grade }) => backColors[grade - 1]};
 `
 
@@ -59,6 +59,10 @@ const largeSize = css`
     font-size: 1.3em;
     width: 30px; height: 30px;
   }
+  .title {
+    font-size: 32px;
+    transform: translate3d(0px, 0px, 40px);
+  }
 `
 
 const Space = styled.div`
@@ -67,8 +71,6 @@ const Space = styled.div`
   border-radius: 12px;
   margin: 0.4rem;
   padding: 0;
-  -webkit-box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.25);
-  -moz-box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.25);
   box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.25);
   ${({ empty }) => empty ? emptyStyle : normalStyle};
   ${({ blind }) => blind && backStyle};
