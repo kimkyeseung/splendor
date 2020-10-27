@@ -1,17 +1,13 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import Card from './Card'
 import { Flex, Blank } from './units'
 import { Button, Modal } from './ui'
+import Tilt from 'react-tilt'
 
 const Message = styled.div`
   font-size: 1.2em;
   color: ${({ theme }) => theme.grayscale[8]};
-`
-
-const LargeCard = styled.div`
-  transform: scale(1.5);
-  margin: 4rem 0;
 `
 
 const DevelopmentController = ({
@@ -29,15 +25,16 @@ const DevelopmentController = ({
       <Message>{message}</Message>
       <Blank height={20} />
       <Flex justifyContent="center">
-        <LargeCard>
+        <Tilt style={{ transformStyle: 'preserve-3d'}}>
           <Card
             dev={focusedDevelopment.id}
             grade={grade}
             blind={blind}
+            large
             onClick={() => {
               deselectDevelopment()
             }} />
-        </LargeCard>
+        </Tilt>
       </Flex>
       <Blank height={20} />
       <Flex>

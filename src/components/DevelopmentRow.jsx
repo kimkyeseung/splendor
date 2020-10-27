@@ -1,8 +1,17 @@
 import React from 'react'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Flex } from './units'
 import Card from './Card'
 import Deck from './Deck'
+import Tilt from 'react-tilt'
+
+const Effect = styled.div`
+  transition: all 0.2s;
+  &:hover {
+    transform: translateY(-4px);
+  }
+`
 
 const DevelopmentRow = ({ deck, list, handler, grade }) => (
   <Flex>
@@ -14,9 +23,13 @@ const DevelopmentRow = ({ deck, list, handler, grade }) => (
       cards={deck}
       grade={grade} />
     {list.map((dev, index) => (
-      <Card key={dev} onClick={() => {
-        handler(dev, index, grade)
-      }} grade={grade} dev={dev} />
+      <Tilt key={dev} options={{ scale: 1, max: 20 }}>
+        <Effect>
+          <Card onClick={() => {
+            handler(dev, index, grade)
+          }} grade={grade} dev={dev} />
+        </Effect>
+      </Tilt>
     ))}
   </Flex>
 )
