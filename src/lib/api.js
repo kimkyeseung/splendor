@@ -22,7 +22,7 @@ export class LobbyApi {
   async joinRoom(roomId, username, userid) {
     const payload = { playerID: userid, playerName: username }
     const data = await this.api
-      .post(roomId + "/join", { json: payload })
+      .post(roomId + '/join', { json: payload })
       .json()
     const { playerCredentials } = data
 
@@ -32,7 +32,7 @@ export class LobbyApi {
   async leaveRoom(roomId, userId, credentials) {
     const payload = { playerID: userId, credentials }
     try {
-      await this.api.post(roomId + "/leave", { json: payload }).json()
+      await this.api.post(roomId + '/leave', { json: payload }).json()
     } catch (error) {
       console.log('error in leaveRoom: ', error)
     }
