@@ -20,7 +20,7 @@ const TokenController = ({
     <Modal isOpen={true} dimmed={false} onClose={onClose}>
       <Message>{message}</Message>
       <Blank height={20} />
-      <Flex>
+      <Flex justifyContent="center">
         {Array.isArray(tokens)
           ? tokens.map((token, i) => (
             <Token

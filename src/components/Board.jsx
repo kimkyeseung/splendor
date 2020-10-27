@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Flex } from './units'
-import { toast } from 'react-toastify'
 import Noble from './Noble'
 import Token from './Token'
 import Layout from './Layout'
@@ -13,7 +11,6 @@ import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
 import Aside from './Aside'
 import Player from '../container/Player'
-import { Box, Button, Modal } from './ui'
 import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
 
 const Header = styled.header`
@@ -130,13 +127,6 @@ const Board = ({
           />
         }
         Footer={<div className="hand">
-          {hand.gettableNobles && hand.gettableNobles.length
-            ? <NobleController
-              message="가져올 귀족 타일을 선택하세요"
-              nobles={hand.gettableNobles}
-              onNobleClick={handleNobleClick}
-            />
-            : null}
         </div>} />
       {isMyTurn && hand.development
         ? <DevelopmentController

@@ -14,16 +14,16 @@ const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
   switch (grade) {
     case 1:
       cards.gradeOne.push(id)
-      return cards
+      break
     case 2:
       cards.gradeTwo.push(id)
-      return cards
+      break
     case 3:
       cards.gradeThree.push(id)
-      return cards
+      break
     default:
-      return cards
   }
+  return cards
 }, { gradeOne: [], gradeTwo: [], gradeThree: [] })
 
 const game = (playerNames) => {
@@ -212,7 +212,10 @@ const game = (playerNames) => {
 
           currentPlayer.done = true
         } else {
-          alert('비용이 모자랍니다.')
+          if (typeof window === 'object') {
+            window.alert('비용이 모자랍니다.')
+          }
+          return INVALID_MOVE
         }
       },
 
@@ -336,14 +339,20 @@ const game = (playerNames) => {
             .every(color => developments[color] >= NOBLES[noble].condition[color])
         )
 
+        G.isFinal = G.isFinal || Object.keys(fields).some(
+          player => fields[player].victoryPoints >= 15
+        )
+
         if (gettableNobles.length) {
           hand.gettableNobles = gettableNobles
           ctx.events.setStage('getNoble')
         } else if (hand.tokens.length !== 0 || hand.development) {
           console.log('still hand')
         } else {
-          console.log('nope')
-          ctx.events.endTurn()
+
+          G.isFinal && ctx.playOrderPos === ctx.playOrder.length - 1
+            ? ctx.events.endGame(getWinner(G))
+            : ctx.events.endTurn()
         }
       },
       stages: {
@@ -365,7 +374,7 @@ const game = (playerNames) => {
         },
         getNoble: {
           moves: {
-            selectGetNoble(G, ctx, noble, cb = () => { }) {
+            selectGetNoble(G, ctx, noble) {
               const { fields, nobleTiles } = G
               const currentPlayer = fields[ctx.currentPlayer]
               const { hand, nobles } = currentPlayer
@@ -380,17 +389,6 @@ const game = (playerNames) => {
           }
         }
       }
-    },
-
-    endIf: (G, ctx) => {
-      const { fields } = G
-      const isFinal = Object.keys(fields)
-        .some((player) => fields[player].victoryPoints >= 15)
-
-      if (isFinal && ctx.playOrderPos === ctx.playOrder.length - 1) {
-        return getWinner(G)
-      }
-      return false
     },
 
     ai: {
