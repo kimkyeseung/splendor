@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import FieldSummary from '../components/FieldSummary'
+import { CircleProgress } from '../components/ui'
 
 const Name = styled.div`
 
@@ -17,6 +18,7 @@ class Player extends Component {
     return (
       <div>
         <Name>{field.name}</Name>
+        <CircleProgress max={15} amount={15} size={50}/>
         <FieldSummary
           active={`${player}` === `${currentPlayer}`}
           field={G.fields[player]} />
