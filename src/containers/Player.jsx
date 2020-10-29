@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import FieldSummary from '../components/FieldSummary'
-import { CircleProgress } from '../components/ui'
+import VictoryPoints from '../components/VictoryPoints'
+import { DEFAULT_SETTING } from '../lib/config'
 
 const Name = styled.div`
 
@@ -15,10 +16,11 @@ class Player extends Component {
   render() {
     const { ctx, player, G, selectedTokens, field } = this.props
     const { currentPlayer } = ctx
+    
     return (
       <div>
         <Name>{field.name}</Name>
-        <CircleProgress max={15} amount={15} size={50}/>
+        <VictoryPoints vp={G.fields[player].victoryPoints} total={DEFAULT_SETTING.victoryPointGoal}/>
         <FieldSummary
           active={`${player}` === `${currentPlayer}`}
           field={G.fields[player]} />

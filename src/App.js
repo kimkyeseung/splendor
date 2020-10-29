@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import MainContainer from './container/MainContainer'
-import LobbyContainer from './container/LobbyContainer'
+import MainContainer from './containers/MainContainer'
+import LobbyContainer from './containers/LobbyContainer'
 import { ToastContainer } from 'react-toastify'
 import Game from './components/Game'
 import styled from 'styled-components'
@@ -65,7 +65,7 @@ class App extends Component {
 
   render() {
     const { playerNum, playerNames } = this.state
-    const { location } = this.props
+    const { location, history } = this.props
 
     return (
       <Body>
@@ -80,7 +80,7 @@ class App extends Component {
               {...this.props} />
           </Route>
           <Route path="/game">
-            <Game {...qs.parse(location.search)} />
+            <Game {...qs.parse(location.search)} history={history} />
           </Route>
           <Route path="/lobby/:id" render={props => <LobbyContainer {...props} />} />
         </Switch>
