@@ -10,7 +10,7 @@ import TokenController from './TokenController'
 import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
 import Aside from './Aside'
-import Player from '../container/Player'
+import Player from '../containers/Player'
 import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
 import Result from './Result'
 

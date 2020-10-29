@@ -14,8 +14,8 @@ import qs from 'query-string'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Body = styled(Block)`
-  position: fixed;
   height: 100%;
+  box-sizing: border-box;
   background: ${({ theme }) => theme.background};
   color:  ${({ theme }) => theme.white};
 `
