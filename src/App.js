@@ -18,6 +18,7 @@ const Body = styled(Block)`
   box-sizing: border-box;
   background: ${({ theme }) => theme.background};
   color:  ${({ theme }) => theme.white};
+  position: fixed;
 `
 
 class App extends Component {
@@ -68,7 +69,7 @@ class App extends Component {
     const { location, history } = this.props
 
     return (
-      <Body>
+      <Body width="100%">
         <Switch>
           <Route path="/" exact>
             <MainContainer
