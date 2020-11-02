@@ -22,13 +22,6 @@ const normalStyle = css`
     justify-content: space-between;
     padding: 0.2rem;
     border-radius: 12px 12px 0 0;
-    & > .vp {
-      color: white;
-      font-size: 2.6em;
-      margin: 0;
-      -webkit-text-stroke-width: 1px;
-      -webkit-text-stroke-color: black;
-    }
   }
 `
 

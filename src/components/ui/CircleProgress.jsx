@@ -10,8 +10,9 @@ const StyledCircle = styled.div`
   }
   & circle {
     stroke-dasharray: ${({ circumference }) => circumference};
+  }
+  & .amount {
     stroke-dashoffset: ${({ amount }) => amount};
-    border: 1px solid red;
   }
 `
 
@@ -25,7 +26,14 @@ export const CircleProgress = ({ size, amount, max, color, strokeWidth }) => {
         <circle
           r={(size - strokeWidth) / 2} cy={size / 2} cx={size / 2}
           strokeWidth={strokeWidth}
+          stroke="#eeeeee"
+          fill="none" />
+        <circle
+          className="amount"
+          r={(size - strokeWidth) / 2} cy={size / 2} cx={size / 2}
+          strokeWidth={strokeWidth}
           stroke={color}
+          strokeLinecap="round"
           fill="none" />
       </svg>
     </StyledCircle>

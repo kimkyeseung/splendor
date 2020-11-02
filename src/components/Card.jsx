@@ -5,6 +5,7 @@ import Value from './Value'
 import Cost from './Cost'
 import Space from './Space'
 import { Flex } from './units'
+import { VictoryPoints } from './ui'
 
 import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
 
@@ -35,7 +36,7 @@ const Card = ({ dev, blind, ...props }) => {
   return (
     <Space backgroundUrl={`/image/${value + grade}.jpg`} {...props}>
       <Flex className="header">
-        <p className="vp">{victoryPoint ? victoryPoint : ''}</p>
+        <VictoryPoints className="vp">{victoryPoint ? victoryPoint : ''}</VictoryPoints>
         <Value className="value" value={value} />
       </Flex>
       <div className="costs">

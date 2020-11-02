@@ -1,11 +1,26 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import FieldSummary from '../components/FieldSummary'
-import VictoryPoints from '../components/VictoryPoints'
+import VictoryPointsMarker from '../components/VictoryPointsMarker'
+import { Flex } from '../components/units'
 import { DEFAULT_SETTING } from '../lib/config'
 
 const Name = styled.div`
+  background-color: ${({ theme }) => theme.white};
+  padding: 0.5rem;
+  margin-left: -1rem;
+  border-radius: 0 50px 50px 0;
+  max-width: 150px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin-right: 0.5rem;
+`
 
+const StyledPlayer = styled.div`
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
 `
 
 class Player extends Component {
@@ -16,15 +31,22 @@ class Player extends Component {
   render() {
     const { ctx, player, G, selectedTokens, field } = this.props
     const { currentPlayer } = ctx
-    
+    const score = G.fields[player].victoryPoints
+
     return (
-      <div>
-        <Name>{field.name}</Name>
-        <VictoryPoints vp={G.fields[player].victoryPoints} total={DEFAULT_SETTING.victoryPointGoal}/>
+      <StyledPlayer>
+        <Flex alginItems="center">
+          <Name>{field.name}</Name>
+          {score
+            ? <VictoryPointsMarker
+              score={score}
+              total={DEFAULT_SETTING.victoryPointGoal} />
+            : null}
+        </Flex>
         <FieldSummary
           active={`${player}` === `${currentPlayer}`}
           field={G.fields[player]} />
-      </div>
+      </StyledPlayer>
     )
   }
 }
