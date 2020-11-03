@@ -57,6 +57,18 @@ const largeSize = css`
   }
 `
 
+const thumbnailSize = css`
+  height: 36px;
+  width: 30px;
+  border-width: 3px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.25);
+  margin: 0;
+  &:not(:last-child) {
+    margin-right: 0.2rem;
+  }
+`
+
 const Space = styled.div`
   height: 180px;
   width: 150px;
@@ -67,13 +79,14 @@ const Space = styled.div`
   ${({ empty }) => empty ? emptyStyle : normalStyle};
   ${({ blind }) => blind && backStyle};
   ${({ large }) => large && largeSize};
-
+  ${({ thumbnail }) => thumbnail && thumbnailSize};
 `
 
 Space.propTypes = {
   backgroundUrl: PropTypes.string,
   onClick: PropTypes.func,
-  blind: PropTypes.bool
+  blind: PropTypes.bool,
+  thumbnail: PropTypes.bool
 }
 
 export default Space

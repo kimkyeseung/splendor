@@ -3,6 +3,9 @@ import styled, { css } from 'styled-components'
 import config from '../config'
 import { DEFAULT_SETTING } from '../lib/config'
 import { Flex, Blank } from '../components/units'
+import Space from './Space'
+
+import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
 
 const { theme } = config
 
@@ -56,6 +59,7 @@ const Token = styled.div`
 
 Development.Wrapper = styled.div`
   display: flex;
+  max-width: 160px;
   padding: 0.2rem 0;
   flex-wrap: wrap;
 `
@@ -91,10 +95,6 @@ const Dev = styled.div`
   margin-bottom: 6px;
 `
 
-const Reserved = () => (
-  <div></div>
-)
-
 const FieldSummary = ({ active, field }) => {
   const { developments, tokenAssets, victoryPoints, reservedDevs } = field
   const totalTokenCount = Object.values(tokenAssets).reduce((total, count) => total + count, 0)
@@ -111,7 +111,7 @@ const FieldSummary = ({ active, field }) => {
           </Dev>
         ))}
         <Dev>
-          <Development blank/>
+          <Development blank />
           {tokenAssets.yellow ? <Token value="yellow">{tokenAssets.yellow}</Token> : null}
         </Dev>
       </Development.Wrapper>
@@ -119,9 +119,15 @@ const FieldSummary = ({ active, field }) => {
       <Blank height={15} />
       {<Flex>
         {totalTokenCount ? <TokenCount>{totalTokenCount}/{DEFAULT_SETTING.playerTokenLimit}</TokenCount> : null}
-        {Array(DEFAULT_SETTING.playerReserveDevelopmentLimit).fill(1).map(() => {
-          
-        })}
+        <Flex justifyContent="space-around">
+          {reservedDevs.map((dev) => {
+            const { grade } = DEVELOPMENT_CARDS[dev]
+
+            return (
+              <Space key={dev} blind grade={grade} thumbnail />
+            )
+          })}
+        </Flex>
       </Flex>}
     </StyledFieldSummary>
   )
