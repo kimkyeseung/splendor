@@ -66,7 +66,7 @@ const game = (playerNames) => {
       const defaultValues = { white: 0, red: 0, blue: 0, green: 0, black: 0, yellow: 0 }
       Array(numPlayers).fill(1).forEach((a, i) => {
         fields[i] = {
-          name: playerNames[i],
+          name: playerNames[i] || i,
           developments: { ...defaultValues },
           tokenAssets: { ...defaultValues },
           reservedDevs: [],
