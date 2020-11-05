@@ -1,15 +1,3 @@
-export const holdTokens = (tokenStore, player, color) => {
-
-}
-
-export const takeTokens = (tokenStore, player, color) => {
-
-}
-
-export const returnTokens = () => {
-
-}
-
 export const emptyHand = (G, ctx) => {
   const { fields, tokenStore } = G
   const { hand } = fields[ctx.currentPlayer]
@@ -70,10 +58,36 @@ export const getWinner = G => {
   return { winner }
 }
 
-export const handDevelopment = (G, ctx, dev) => {
+export const holdDevelopment = (G, ctx, dev) => {
   const { fields } = G
   const { hand } = fields[ctx.currentPlayer]
 
   emptyHand(G, ctx)
   hand.development = dev
+}
+
+export const drawOne = (G, grade) => {
+  const {
+    developOneDeck,
+    developTwoDeck,
+    developThreeDeck
+  } = G
+
+  const deck = {
+    '1': developOneDeck,
+    '2': developTwoDeck,
+    '3': developThreeDeck
+  }
+
+  return deck[grade].pop()
+}
+
+export const gainTokensFromHand = (G, ctx) => {
+  const { fields } = G
+  const { hand, tokenAssets } = fields[ctx.currentPlayer]
+
+  hand.tokens.forEach(token => {
+    tokenAssets[token]++
+  })
+  hand.tokens.length = 0
 }

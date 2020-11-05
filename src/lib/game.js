@@ -8,8 +8,8 @@ import {
 } from './validator'
 import { INVALID_MOVE } from 'boardgame.io/core'
 import {
-  takeTokens, returnTokens, getLackAmount,
-  getWinner, emptyHand, handDevelopment
+  getLackAmount, getWinner, emptyHand,
+  holdDevelopment, drawOne, gainTokensFromHand
 } from '../lib/utils'
 import { DEFAULT_SETTING } from './config'
 
@@ -110,17 +110,12 @@ const game = (playerNames) => {
           developThreeDeck
         } = G
 
-        handDevelopment(G, ctx, dev)
+        holdDevelopment(G, ctx, dev)
         G.targetDevelopment = { grade, index } // dev targetting
         if (index >= 0) {
           board[`dev${grade}${index}`] = null
         } else {
-          const deck = {
-            '1': developOneDeck,
-            '2': developTwoDeck,
-            '3': developThreeDeck
-          }
-          deck[grade].pop()
+          drawOne(G, grade)
         }
       },
 
@@ -158,9 +153,6 @@ const game = (playerNames) => {
       buyDevelopment(G, ctx) {
         const {
           fields,
-          developOneDeck,
-          developTwoDeck,
-          developThreeDeck,
           board,
           tokenStore,
           nobleTiles,
@@ -197,13 +189,8 @@ const game = (playerNames) => {
           developments[value] += valueAmount
           currentPlayer.victoryPoints += victoryPoint
 
-          const deck = {
-            '1': developOneDeck,
-            '2': developTwoDeck,
-            '3': developThreeDeck
-          }
           const { grade, index } = targetDevelopment
-          board[`dev${grade}${index}`] = deck[grade].pop()
+          board[`dev${grade}${index}`] = drawOne(G, grade)
           G.targetDevelopment = null
           hand.development = null
 
@@ -219,9 +206,6 @@ const game = (playerNames) => {
       reserveDevelopment(G, ctx) {
         const {
           fields,
-          developOneDeck,
-          developTwoDeck,
-          developThreeDeck,
           board,
           tokenStore,
           targetDevelopment
@@ -239,16 +223,11 @@ const game = (playerNames) => {
 
           const { grade, index } = targetDevelopment
           if (index >= 0) {
-            const deck = {
-              '1': developOneDeck,
-              '2': developTwoDeck,
-              '3': developThreeDeck
-            }
-            board[`dev${grade}${index}`] = deck[grade].pop()
+            board[`dev${grade}${index}`] = drawOne(G, grade)
           }
           hand.development = null
 
-          const tokenLimit = 10
+          const tokenLimit = DEFAULT_SETTING.playerTokenLimit
           const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
           if (tokenCount > tokenLimit) {
             ctx.events.setStage('returnTokens')
@@ -278,12 +257,7 @@ const game = (playerNames) => {
       },
 
       cancelSelectedToken(G, ctx) {
-        const { tokenStore, fields } = G
-        const { hand } = fields[ctx.currentPlayer]
-        hand.tokens.forEach(token => {
-          tokenStore[token]++
-        })
-        hand.tokens.length = 0
+        emptyHand(G, ctx)
       },
 
       getTokens(G, ctx) {
@@ -293,12 +267,10 @@ const game = (playerNames) => {
         if (!getTokenValidator(hand.tokens, tokenStore)) {
           return INVALID_MOVE
         }
-        hand.tokens.forEach(token => {
-          tokenAssets[token]++
-        })
-        hand.tokens = []
 
-        const tokenLimit = 10
+        gainTokensFromHand(G, ctx)
+
+        const tokenLimit = DEFAULT_SETTING.playerTokenLimit
         const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
         if (tokenCount > tokenLimit) {
           G.tokenOverloaded = tokenCount - tokenLimit
