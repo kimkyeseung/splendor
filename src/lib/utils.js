@@ -10,6 +10,22 @@ export const returnTokens = () => {
 
 }
 
+export const emptyHand = (G, ctx) => {
+  const { fields, tokenStore } = G
+  const { hand } = fields[ctx.currentPlayer]
+
+  if (hand.development) {
+    hand.development = null
+  }
+
+  if (hand.tokens.length) {
+    hand.tokens.forEach(token => {
+      tokenStore[token]++
+    })
+    hand.tokens.length = 0
+  }
+}
+
 export const getLackAmount = ({ developments, token }, cost) => {
   const total = {}
   Object.keys(developments).forEach(color => {
@@ -34,6 +50,7 @@ export const getWinner = G => {
     } else if (victoryPoints === highest) {
       group.push(playerId)
     }
+
     return group
   }, [])
 
@@ -41,11 +58,22 @@ export const getWinner = G => {
     return { winner: winners[0] }
   }
   const devCounts = winners.map(player => {
-    const devCount = Object.values(fields[player].developments).reduce((count, value) => count + value)
+    const devCount = Object.values(fields[player].developments).reduce(
+      (count, value) => count + value
+    )
 
     return { player, count: devCount }
   })
 
   const [winner] = devCounts.sort((a, b) => a.count - b.count)
+
   return { winner }
+}
+
+export const handDevelopment = (G, ctx, dev) => {
+  const { fields } = G
+  const { hand } = fields[ctx.currentPlayer]
+
+  emptyHand(G, ctx)
+  hand.development = dev
 }

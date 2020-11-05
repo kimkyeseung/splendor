@@ -7,7 +7,10 @@ import {
   reserveDevelopmentValidator
 } from './validator'
 import { INVALID_MOVE } from 'boardgame.io/core'
-import { takeTokens, returnTokens, getLackAmount, getWinner } from '../lib/utils'
+import {
+  takeTokens, returnTokens, getLackAmount,
+  getWinner, emptyHand, handDevelopment
+} from '../lib/utils'
 import { DEFAULT_SETTING } from './config'
 
 const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
@@ -29,7 +32,7 @@ const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
 
 const game = (playerNames) => {
   const Splendor = {
-    name: "splendor",
+    name: 'splendor',
 
     setup: ({ numPlayers, random, ...G }) => {
       const developOneDeck = random.Shuffle(developCards.gradeOne)
@@ -98,24 +101,17 @@ const game = (playerNames) => {
     },
 
     moves: {
-      selectDevelopment(G, ctx, dev, position) {
+      selectDevelopment(G, ctx, dev, { grade, index }) {
         const {
           fields,
           board,
-          targetDevelopment,
           developOneDeck,
           developTwoDeck,
           developThreeDeck
         } = G
-        const { hand } = fields[ctx.currentPlayer]
-        if (hand.development) {
-          const { development } = DEVELOPMENT_CARDS[hand.development]
-          const { grade, index } = targetDevelopment
-          board[`dev${grade}${index}`] = development
-        }
-        hand.development = dev
-        const { grade, index } = position
-        G.targetDevelopment = position
+
+        handDevelopment(G, ctx, dev)
+        G.targetDevelopment = { grade, index } // dev targetting
         if (index >= 0) {
           board[`dev${grade}${index}`] = null
         } else {
@@ -144,7 +140,6 @@ const game = (playerNames) => {
         }
 
         const { grade, index } = targetDevelopment
-
         if (index >= 0) {
           board[`dev${grade}${index}`] = hand.development
         } else {
@@ -155,8 +150,9 @@ const game = (playerNames) => {
           }
           deck[grade].push(hand.development)
         }
+
+        emptyHand(G, ctx)
         G.targetDevelopment = null
-        hand.development = null
       },
 
       buyDevelopment(G, ctx) {
