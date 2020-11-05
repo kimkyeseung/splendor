@@ -29,13 +29,28 @@ class BoardContainer extends Component {
 
   componentDidUpdate(prevProps) {
     const { ctx, playerID } = this.props
+    if (ctx.turn !== prevProps.ctx.turn) {
+      toast(`Turn ${ctx.turn}`, {
+        position: 'top-left',
+        pauseOnHover: false,
+        autoClose: 2000
+      })
+    }
     if (ctx.currentPlayer !== prevProps.ctx.currentPlayer) {
       const isMyTurn = playerID === ctx.currentPlayer
 
       isMyTurn
         ? toast.success(`It's My Turn`)
-        : toast(`It's ${ctx.currentPlayer}'s Turn`)
+        : toast(`It's Player ${ctx.currentPlayer}'s Turn`)
     }
+  }
+
+  componentDidMount() {
+    toast('The game is on: Turn 1', {
+      position: 'top-left',
+      pauseOnHover: false,
+      autoClose: 2000
+    })
   }
 
   handleSpaceClick(dev, index, grade) {

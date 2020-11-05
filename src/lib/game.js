@@ -295,7 +295,6 @@ const game = (playerNames) => {
         const currentPlayer = fields[ctx.currentPlayer]
         const { hand, tokenAssets } = currentPlayer
         if (!getTokenValidator(hand.tokens, tokenStore)) {
-          console.log('invalid Move yeah')
           return INVALID_MOVE
         }
         hand.tokens.forEach(token => {
