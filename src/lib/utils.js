@@ -91,3 +91,17 @@ export const gainTokensFromHand = (G, ctx) => {
   })
   hand.tokens.length = 0
 }
+
+export const restoreTokenStore = (G, token) => {
+  const { tokenStore } = G
+  tokenStore[token]++
+}
+
+export const holdToken = ({ G, ctx, token}) => {
+  const { tokenStore, fields } = G
+  const { hand } = fields[ctx.currentPlayer]
+  if (tokenStore[token]) {
+    tokenStore[token]--
+    hand.tokens.push(token)
+  }
+}

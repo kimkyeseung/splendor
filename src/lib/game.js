@@ -9,7 +9,8 @@ import {
 import { INVALID_MOVE } from 'boardgame.io/core'
 import {
   getLackAmount, getWinner, emptyHand,
-  holdDevelopment, drawOne, gainTokensFromHand
+  holdDevelopment, drawOne, gainTokensFromHand,
+  restoreTokenStore, holdToken
 } from '../lib/utils'
 import { DEFAULT_SETTING } from './config'
 
@@ -102,16 +103,10 @@ const game = (playerNames) => {
 
     moves: {
       selectDevelopment(G, ctx, dev, { grade, index }) {
-        const {
-          fields,
-          board,
-          developOneDeck,
-          developTwoDeck,
-          developThreeDeck
-        } = G
+        const { board } = G
 
         holdDevelopment(G, ctx, dev)
-        G.targetDevelopment = { grade, index } // dev targetting
+        G.targetDevelopment = { grade, index }
         if (index >= 0) {
           board[`dev${grade}${index}`] = null
         } else {
@@ -155,7 +150,6 @@ const game = (playerNames) => {
           fields,
           board,
           tokenStore,
-          nobleTiles,
           targetDevelopment
         } = G
         const currentPlayer = fields[ctx.currentPlayer]
@@ -241,19 +235,15 @@ const game = (playerNames) => {
       },
 
       selectToken(G, ctx, token) {
-        const { tokenStore, fields } = G
-        const { hand } = fields[ctx.currentPlayer]
-        if (tokenStore[token]) {
-          tokenStore[token]--
-          hand.tokens.push(token)
-        }
+        holdToken(G, ctx, token)
       },
 
       deselectToken(G, ctx, index) {
-        const { tokenStore, fields } = G
+        const { fields } = G
         const { hand } = fields[ctx.currentPlayer]
         const [token] = hand.tokens.splice(index, 1)
-        tokenStore[token]++
+
+        restoreTokenStore(G, token)
       },
 
       cancelSelectedToken(G, ctx) {
@@ -282,7 +272,6 @@ const game = (playerNames) => {
     },
 
     turn: {
-      // endIf: (G, ctx) => ({ next: '3' }),
       onBegin: (G, ctx) => {
         console.log('onBegin')
         const { fields } = G
@@ -327,7 +316,7 @@ const game = (playerNames) => {
               const { fields, tokenStore } = G
               const { tokenAssets } = fields[ctx.currentPlayer]
               tokenAssets[token]--
-              tokenStore[token]++
+              restoreTokenStore(G, token)
               G.tokenOverloaded--
               const tokenCount = Object.values(tokenAssets).reduce((a, t) => a + t)
               const tokenLimit = 10
