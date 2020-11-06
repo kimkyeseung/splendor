@@ -281,30 +281,29 @@ const game = (playerNames) => {
         console.log('onMove')
         const { fields, nobleTiles } = G
         const currentPlayer = fields[ctx.currentPlayer]
-        const { developments, tokenAssets, hand, done } = currentPlayer
-        if (!done) {
-          return
-        }
+        const { developments, hand, done } = currentPlayer
 
-        const gettableNobles = nobleTiles.filter(
-          noble => Object.keys(NOBLES[noble].condition)
-            .every(color => developments[color] >= NOBLES[noble].condition[color])
-        )
-
-        G.isFinal = G.isFinal || Object.keys(fields).some(
-          player => fields[player].victoryPoints >= DEFAULT_SETTING.victoryPointGoal
-        )
-
-        if (gettableNobles.length) {
-          hand.gettableNobles = gettableNobles
-          ctx.events.setStage('getNoble')
-        } else if (hand.tokens.length !== 0 || hand.development) {
-          console.log('still hand')
-        } else {
-
-          G.isFinal && ctx.playOrderPos === ctx.playOrder.length - 1
-            ? ctx.events.endGame(getWinner(G))
-            : ctx.events.endTurn()
+        if (done) {
+          const gettableNobles = nobleTiles.filter(
+            noble => Object.keys(NOBLES[noble].condition)
+              .every(color => developments[color] >= NOBLES[noble].condition[color])
+          )
+  
+          G.isFinal = G.isFinal || Object.keys(fields).some(
+            player => fields[player].victoryPoints >= DEFAULT_SETTING.victoryPointGoal
+          )
+  
+          if (gettableNobles.length) {
+            hand.gettableNobles = gettableNobles
+            ctx.events.setStage('getNoble')
+          } else if (hand.tokens.length !== 0 || hand.development) {
+            console.log('still hand')
+          } else {
+  
+            G.isFinal && ctx.playOrderPos === ctx.playOrder.length - 1
+              ? ctx.events.endGame(getWinner(G))
+              : ctx.events.endTurn()
+          }
         }
       },
       stages: {
@@ -353,6 +352,7 @@ const game = (playerNames) => {
       }
     }
   }
+  
   return Splendor
 }
 
