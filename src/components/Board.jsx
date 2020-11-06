@@ -46,8 +46,7 @@ const Board = ({
     developOneDeck,
     developTwoDeck,
     developThreeDeck,
-    tokenOverloaded,
-    targetDevelopment = {}
+    tokenOverloaded
   } = G
 
   const {
@@ -140,8 +139,8 @@ const Board = ({
           deselectDevelopment={deselectDevelopment}
           buySelectedDevelopment={buySelectedDevelopment}
           reserveSelectedDevelopment={reserveSelectedDevelopment}
-          focusedDevelopment={DEVELOPMENT_CARDS[hand.development]}
-          blind={targetDevelopment.index === -1} />
+          focusedDevelopment={DEVELOPMENT_CARDS[hand.development.name]}
+          blind={hand.development.index === -1} />
         : null}
       {controllerVisible && hand.gettableNobles && hand.gettableNobles.length
         ? <NobleController

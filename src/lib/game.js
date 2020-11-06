@@ -9,7 +9,8 @@ import {
 import { INVALID_MOVE } from 'boardgame.io/core'
 import {
   getLackAmount, getWinner, emptyHand,
-  holdDevelopment, drawOne, gainTokensFromHand,
+  holdDevelopment, drawDevelopment, reserveDevelopment,
+  gainTokensFromHand,
   restoreTokenStore, holdToken,
   gainTokenFromStore, loseTokenToStore
 } from '../lib/utils'
@@ -108,12 +109,11 @@ const game = (playerNames) => {
       selectDevelopment(G, ctx, dev, { grade, index }) {
         const { board } = G
 
-        holdDevelopment(G, ctx, dev)
-        G.targetDevelopment = { grade, index }
+        holdDevelopment(G, ctx, { grade, index, name: dev })
         if (index >= 0) {
           board[`dev${grade}${index}`] = null
         } else {
-          drawOne(G, grade)
+          drawDevelopment(G, grade)
         }
       },
 
@@ -121,115 +121,102 @@ const game = (playerNames) => {
         const {
           fields,
           board,
-          targetDevelopment,
           developOneDeck,
           developTwoDeck,
           developThreeDeck
         } = G
         const { hand } = fields[ctx.currentPlayer]
 
-        if (!hand.development || !targetDevelopment) {
-          return
-        }
+        if (hand.development) {
+          const { name, grade, index } = hand.development
 
-        const { grade, index } = targetDevelopment
-        if (index >= 0) {
-          board[`dev${grade}${index}`] = hand.development
-        } else {
-          const deck = {
-            '1': developOneDeck,
-            '2': developTwoDeck,
-            '3': developThreeDeck
+          if (index >= 0) {
+            board[`dev${grade}${index}`] = name
+          } else {
+            const deck = {
+              '1': developOneDeck,
+              '2': developTwoDeck,
+              '3': developThreeDeck
+            }
+            deck[grade].push(name)
           }
-          deck[grade].push(hand.development)
+  
+          emptyHand(G, ctx)
         }
-
-        emptyHand(G, ctx)
-        G.targetDevelopment = null
       },
 
       buyDevelopment(G, ctx) {
         const {
           fields,
           board,
-          tokenStore,
-          targetDevelopment
+          tokenStore
         } = G
         const currentPlayer = fields[ctx.currentPlayer]
         const { developments, tokenAssets, hand } = currentPlayer
 
-        const { value, valueAmount, victoryPoint, cost } = DEVELOPMENT_CARDS[hand.development]
-
-        const lackAmount = getLackAmount({ developments, token: tokenAssets }, cost)
-        const buyable = tokenAssets.yellow >= lackAmount
-
-        if (buyable) {
-          const lack = Object.keys(tokenAssets).reduce((diff, color) => {
-            const individualCost = cost[color] || 0
-            const discountedIndividualCost = individualCost > developments[color] ? individualCost - developments[color] : 0
-            if (discountedIndividualCost > tokenAssets[color]) {
-              const toPay = discountedIndividualCost - tokenAssets[color]
-              const payable = tokenAssets[color]
-              diff += (toPay - payable)
-              tokenAssets[color] -= payable
-              tokenStore[color] += payable
-            } else {
-              tokenAssets[color] -= discountedIndividualCost
-              tokenStore[color] += discountedIndividualCost
+        if (hand.development) {
+          const { name, grade, index } = hand.development
+          const { value, valueAmount, victoryPoint, cost } = DEVELOPMENT_CARDS[name]
+  
+          const lackAmount = getLackAmount({ developments, token: tokenAssets }, cost)
+          const buyable = tokenAssets.yellow >= lackAmount
+  
+          if (buyable) {
+            const lack = Object.keys(tokenAssets).reduce((diff, color) => {
+              const individualCost = cost[color] || 0
+              const discountedIndividualCost = individualCost > developments[color] ? individualCost - developments[color] : 0
+              if (discountedIndividualCost > tokenAssets[color]) {
+                const toPay = discountedIndividualCost - tokenAssets[color]
+                const payable = tokenAssets[color]
+                diff += (toPay - payable)
+                tokenAssets[color] -= payable
+                tokenStore[color] += payable
+              } else {
+                tokenAssets[color] -= discountedIndividualCost
+                tokenStore[color] += discountedIndividualCost
+              }
+  
+              return diff
+            }, 0)
+            tokenAssets.yellow -= lack
+            tokenStore.yellow += lack
+  
+            developments[value] += valueAmount
+            currentPlayer.victoryPoints += victoryPoint
+  
+            if (index >= 0) {
+              board[`dev${grade}${index}`] = drawDevelopment(G, grade)
             }
-
-            return diff
-          }, 0)
-          tokenAssets.yellow -= lack
-          tokenStore.yellow += lack
-
-          developments[value] += valueAmount
-          currentPlayer.victoryPoints += victoryPoint
-
-          const { grade, index } = targetDevelopment
-          board[`dev${grade}${index}`] = drawOne(G, grade)
-          G.targetDevelopment = null
-          hand.development = null
-
-          currentPlayer.done = true
-        } else {
-          if (typeof window === 'object') {
-            window.alert('비용이 모자랍니다.')
+            hand.development = null
+            currentPlayer.done = true
+          } else {
+            if (typeof window === 'object') {
+              window.alert('비용이 모자랍니다.')
+            }
+            return INVALID_MOVE
           }
-          return INVALID_MOVE
         }
       },
 
       reserveDevelopment(G, ctx) {
-        const {
-          fields,
-          board,
-          tokenStore,
-          targetDevelopment
-        } = G
+        const { fields } = G
         const currentPlayer = fields[ctx.currentPlayer]
         const { reservedDevs, tokenAssets, hand } = currentPlayer
 
-        const able = reserveDevelopmentValidator(reservedDevs)
-        if (able) {
+        if (reservedDevs.length < DEFAULT_SETTING.playerReserveDevelopmentLimit) {
           gainTokenFromStore(G, ctx, 'yellow')
-          reservedDevs.push(DEVELOPMENT_CARDS[hand.development].id)
-
-          const { grade, index } = targetDevelopment
-          if (index >= 0) {
-            board[`dev${grade}${index}`] = drawOne(G, grade)
+          
+          if (hand.development) {
+            reserveDevelopment(G, ctx)
+  
+            const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
+            if (tokenCount > tokenLimit) {
+              G.tokenOverloaded = tokenCount - tokenLimit
+              ctx.events.setStage('returnTokens')
+            } else {
+              currentPlayer.done = true
+            }
           }
-          hand.development = null
-
-          const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
-          if (tokenCount > tokenLimit) {
-            ctx.events.setStage('returnTokens')
-            G.tokenOverloaded = tokenCount - tokenLimit
-          } else {
-            currentPlayer.done = true
-          }
-        } else {
-          return INVALID_MOVE
         }
       },
 
@@ -352,7 +339,7 @@ const game = (playerNames) => {
       }
     }
   }
-  
+
   return Splendor
 }
 

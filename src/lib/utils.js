@@ -1,8 +1,12 @@
 export const emptyHand = (G, ctx) => {
-  const { fields, tokenStore } = G
+  const { board, fields, tokenStore } = G
   const { hand } = fields[ctx.currentPlayer]
 
   if (hand.development) {
+    const { grade, index } = hand.development
+    if (index >= 0 && !board[`dev${grade}${index}`]) {
+      board[`dev${grade}${index}`] = drawDevelopment(G, grade)
+    }
     hand.development = null
   }
 
@@ -58,15 +62,25 @@ export const getWinner = G => {
   return { winner }
 }
 
-export const holdDevelopment = (G, ctx, dev) => {
+export const holdDevelopment = (G, ctx, { name, grade, index }) => {
   const { fields } = G
   const { hand } = fields[ctx.currentPlayer]
 
   emptyHand(G, ctx)
-  hand.development = dev
+  hand.development = { name, grade, index }
 }
 
-export const drawOne = (G, grade) => {
+export const reserveDevelopment = (G, ctx) => {
+  const { fields } = G
+  const { reservedDevs, hand } = fields[ctx.currentPlayer]
+
+  if (hand.development) {
+    reservedDevs.push(hand.development.name)
+  }
+  emptyHand(G, ctx)
+}
+
+export const drawDevelopment = (G, grade) => {
   const {
     developOneDeck,
     developTwoDeck,
@@ -92,7 +106,7 @@ export const gainTokensFromHand = (G, ctx) => { // hand => asset
   hand.tokens.length = 0
 }
 
-export const restoreTokenStore = (G, token) => { 
+export const restoreTokenStore = (G, token) => {
   const { tokenStore } = G
   tokenStore[token]++
 }
