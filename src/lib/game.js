@@ -10,7 +10,8 @@ import { INVALID_MOVE } from 'boardgame.io/core'
 import {
   getLackAmount, getWinner, emptyHand,
   holdDevelopment, drawOne, gainTokensFromHand,
-  restoreTokenStore, holdToken
+  restoreTokenStore, holdToken,
+  gainTokenFromStore, loseTokenToStore
 } from '../lib/utils'
 import { DEFAULT_SETTING } from './config'
 
@@ -30,6 +31,8 @@ const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
   }
   return cards
 }, { gradeOne: [], gradeTwo: [], gradeThree: [] })
+
+const tokenLimit = DEFAULT_SETTING.playerTokenLimit
 
 const game = (playerNames) => {
   const Splendor = {
@@ -57,13 +60,13 @@ const game = (playerNames) => {
       board.dev33 = developThreeDeck.pop()
 
       const tokenStore = {}
-      const tokenCount = numPlayers * 2 - 1 + (numPlayers === 2 ? 1 : 0)
+      const initialTokenCount = numPlayers * 2 - 1 + (numPlayers === 2 ? 1 : 0)
       tokenStore.red
         = tokenStore.blue
         = tokenStore.black
         = tokenStore.white
         = tokenStore.green
-        = tokenCount
+        = initialTokenCount
       tokenStore.yellow = 5
 
       const fields = {}
@@ -209,10 +212,7 @@ const game = (playerNames) => {
 
         const able = reserveDevelopmentValidator(reservedDevs)
         if (able) {
-          if (tokenStore.yellow) {
-            tokenStore.yellow--
-            tokenAssets.yellow++
-          }
+          gainTokenFromStore(G, ctx, 'yellow')
           reservedDevs.push(DEVELOPMENT_CARDS[hand.development].id)
 
           const { grade, index } = targetDevelopment
@@ -221,7 +221,6 @@ const game = (playerNames) => {
           }
           hand.development = null
 
-          const tokenLimit = DEFAULT_SETTING.playerTokenLimit
           const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
           if (tokenCount > tokenLimit) {
             ctx.events.setStage('returnTokens')
@@ -260,7 +259,6 @@ const game = (playerNames) => {
 
         gainTokensFromHand(G, ctx)
 
-        const tokenLimit = DEFAULT_SETTING.playerTokenLimit
         const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
         if (tokenCount > tokenLimit) {
           G.tokenOverloaded = tokenCount - tokenLimit
@@ -313,13 +311,11 @@ const game = (playerNames) => {
         returnTokens: {
           moves: {
             returnTokens(G, ctx, token) {
-              const { fields, tokenStore } = G
+              const { fields } = G
               const { tokenAssets } = fields[ctx.currentPlayer]
-              tokenAssets[token]--
-              restoreTokenStore(G, token)
+              loseTokenToStore(G, ctx, token)
               G.tokenOverloaded--
               const tokenCount = Object.values(tokenAssets).reduce((a, t) => a + t)
-              const tokenLimit = 10
               if (tokenCount <= tokenLimit && G.tokenOverloaded === 0) {
                 ctx.events.endTurn()
               }

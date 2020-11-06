@@ -82,7 +82,7 @@ export const drawOne = (G, grade) => {
   return deck[grade].pop()
 }
 
-export const gainTokensFromHand = (G, ctx) => {
+export const gainTokensFromHand = (G, ctx) => { // hand => asset
   const { fields } = G
   const { hand, tokenAssets } = fields[ctx.currentPlayer]
 
@@ -92,16 +92,36 @@ export const gainTokensFromHand = (G, ctx) => {
   hand.tokens.length = 0
 }
 
-export const restoreTokenStore = (G, token) => {
+export const restoreTokenStore = (G, token) => { 
   const { tokenStore } = G
   tokenStore[token]++
 }
 
-export const holdToken = ({ G, ctx, token}) => {
+export const holdToken = (G, ctx, token) => { // store => hand
   const { tokenStore, fields } = G
   const { hand } = fields[ctx.currentPlayer]
   if (tokenStore[token]) {
     tokenStore[token]--
     hand.tokens.push(token)
+  }
+}
+
+export const gainTokenFromStore = (G, ctx, token) => { // store => asset
+  const { tokenStore, fields } = G
+  const { tokenAssets } = fields[ctx.currentPlayer]
+
+  if (tokenStore[token]) {
+    tokenStore[token]--
+    tokenAssets[token]++
+  }
+}
+
+export const loseTokenToStore = (G, ctx, token) => { // asset => store
+  const { tokenStore, fields } = G
+  const { tokenAssets } = fields[ctx.currentPlayer]
+
+  if (tokenAssets[token]) {
+    tokenStore[token]++
+    tokenAssets[token]--
   }
 }
