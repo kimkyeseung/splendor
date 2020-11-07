@@ -141,7 +141,7 @@ const game = (playerNames) => {
             }
             deck[grade].push(name)
           }
-  
+
           emptyHand(G, ctx)
         }
       },
@@ -156,15 +156,15 @@ const game = (playerNames) => {
         const { developments, tokenAssets, hand } = currentPlayer
 
         if (hand.development) {
-          const { name, grade, index } = hand.development
-          const { cost } = DEVELOPMENT_CARDS[name]
-  
+          const { cost } = DEVELOPMENT_CARDS[hand.development.name]
           const buyable = buyDevelopmentValidator(G, ctx)
-  
+
           if (buyable) {
             const lack = Object.keys(tokenAssets).reduce((diff, color) => {
               const individualCost = cost[color] || 0
-              const discountedIndividualCost = individualCost > developments[color] ? individualCost - developments[color] : 0
+              const discountedIndividualCost = individualCost > developments[color]
+                ? individualCost - developments[color]
+                : 0
               if (discountedIndividualCost > tokenAssets[color]) {
                 const toPay = discountedIndividualCost - tokenAssets[color]
                 const payable = tokenAssets[color]
@@ -175,18 +175,13 @@ const game = (playerNames) => {
                 tokenAssets[color] -= discountedIndividualCost
                 tokenStore[color] += discountedIndividualCost
               }
-  
+
               return diff
             }, 0)
             tokenAssets.yellow -= lack
             tokenStore.yellow += lack
-  
+
             gainDevelopment(G, ctx)
-  
-            if (index >= 0) {
-              board[`dev${grade}${index}`] = drawDevelopment(G, grade)
-            }
-            hand.development = null
             currentPlayer.done = true
           } else {
             if (typeof window === 'object') {
@@ -204,10 +199,10 @@ const game = (playerNames) => {
 
         if (reservedDevs.length < DEFAULT_SETTING.playerReserveDevelopmentLimit) {
           gainTokenFromStore(G, ctx, 'yellow')
-          
+
           if (hand.development) {
             reserveDevelopment(G, ctx)
-  
+
             const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
             if (tokenCount > tokenLimit) {
               G.tokenOverloaded = tokenCount - tokenLimit
@@ -274,18 +269,18 @@ const game = (playerNames) => {
             noble => Object.keys(NOBLES[noble].condition)
               .every(color => developments[color] >= NOBLES[noble].condition[color])
           )
-  
+
           G.isFinal = G.isFinal || Object.keys(fields).some(
             player => fields[player].victoryPoints >= DEFAULT_SETTING.victoryPointGoal
           )
-  
+
           if (gettableNobles.length) {
             hand.gettableNobles = gettableNobles
             ctx.events.setStage('getNoble')
           } else if (hand.tokens.length !== 0 || hand.development) {
             console.log('still hand')
           } else {
-  
+
             G.isFinal && ctx.playOrderPos === ctx.playOrder.length - 1
               ? ctx.events.endGame(getWinner(G))
               : ctx.events.endTurn()

@@ -2,26 +2,53 @@ import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
 import NOBLES from '../assets/nobles.json'
 
 import {
-  emptyHand
+  emptyHand, getDevelopmentValues
 } from './utils'
 
-describe('테스트가 실행은 되는지..', () => {
-  function clickCell(G, ctx, id) {
-    G.cells[id] = ctx.currentPlayer
+describe('개별 기능 작동 검사', () => {
+  const G = {}
+  const initialValues = {
+    red: 0, green: 0, blue: 0, white: 0, black: 0
+  }
+  const currentPlayer = '1'
+  const ctx = { currentPlayer }
+  G.fields = {
+    [currentPlayer]: {}
   }
 
-  it('should place the correct value in the cell', () => {
-    // original state.
-    const G = {
-      cells: [null, null, null, null, null, null, null, null, null],
+  it('getDevelopmentValues', () => {
+    G.fields[currentPlayer].developments = ['101B', '109G']
+    const values = getDevelopmentValues(G, ctx)
+    expect(values).toEqual({
+      ...initialValues,
+      green: 1, blue: 1
+    })
+  })
+
+  describe('emptyHand', () => {
+    G.fields[currentPlayer].hand = {
+      tokens: [],
+      development: null
+    }
+    G.tokenStore = {
+      green: 0, white: 0, black: 0,
+      blue: 0, red: 0, yellow: 5
     }
 
-    // make move.
-    clickCell(G, { currentPlayer: '1' }, 3)
+    it('손에 가지고 있는 토큰이 없어야 한다.', () => {
+      G.fields[currentPlayer].hand.tokens.push('white')
+      G.fields[currentPlayer].hand.tokens.push('green')
+      G.fields[currentPlayer].hand.tokens.push('blue')
+      emptyHand(G, ctx)
 
-    // verify new state.
-    expect(G).toEqual({
-      cells: [null, null, null, '1', null, null, null, null, null],
+      expect(G.fields[currentPlayer].hand.tokens).toHaveLength(0)
+    })
+
+    it('손에 가지고 있는 개발카드가 없어야 한다.', () => {
+      G.fields[currentPlayer].hand.development = { name: "127R" }
+      emptyHand(G, ctx)
+
+      expect(G.fields[currentPlayer].hand.development).toBeNull()
     })
   })
 })
