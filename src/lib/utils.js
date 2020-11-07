@@ -40,7 +40,7 @@ export const getWinner = G => {
     return { winner: winners[0] }
   }
   const devCounts = winners.map(player => {
-    
+
     const devCount = Object.values(getDevelopmentValues(G, { currentPlayer: player })).reduce(
       (count, value) => count + value
     )
@@ -95,16 +95,17 @@ export const payDevelopmentPrice = (G, ctx) => {
   const { tokenAssets, hand } = fields[ctx.currentPlayer]
   const { cost } = DEVELOPMENT_CARDS[hand.development.name]
   const developmentsValues = getDevelopmentValues(G, ctx)
+
   const lack = Object.keys(tokenAssets).reduce((diff, value) => {
     const individualCost = cost[value] || 0
-    const discountedIndividualCost = individualCost > developmentsValues[value]
-      ? individualCost - developmentsValues[value]
-      : 0
+    const discountedIndividualCost = developmentsValues[value] > individualCost
+      ? 0
+      : individualCost - developmentsValues[value]
+
     if (discountedIndividualCost > tokenAssets[value]) {
-      const toPay = discountedIndividualCost - tokenAssets[value]
-      const payable = tokenAssets[value]
-      diff += (toPay - payable)
-      payToken(G, ctx, value, payable)
+      diff += discountedIndividualCost - tokenAssets[value]
+
+      payToken(G, ctx, value, tokenAssets[value])
     } else {
       payToken(G, ctx, value, discountedIndividualCost)
     }
