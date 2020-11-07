@@ -12,7 +12,7 @@ import {
   holdDevelopment, drawDevelopment,
   reserveDevelopment, gainDevelopment,
   gainTokensFromHand,
-  restoreTokenStore, holdToken,
+  restoreTokenStore, holdToken, payDevelopmentPrice,
   gainTokenFromStore, loseTokenToStore
 } from '../lib/utils'
 import { DEFAULT_SETTING } from './config'
@@ -76,7 +76,7 @@ const game = (playerNames) => {
       Array(numPlayers).fill(1).forEach((a, i) => {
         fields[i] = {
           name: playerNames[i] || i,
-          developments: { ...defaultValues },
+          developments: [],
           tokenAssets: { ...defaultValues },
           reservedDevs: [],
           nobles: [],
@@ -147,40 +147,15 @@ const game = (playerNames) => {
       },
 
       buyDevelopment(G, ctx) {
-        const {
-          fields,
-          board,
-          tokenStore
-        } = G
+        const { fields } = G
         const currentPlayer = fields[ctx.currentPlayer]
-        const { developments, tokenAssets, hand } = currentPlayer
+        const { hand } = currentPlayer
 
         if (hand.development) {
-          const { cost } = DEVELOPMENT_CARDS[hand.development.name]
           const buyable = buyDevelopmentValidator(G, ctx)
 
           if (buyable) {
-            const lack = Object.keys(tokenAssets).reduce((diff, color) => {
-              const individualCost = cost[color] || 0
-              const discountedIndividualCost = individualCost > developments[color]
-                ? individualCost - developments[color]
-                : 0
-              if (discountedIndividualCost > tokenAssets[color]) {
-                const toPay = discountedIndividualCost - tokenAssets[color]
-                const payable = tokenAssets[color]
-                diff += (toPay - payable)
-                tokenAssets[color] -= payable
-                tokenStore[color] += payable
-              } else {
-                tokenAssets[color] -= discountedIndividualCost
-                tokenStore[color] += discountedIndividualCost
-              }
-
-              return diff
-            }, 0)
-            tokenAssets.yellow -= lack
-            tokenStore.yellow += lack
-
+            payDevelopmentPrice(G, ctx)
             gainDevelopment(G, ctx)
             currentPlayer.done = true
           } else {
