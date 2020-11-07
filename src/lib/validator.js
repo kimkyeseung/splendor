@@ -1,3 +1,6 @@
+import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
+import { getDevelopmentValues } from './utils'
+
 export const getTokenValidator = (tokens = [], tokenStore) => {
   switch (tokens.length) {
     case 2: {
@@ -34,6 +37,22 @@ export const tokenLimitValidator = (token = {}) => {
 //   return token.yellow >= diff
 // }
 
-export const buyDevelopmentValidator = (token, lack) => token.yellow >= lack
+export const buyDevelopmentValidator = (G, ctx) => {
+  const { fields } = G
+  const { tokenAssets, hand } = fields[ctx.currentPlayer]
+  const developmentValues = getDevelopmentValues(G, ctx)
+  const total = {}
+
+  Object.keys(developmentValues).forEach(color => {
+    total[color] = developmentValues[color] + tokenAssets[color]
+  })
+  const { cost } = DEVELOPMENT_CARDS[hand.development.name]
+  const lack = Object.keys(cost)
+    .reduce((diffAmount, color) => cost[color] > total[color]
+      ? diffAmount + (cost[color] - total[color])
+      : diffAmount, 0)
+
+  return tokenAssets.yellow >= lack
+}
 
 export const reserveDevelopmentValidator = (reserved = []) => reserved.length < 3

@@ -8,8 +8,9 @@ import {
 } from './validator'
 import { INVALID_MOVE } from 'boardgame.io/core'
 import {
-  getLackAmount, getWinner, emptyHand,
-  holdDevelopment, drawDevelopment, reserveDevelopment,
+  getWinner, emptyHand,
+  holdDevelopment, drawDevelopment,
+  reserveDevelopment, gainDevelopment,
   gainTokensFromHand,
   restoreTokenStore, holdToken,
   gainTokenFromStore, loseTokenToStore
@@ -156,10 +157,9 @@ const game = (playerNames) => {
 
         if (hand.development) {
           const { name, grade, index } = hand.development
-          const { value, valueAmount, victoryPoint, cost } = DEVELOPMENT_CARDS[name]
+          const { cost } = DEVELOPMENT_CARDS[name]
   
-          const lackAmount = getLackAmount({ developments, token: tokenAssets }, cost)
-          const buyable = tokenAssets.yellow >= lackAmount
+          const buyable = buyDevelopmentValidator(G, ctx)
   
           if (buyable) {
             const lack = Object.keys(tokenAssets).reduce((diff, color) => {
@@ -181,8 +181,7 @@ const game = (playerNames) => {
             tokenAssets.yellow -= lack
             tokenStore.yellow += lack
   
-            developments[value] += valueAmount
-            currentPlayer.victoryPoints += victoryPoint
+            gainDevelopment(G, ctx)
   
             if (index >= 0) {
               board[`dev${grade}${index}`] = drawDevelopment(G, grade)

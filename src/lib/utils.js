@@ -1,3 +1,6 @@
+import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
+import NOBLES from '../assets/nobles.json'
+
 export const emptyHand = (G, ctx) => {
   const { board, fields, tokenStore } = G
   const { hand } = fields[ctx.currentPlayer]
@@ -16,19 +19,6 @@ export const emptyHand = (G, ctx) => {
     })
     hand.tokens.length = 0
   }
-}
-
-export const getLackAmount = ({ developments, token }, cost) => {
-  const total = {}
-  Object.keys(developments).forEach(color => {
-    total[color] = developments[color] + token[color]
-  })
-  const lack = Object.keys(cost)
-    .reduce((diffAmount, color) => cost[color] > total[color]
-      ? diffAmount + (cost[color] - total[color])
-      : diffAmount, 0)
-
-  return lack
 }
 
 export const getWinner = G => {
@@ -79,6 +69,18 @@ export const reserveDevelopment = (G, ctx) => {
   }
   emptyHand(G, ctx)
 }
+
+export const gainDevelopment = (G, ctx) => {
+  const { fields } = G
+  const { hand, developments } = fields[ctx.currentPlayer]
+
+  if (hand.development) {
+    developments.push(hand.development.name)
+  }
+  emptyHand(G, ctx)
+}
+
+export const payToken = () => {}
 
 export const drawDevelopment = (G, grade) => {
   const {
@@ -138,4 +140,38 @@ export const loseTokenToStore = (G, ctx, token) => { // asset => store
     tokenStore[token]++
     tokenAssets[token]--
   }
+}
+
+export const getVictoryPoints = (G, ctx) => {
+  const { fields } = G
+  const { developments, nobles } = fields[ctx.currentPlayer]
+
+  const devScore = developments.reduce(
+    (victoryPoint, dev) => victoryPoint + DEVELOPMENT_CARDS[dev].victoryPoint, 0
+  )
+  const nobleScore = nobles.reduce(
+    (victoryPoint, noble) => victoryPoint + NOBLES[noble].victoryPoint, 0
+  )
+
+  return devScore + nobleScore
+}
+
+export const getDevelopmentValues = (G, ctx) => {
+  const { fields } = G
+  const { developments } = fields[ctx.currentPlayer]
+
+  const values = {}
+  values.red = 0
+  values.green = 0
+  values.blue = 0
+  values.black = 0
+  values.white = 0
+
+  developments.forEach(dev => {
+    const { value, valueAmount } = DEVELOPMENT_CARDS[dev]
+
+    values[value] += valueAmount
+  })
+
+  return values
 }
