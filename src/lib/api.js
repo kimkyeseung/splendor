@@ -1,5 +1,5 @@
 import { GAME_NAME, GAME_SERVER_URL, APP_PRODUCTION } from './config'
-import ky from 'ky'
+import ky from 'ky-universal'
 const server = APP_PRODUCTION
   ? `https://${window.location.hostname}`
   : GAME_SERVER_URL
