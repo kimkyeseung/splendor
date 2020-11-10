@@ -98,10 +98,10 @@ export const payDevelopmentPrice = (G, ctx) => {
 
   const lack = Object.keys(tokenAssets).reduce((diff, value) => {
     const individualCost = cost[value] || 0
-    const discountedIndividualCost = (developmentsValues?.[value] || 0) > individualCost
+    const discountedIndividualCost = (developmentsValues && developmentsValues[value] || 0) > individualCost
       ? 0
-      : individualCost - developmentsValues?.[value] || 0
-      
+      : individualCost - developmentsValues[value] || 0
+
     if (discountedIndividualCost > tokenAssets[value]) {
       diff += discountedIndividualCost - tokenAssets[value]
 
