@@ -1,1 +1,1 @@
-web: node -r esm server.js
+web: APP_PRODUCTION=true node -r esm server.js

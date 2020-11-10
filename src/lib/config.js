@@ -2,7 +2,7 @@ export const GAME_NAME = 'splendor'
 export const GAME_SERVER_PORT = 8000
 export const GAME_SERVER_URL = `http://localhost:${GAME_SERVER_PORT}`
 export const WEB_SERVER_URL = 'http://localhost:8000'
-export const APP_PRODUCTION = false
+export const APP_PRODUCTION = process.env.PRODUCTION || false
 export const DEFAULT_SETTING = {
   victoryPointGoal: 1, // 15
   maximumPlayerNumber: 4,
