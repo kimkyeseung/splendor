@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { Blank, Flex } from './units'
-import { Box, Button, Modal } from './ui'
-import { toast } from 'react-toastify'
+import { Box, Button } from './ui'
+import { ON_DEVELOPMENT } from '../lib/config'
 
 const Title = styled.div`
   text-align: center;
@@ -52,7 +52,7 @@ const GameId = styled.div`
 `
 
 
-const Lobby = ({ gameId, players = [], isHost, startGame, myId }) => {
+const Lobby = ({ gameId, players = [], isHost, startGame, myId, serverURL }) => {
   const textAreaRef = useRef(null)
 
   const copyText = () => {
@@ -76,12 +76,12 @@ const Lobby = ({ gameId, players = [], isHost, startGame, myId }) => {
               <GameId
                 ref={textAreaRef}
                 readOnly
-              >{`http://localhost:3000/lobby/${gameId}`}</GameId>
+              >{`${serverURL}/lobby/${gameId}`}</GameId>
               <Button onClick={() => {
                 copyText()
               }}>Copy</Button>
             </Flex>
-            <a href={`http://localhost:3000/lobby/${gameId}`} target="_blank" >go</a>
+            {ON_DEVELOPMENT && <a href={`${serverURL}/lobby/${gameId}`} target="_blank" >go</a>}
             <List>
               {players.reduce((list, player, index) => {
                 const isMe = myId === player.id
@@ -102,6 +102,7 @@ const Lobby = ({ gameId, players = [], isHost, startGame, myId }) => {
                 <Empty key={3}>wait for Player</Empty>
               ])}
             </List>
+            <Blank height={20} />
             {isHost && <div>
               <Button primary disabled={players.length < 2} onClick={ev => {
                 ev.preventDefault()

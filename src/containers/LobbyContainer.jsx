@@ -16,6 +16,9 @@ class LobbyContainer extends Component {
       id: props.match.params.id,
       joined: []
     }
+    this.server = ON_DEVELOPMENT
+      ? GAME_SERVER_URL
+      : `https://${window.location.hostname}`
     this.joinRoom = this.joinRoom.bind(this)
     this.checkRoomState = this.checkRoomState.bind(this)
     this.getGameClient = this.getGameClient.bind(this)
@@ -131,9 +134,6 @@ class LobbyContainer extends Component {
   getGameClient = () => {
     const { joined, id, myId, userAuthToken, } = this.state
     const { history } = this.props
-    const server = ON_DEVELOPMENT
-    ? GAME_SERVER_URL
-    : `https://${window.location.hostname}`
 
     const Splendor = game(joined.length)
     const SplendorGame = Client({
@@ -141,7 +141,7 @@ class LobbyContainer extends Component {
       board: props => (
         <Board {...props} history={history} />
       ),
-      multiplayer: SocketIO({ server })
+      multiplayer: SocketIO({ server: this.server })
     })
 
     return (
@@ -173,7 +173,6 @@ class LobbyContainer extends Component {
 
   render() {
     const { joined, myId, id, started } = this.state
-    const { history } = this.props
 
     if (started) {
       return this.getGameClient()
@@ -189,6 +188,7 @@ class LobbyContainer extends Component {
         myId={myId}
         gameId={id}
         isHost={joined.length && joined[0].id === myId}
+        serverURL={this.server}
         startGame={() => {
           this.startGame()
         }} />
