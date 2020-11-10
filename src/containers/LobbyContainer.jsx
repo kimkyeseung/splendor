@@ -5,7 +5,7 @@ import Board from './BoardContainer'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import { game } from '../lib'
 import Lobby from '../components/Lobby'
-import { APP_PRODUCTION, GAME_SERVER_URL } from '../lib/config'
+import { ON_DEVELOPMENT, GAME_SERVER_URL } from '../lib/config'
 
 const api = new LobbyApi()
 
@@ -131,9 +131,9 @@ class LobbyContainer extends Component {
   getGameClient = () => {
     const { joined, id, myId, userAuthToken, } = this.state
     const { history } = this.props
-    const server = APP_PRODUCTION
-    ? `https://${window.location.hostname}`
-    : GAME_SERVER_URL
+    const server = ON_DEVELOPMENT
+    ? GAME_SERVER_URL
+    : `https://${window.location.hostname}`
 
     const Splendor = game(joined.length)
     const SplendorGame = Client({

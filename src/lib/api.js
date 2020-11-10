@@ -1,10 +1,10 @@
-import { GAME_NAME, GAME_SERVER_URL, APP_PRODUCTION } from './config'
+import { GAME_NAME, GAME_SERVER_URL, ON_DEVELOPMENT } from './config'
 import ky from 'ky-universal'
-const server = APP_PRODUCTION
-  ? `https://${window.location.hostname}`
-  : GAME_SERVER_URL
+const server = ON_DEVELOPMENT
+  ? GAME_SERVER_URL
+  : `https://${window.location.hostname}`
 
-console.log({ APP_PRODUCTION })
+console.log({ ON_DEVELOPMENT })
 
 export class LobbyApi {
   constructor() {
