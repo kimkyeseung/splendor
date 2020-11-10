@@ -4,6 +4,8 @@ const server = APP_PRODUCTION
   ? `https://${window.location.hostname}`
   : GAME_SERVER_URL
 
+console.log({ APP_PRODUCTION })
+
 export class LobbyApi {
   constructor() {
     this.api = ky.create({

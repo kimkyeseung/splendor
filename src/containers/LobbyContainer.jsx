@@ -5,7 +5,7 @@ import Board from './BoardContainer'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import { game } from '../lib'
 import Lobby from '../components/Lobby'
-import { APP_PRODUCTION } from '../lib/config'
+import { APP_PRODUCTION, GAME_SERVER_URL } from '../lib/config'
 
 const api = new LobbyApi()
 
