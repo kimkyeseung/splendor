@@ -86,168 +86,170 @@ describe('개별 기능 작동 검사', () => {
       }
     })
 
-    // it('토큰만으로 단일 비용 개발 카드 구매', () => {
-    //   const target = {
-    //     grade: 1,
-    //     id: '110G',
-    //     value: 'green',
-    //     valueAmount: 1,
-    //     victoryPoint: 1,
-    //     cost: {
-    //       black: 4
-    //     },
-    //     set: 'original'
-    //   }
+    it('토큰만으로 단일 비용 개발 카드 구매', () => {
+      const target = {
+        grade: 1,
+        id: '110G',
+        value: 'green',
+        valueAmount: 1,
+        victoryPoint: 1,
+        cost: {
+          black: 4
+        },
+        set: 'original'
+      }
 
-    //   setTokenAssets({ black: 5 })
-    //   setTargetDevelopment({ name: target.id })
+      setTokenAssets({ black: 5 })
+      setTargetDevelopment({ name: target.id })
 
-    //   payDevelopmentPrice(G, ctx)
+      payDevelopmentPrice(G, ctx)
 
-    //   expect(G.tokenStore).toEqual({
-    //     ...initialTokenAssets,
-    //     black: 4
-    //   })
-    //   expect(G.fields[currentPlayer].tokenAssets).toEqual(initialTokenAssets)
-    // })
+      expect(G.tokenStore).toEqual({
+        ...initialTokenAssets,
+        black: 4
+      })
+      expect(G.fields[currentPlayer].tokenAssets).toEqual({ ...initialTokenAssets, black: 1 })
+    })
 
-    // it('개발 카드로 비용을 할인받아 단일 비용 개발 카드 구매', () => {
-    //   const target = {
-    //     grade: 1,
-    //     id: '110G',
-    //     value: 'green',
-    //     valueAmount: 1,
-    //     victoryPoint: 1,
-    //     cost: {
-    //       black: 4
-    //     },
-    //     set: 'original'
-    //   }
+    it('개발 카드로 비용을 할인받아 단일 비용 개발 카드 구매', () => {
+      const target = {
+        grade: 1,
+        id: '110G',
+        value: 'green',
+        valueAmount: 1,
+        victoryPoint: 1,
+        cost: {
+          black: 4
+        },
+        set: 'original'
+      }
 
-    //   setDevelopments(Object.keys(DEVELOPMENT_CARDS).find(dev => DEVELOPMENT_CARDS[dev].value === 'black'))
-    //   setTokenAssets({ black: 3 })
-    //   setTargetDevelopment({ name: target.id })
+      setDevelopments(Object.keys(DEVELOPMENT_CARDS).find(dev => DEVELOPMENT_CARDS[dev].value === 'black'))
+      setTokenAssets({ black: 3 })
+      setTargetDevelopment({ name: target.id })
 
-    //   payDevelopmentPrice(G, ctx)
+      payDevelopmentPrice(G, ctx)
 
-    //   expect(G.tokenStore).toEqual({
-    //     ...initialTokenAssets,
-    //     black: 3
-    //   })
-    //   expect(G.fields[currentPlayer].tokenAssets).toEqual(initialTokenAssets)
-    // })
+      expect(G.tokenStore).toEqual({
+        ...initialTokenAssets,
+        black: 3
+      })
+      expect(G.fields[currentPlayer].tokenAssets).toEqual(initialTokenAssets)
+    })
 
-    // it('토큰만으로 복합 비용 개발 카드 구매', () => {
-    //   const target = {
-    //     grade: 3,
-    //     id: '312K',
-    //     value: 'black',
-    //     valueAmount: 1,
-    //     victoryPoint: 3,
-    //     cost: {
-    //       red: 3,
-    //       green: 5,
-    //       blue: 3,
-    //       white: 3
-    //     },
-    //     set: 'original'
-    //   }
+    it('토큰만으로 복합 비용 개발 카드 구매', () => {
+      const target = {
+        grade: 3,
+        id: '312K',
+        value: 'black',
+        valueAmount: 1,
+        victoryPoint: 3,
+        cost: {
+          red: 3,
+          green: 5,
+          blue: 3,
+          white: 3
+        },
+        set: 'original'
+      }
 
-    //   setTokenAssets({
-    //     red: 5,
-    //     green: 5,
-    //     blue: 5,
-    //     white: 5
-    //   })
-    //   setTargetDevelopment({ name: target.id })
+      setTokenAssets({
+        red: 5,
+        green: 5,
+        blue: 5,
+        white: 5
+      })
+      setTargetDevelopment({ name: target.id })
 
-    //   payDevelopmentPrice(G, ctx)
+      payDevelopmentPrice(G, ctx)
 
-    //   expect(G.tokenStore).toEqual({
-    //     ...initialTokenAssets,
-    //     red: 3,
-    //     green: 5,
-    //     blue: 3,
-    //     white: 3
-    //   })
-    //   expect(G.fields[currentPlayer].tokenAssets).toEqual({
-    //     ...initialTokenAssets,
-    //     red: 2, blue: 2, white: 2
-    //   })
-    // })
+      expect(G.tokenStore).toEqual({
+        ...initialTokenAssets,
+        red: 3,
+        green: 5,
+        blue: 3,
+        white: 3
+      })
+      expect(G.fields[currentPlayer].tokenAssets).toEqual({
+        ...initialTokenAssets,
+        red: 2, blue: 2, white: 2
+      })
+    })
 
-    // it('개발 카드로 비용을 할인받아 복합 비용 개발 카드 구매', () => {
-    //   const target = {
-    //     grade: 3,
-    //     id: '312K',
-    //     value: 'black',
-    //     valueAmount: 1,
-    //     victoryPoint: 3,
-    //     cost: {
-    //       red: 3,
-    //       green: 5,
-    //       blue: 3,
-    //       white: 3
-    //     },
-    //     set: 'original'
-    //   }
+    it('개발 카드로 비용을 할인받아 복합 비용 개발 카드 구매', () => {
+      const target = {
+        grade: 3,
+        id: '312K',
+        value: 'black',
+        valueAmount: 1,
+        victoryPoint: 3,
+        cost: {
+          red: 3,
+          green: 5,
+          blue: 3,
+          white: 3
+        },
+        set: 'original'
+      }
 
-    //   setDevelopments(
-    //     Object.keys(DEVELOPMENT_CARDS).find(dev => DEVELOPMENT_CARDS[dev].value === 'red'),
-    //     Object.keys(DEVELOPMENT_CARDS).find(dev => DEVELOPMENT_CARDS[dev].value === 'green'),
-    //     Object.keys(DEVELOPMENT_CARDS).find(dev => DEVELOPMENT_CARDS[dev].value === 'blue')
-    //   )
-    //   setTokenAssets({
-    //     red: 2,
-    //     green: 4,
-    //     blue: 2,
-    //     white: 3
-    //   })
-    //   setTargetDevelopment({ name: target.id })
+      setDevelopments(
+        Object.keys(DEVELOPMENT_CARDS).find(dev => DEVELOPMENT_CARDS[dev].value === 'red'),
+        Object.keys(DEVELOPMENT_CARDS).find(dev => DEVELOPMENT_CARDS[dev].value === 'green'),
+        Object.keys(DEVELOPMENT_CARDS).find(dev => DEVELOPMENT_CARDS[dev].value === 'blue')
+      )
+      setTokenAssets({
+        red: 2,
+        green: 4,
+        blue: 2,
+        white: 3
+      })
+      setTargetDevelopment({ name: target.id })
 
-    //   payDevelopmentPrice(G, ctx)
+      payDevelopmentPrice(G, ctx)
 
-    //   expect(G.tokenStore).toEqual({
-    //     ...initialTokenAssets,
-    //     red: 2,
-    //     green: 4,
-    //     blue: 2,
-    //     white: 3
-    //   })
-    //   expect(G.fields[currentPlayer].tokenAssets).toEqual({ ...initialTokenAssets })
-    // })
+      expect(G.tokenStore).toEqual({
+        ...initialTokenAssets,
+        red: 2,
+        green: 4,
+        blue: 2,
+        white: 3
+      })
+      expect(G.fields[currentPlayer].tokenAssets).toEqual({ ...initialTokenAssets })
+    })
 
-    // it('토큰이 부족하지만 황금토큰 사용으로 단일 비용 개발 카드 구매', () => {
-    //   const target = {
-    //     grade: 1,
-    //     id: '110G',
-    //     value: 'green',
-    //     valueAmount: 1,
-    //     victoryPoint: 1,
-    //     cost: {
-    //       black: 4
-    //     },
-    //     set: 'original'
-    //   }
+    it('토큰이 부족하지만 황금토큰 사용으로 단일 비용 개발 카드 구매', () => {
+      const target = {
+        grade: 1,
+        id: '110G',
+        value: 'green',
+        valueAmount: 1,
+        victoryPoint: 1,
+        cost: {
+          black: 4
+        },
+        set: 'original'
+      }
 
-    //   setTokenAssets({
-    //     red: 4,
-    //     black: 3,
-    //     yellow: 1
-    //   })
-    //   setTargetDevelopment({
-    //     name: target.id
-    //   })
+      setTokenAssets({
+        red: 4,
+        black: 3,
+        yellow: 1
+      })
+      setTargetDevelopment({
+        name: target.id
+      })
 
-    //   payDevelopmentPrice(G, ctx)
+      payDevelopmentPrice(G, ctx)
 
-    //   expect(G.tokenStore).toEqual({
-    //     ...initialTokenAssets,
-    //     black: 3,
-    //     yellow: 1
-    //   })
-    //   expect(G.fields[currentPlayer].tokenAssets).toEqual(initialTokenAssets)
-    // })
+      expect(G.tokenStore).toEqual({
+        ...initialTokenAssets,
+        black: 3,
+        yellow: 1
+      })
+      expect(G.fields[currentPlayer].tokenAssets).toEqual({
+        ...initialTokenAssets, red: 4
+      })
+    })
 
     it('토큰이 부족하지만 황금토큰 사용으로 복합 비용 개발 카드 구매', () => {
       const target = {
@@ -287,7 +289,7 @@ describe('개별 기능 작동 검사', () => {
         black: 3,
         yellow: 3
       })
-      expect(G.fields[currentPlayer].tokenAssets).toEqual(initialTokenAssets)
+      expect(G.fields[currentPlayer].tokenAssets).toEqual({ ...initialTokenAssets, white: 1 })
     })
   })
 })
