@@ -21,7 +21,7 @@ const Card = ({ dev, blind, ...props }) => {
   if (!dev) {
     return <Space empty />
   }
-  const { grade, cost, value, victoryPoint } = DEVELOPMENT_CARDS[dev]
+  const { grade, cost, value, victoryPoint, id } = DEVELOPMENT_CARDS[dev]
 
   if (blind) {
     return (
@@ -34,7 +34,7 @@ const Card = ({ dev, blind, ...props }) => {
   }
 
   return (
-    <Space backgroundUrl={`/image/${value + grade}.jpg`} {...props}>
+    <Space className={`DEV${id}`} {...props}>
       <Flex className="header">
         <VictoryPoints className="vp">{victoryPoint ? victoryPoint : ''}</VictoryPoints>
         <Value className="value" value={value} />

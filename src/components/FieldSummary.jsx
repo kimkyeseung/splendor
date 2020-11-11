@@ -60,6 +60,7 @@ const Token = styled.div`
 Development.Wrapper = styled.div`
   display: flex;
   max-width: 160px;
+  min-width: 140px;
   padding: 0.2rem 0;
   flex-wrap: wrap;
 `

@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import Cost from './Cost'
 import NOBLES from '../assets/nobles.json'
 
-const sideSize = 150
+const basicSize = 150
 
 const background = css`
   background-repeat: no-repeat;
@@ -12,15 +12,15 @@ const background = css`
   background-size: cover;
   background-position-y: 0;
   &.NB01 { background-position-x: 0; }
-  &.NB02 { background-position-x: -${sideSize}px; }
-  &.NB03 { background-position-x: -${sideSize * 2}px; }
-  &.NB04 { background-position-x: -${sideSize * 3}px; }
-  &.NB05 { background-position-x: -${sideSize * 4}px; }
-  &.NB06 { background-position-x: -${sideSize * 5}px; }
-  &.NB07 { background-position-x: -${sideSize * 6}px; }
-  &.NB08 { background-position-x: -${sideSize * 7}px; }
-  &.NB09 { background-position-x: -${sideSize * 8}px; }
-  &.NB10 { background-position-x: -${sideSize * 9}px; }
+  &.NB02 { background-position-x: -${basicSize}px; }
+  &.NB03 { background-position-x: -${basicSize * 2}px; }
+  &.NB04 { background-position-x: -${basicSize * 3}px; }
+  &.NB05 { background-position-x: -${basicSize * 4}px; }
+  &.NB06 { background-position-x: -${basicSize * 5}px; }
+  &.NB07 { background-position-x: -${basicSize * 6}px; }
+  &.NB08 { background-position-x: -${basicSize * 7}px; }
+  &.NB09 { background-position-x: -${basicSize * 8}px; }
+  &.NB10 { background-position-x: -${basicSize * 9}px; }
 `
 
 const normalStyle = css`
@@ -48,8 +48,8 @@ const normalStyle = css`
 `
 
 const Tile = styled.div`
-  height: ${sideSize}px;
-  width: ${sideSize}px;
+  height: ${basicSize}px;
+  width: ${basicSize}px;
   border-radius: 8px;
   margin: 0.4rem;
   padding: 0;

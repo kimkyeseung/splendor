@@ -13,6 +13,7 @@ const Back = styled.div`
 const Dummmy = styled(Space)`
   position: relative;
   overflow: visible;
+  background: none;
 `
 
 const Effect = styled.div`
@@ -22,24 +23,21 @@ const Effect = styled.div`
   }
 `
 
-const Deck = ({ cards = [], onClick }) => {
-
-  return cards.length
-    ? <Dummmy>
-      {cards.map((id, index) => (
-        index === cards.length - 1
-          ? <Effect key={id}>
-            <Back index={index}>
-              <Card dev={id} blind onClick={onClick} />
-            </Back>
-          </Effect>
-          : <Back key={id} index={index}>
+const Deck = ({ cards = [], onClick }) => cards.length
+  ? <Dummmy>
+    {cards.map((id, index) => (
+      index === cards.length - 1
+        ? <Effect key={id}>
+          <Back index={index}>
             <Card dev={id} blind onClick={onClick} />
           </Back>
-      ))}
-    </Dummmy>
-    : <Space empty />
-}
+        </Effect>
+        : <Back key={id} index={index}>
+          <Card dev={id} blind onClick={onClick} />
+        </Back>
+    ))}
+  </Dummmy>
+  : <Space empty />
 
 Deck.propTypes = {
   onClick: PropTypes.func

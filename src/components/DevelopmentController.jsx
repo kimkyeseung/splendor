@@ -25,7 +25,7 @@ const DevelopmentController = ({
       <Message>{message}</Message>
       <Blank height={20} />
       <Flex justifyContent="center">
-        <Tilt style={{ transformStyle: 'preserve-3d'}}>
+        <Tilt style={{ transformStyle: 'preserve-3d' }}>
           <Card
             dev={focusedDevelopment.id}
             grade={grade}

@@ -199,23 +199,9 @@
     },
     "set": "original"
   },
-  "117R": {
+  "117K": {
     "grade": 1,
-    "id": "117R",
-    "value": "red",
-    "valueAmount": 1,
-    "victoryPoint": 0,
-    "cost": {
-      "green": 1,
-      "blue": 1,
-      "white": 1,
-      "black": 1
-    },
-    "set": "original"
-  },
-  "118K": {
-    "grade": 1,
-    "id": "118K",
+    "id": "117K",
     "value": "black",
     "valueAmount": 1,
     "victoryPoint": 0,
@@ -224,14 +210,26 @@
     },
     "set": "original"
   },
-  "119K": {
+  "118K": {
     "grade": 1,
-    "id": "119K",
+    "id": "118K",
     "value": "black",
     "valueAmount": 1,
     "victoryPoint": 1,
     "cost": {
       "blue": 4
+    },
+    "set": "original"
+  },
+  "119K": {
+    "grade": 1,
+    "id": "119K",
+    "value": "black",
+    "valueAmount": 1,
+    "victoryPoint": 0,
+    "cost": {
+      "red": 1,
+      "green": 2
     },
     "set": "original"
   },
@@ -242,8 +240,8 @@
     "valueAmount": 1,
     "victoryPoint": 0,
     "cost": {
-      "red": 1,
-      "green": 2
+      "green": 2,
+      "white": 2
     },
     "set": "original"
   },
@@ -254,7 +252,8 @@
     "valueAmount": 1,
     "victoryPoint": 0,
     "cost": {
-      "green": 2,
+      "red": 1,
+      "blue": 2,
       "white": 2
     },
     "set": "original"
@@ -267,8 +266,9 @@
     "victoryPoint": 0,
     "cost": {
       "red": 1,
+      "green": 1,
       "blue": 2,
-      "white": 2
+      "white": 1
     },
     "set": "original"
   },
@@ -299,17 +299,17 @@
     },
     "set": "original"
   },
-  "125K": {
+  "125R": {
     "grade": 1,
-    "id": "125K",
-    "value": "black",
+    "id": "125R",
+    "value": "red",
     "valueAmount": 1,
     "victoryPoint": 0,
     "cost": {
-      "red": 1,
       "green": 1,
-      "blue": 2,
-      "white": 1
+      "blue": 1,
+      "white": 1,
+      "black": 1
     },
     "set": "original"
   },

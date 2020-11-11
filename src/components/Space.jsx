@@ -7,14 +7,131 @@ const backColors = [
   '#2980b9'
 ]
 
+const basicWidth = 150
+const basicHeight = 180
+
+const getBackgroundStyle = (ratio = 1) => css`
+  background-repeat: no-repeat;
+  background-image: url('/image/developments_img_sprite.jpg');
+  background-size: 1000%;
+  background-position-y: 0;
+  &.DEV101B, &.DEV103B, &.DEV105B, &.DEV107B {
+    background-position-x: -${basicWidth * ratio * 6}px;
+    background-position-y: -${basicHeight * ratio * 2}px;
+  }
+  &.DEV102B, &.DEV104B, &.DEV106B, &.DEV108B {
+    background-position-x: -${basicWidth * ratio * 7}px;
+    background-position-y: -${basicHeight * ratio * 2}px;
+  }
+  &.DEV109G, &.DEV111G, &.DEV113G, &.DEV115G {
+    background-position-x: -${basicWidth * ratio * 4}px;
+    background-position-y: -${basicHeight * ratio * 2}px;
+  }
+  &.DEV110G, &.DEV112G, &.DEV114G, &.DEV116G {
+    background-position-x: -${basicWidth * ratio * 5}px;
+    background-position-y: -${basicHeight * ratio * 2}px;
+  }
+  &.DEV117K, &.DEV119K, &.DEV121K, &.DEV123K {
+    background-position-x: -${basicWidth * ratio * 8}px;
+    background-position-y: -${basicHeight * ratio * 2}px;
+  }
+  &.DEV118K, &.DEV120K, &.DEV122K, &.DEV124K {
+    background-position-x: -${basicWidth * ratio * 9}px;
+    background-position-y: -${basicHeight * ratio * 2}px;
+  }
+  &.DEV125R, &.DEV127R, &.DEV129R, &.DEV131R {
+    background-position-x: -${basicWidth * ratio * 2}px;
+    background-position-y: -${basicHeight * ratio * 2}px;
+  }
+  &.DEV126R, &.DEV128R, &.DEV130R, &.DEV132R {
+    background-position-x: -${basicWidth * ratio * 3}px;
+    background-position-y: -${basicHeight * ratio * 2}px;
+  }
+  &.DEV133W, &.DEV135W, &.DEV137W, &.DEV139W {
+    background-position-x: 0;
+    background-position-y: -${basicHeight * ratio * 2}px;
+  }
+  &.DEV134W, &.DEV136W, &.DEV138W, &.DEV140W {
+    background-position-x: -${basicWidth * ratio * 1}px;
+    background-position-y: -${basicHeight * ratio * 2}px;
+  }
+  &.DEV201B, &.DEV203B, &.DEV205B {
+    background-position-x: -${basicWidth * ratio * 6}px;
+    background-position-y: -${basicHeight * ratio}px;
+  }
+  &.DEV202B, &.DEV204B, &.DEV206B {
+    background-position-x: -${basicWidth * ratio * 7}px;
+    background-position-y: -${basicHeight * ratio}px;
+  }
+  &.DEV207G, &.DEV209G, &.DEV211G {
+    background-position-x: -${basicWidth * ratio * 4}px;
+    background-position-y: -${basicHeight * ratio}px;
+  }
+  &.DEV208G, &.DEV210G, &.DEV212G {
+    background-position-x: -${basicWidth * ratio * 5}px;
+    background-position-y: -${basicHeight * ratio}px;
+  }
+  &.DEV213K, &.DEV215K, &.DEV217K {
+    background-position-x: -${basicWidth * ratio * 8}px;
+    background-position-y: -${basicHeight * ratio}px;
+  }
+  &.DEV214K, &.DEV216K, &.DEV218K {
+    background-position-x: -${basicWidth * ratio * 9}px;
+    background-position-y: -${basicHeight * ratio}px;
+  }
+  &.DEV219R, &.DEV221R, &.DEV223R {
+    background-position-x: -${basicWidth * ratio * 2}px;
+    background-position-y: -${basicHeight * ratio}px;
+  }
+  &.DEV220R, &.DEV222R, &.DEV224R {
+    background-position-x: -${basicWidth * ratio * 3}px;
+    background-position-y: -${basicHeight * ratio}px;
+  }
+  &.DEV225W, &.DEV227W, &.DEV229W {
+    background-position-x: 0;
+    background-position-y: -${basicHeight * ratio}px;
+  }
+  &.DEV226W, &.DEV228W, &.DEV230W {
+    background-position-x: -${basicWidth * ratio}px;
+    background-position-y: -${basicHeight * ratio}px;
+  }
+  &.DEV301B, &.DEV303B {
+    background-position-x: -${basicWidth * ratio * 6}px;
+  }
+  &.DEV302B, &.DEV304B {
+    background-position-x: -${basicWidth * ratio * 7}px;
+  }
+  &.DEV305G, &.DEV307G {
+    background-position-x: -${basicWidth * ratio * 4}px;
+  }
+  &.DEV306G, &.DEV308G {
+    background-position-x: -${basicWidth * ratio * 5}px;
+  }
+  &.DEV309K, &.DEV311K {
+    background-position-x: -${basicWidth * ratio * 8}px;
+  }
+  &.DEV310K, &.DEV312K {
+    background-position-x: -${basicWidth * ratio * 9}px;
+  }
+  &.DEV313R, &.DEV315R {
+    background-position-x: -${basicWidth * ratio * 2}px;
+  }
+  &.DEV314R, &.DEV316R {
+    background-position-x: -${basicWidth * ratio * 3}px;
+  }
+  &.DEV317W, &.DEV319W {
+    background-position-x: 0;
+  }
+  &.DEV318W, &.DEV320W {
+    background-position-x: -${basicWidth * ratio}px;
+  }
+`
+
 const normalStyle = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-image: url(${({ backgroundUrl }) => backgroundUrl || ''});
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  ${getBackgroundStyle()}
   & > .header {
     height: 50px;
     background: rgba(255, 255, 255, 0.8);
@@ -26,19 +143,22 @@ const normalStyle = css`
 `
 
 const emptyStyle = css`
+  background-image: none;
   border: 2px dotted gray;
   box-shadow: none;
 `
 
 const backStyle = css`
+  background-image: none;
   border: 8px solid white;
   background: ${({ grade }) => backColors[grade - 1]};
 `
 
 const largeSize = css`
-  height: 240px;
-  width: 200px;
+  height: ${basicHeight * 1.5}px;
+  width: ${basicWidth * 1.5}px;
   border-radius: 15px;
+  ${getBackgroundStyle(1.5)}
   & > .header {
     height: 60px;
     border-radius: 15px 15px 0 0;
@@ -70,20 +190,19 @@ const thumbnailSize = css`
 `
 
 const Space = styled.div`
-  height: 180px;
-  width: 150px;
+  height: ${basicHeight}px;
+  width: ${basicWidth}px;
   border-radius: 12px;
   margin: 0.4rem;
   padding: 0;
   box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.25);
   ${({ empty }) => empty ? emptyStyle : normalStyle};
-  ${({ blind }) => blind && backStyle};
   ${({ large }) => large && largeSize};
+  ${({ blind }) => blind && backStyle};
   ${({ thumbnail }) => thumbnail && thumbnailSize};
 `
 
 Space.propTypes = {
-  backgroundUrl: PropTypes.string,
   onClick: PropTypes.func,
   blind: PropTypes.bool,
   thumbnail: PropTypes.bool

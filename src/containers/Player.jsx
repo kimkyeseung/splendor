@@ -11,6 +11,7 @@ const Name = styled.div`
   margin-left: -1rem;
   border-radius: 0 50px 50px 0;
   max-width: 150px;
+  min-width: 100px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
