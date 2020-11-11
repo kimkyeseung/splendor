@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import MainContainer from './containers/MainContainer'
 import LobbyContainer from './containers/LobbyContainer'
 import { ToastContainer } from 'react-toastify'
+import GithubCorner from 'react-github-corner'
 import Game from './components/Game'
 import styled from 'styled-components'
 import {
@@ -11,6 +12,7 @@ import {
 import { Block } from './components/units'
 import { withRouter } from 'react-router'
 import qs from 'query-string'
+import { THEME } from './lib/config'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Body = styled(Block)`
@@ -86,6 +88,12 @@ class App extends Component {
           <Route path="/lobby/:id" render={props => <LobbyContainer {...props} />} />
         </Switch>
         <ToastContainer />
+        <GithubCorner
+          href="https://github.com/kimkyeseung/splendor"
+          direction="right"
+          target="_blank"
+          bannerColor={THEME.title}
+          />
       </Body>
     )
   }

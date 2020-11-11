@@ -27,3 +27,31 @@ export const DEFAULT_SETTING = {
     yellow: 0
   }
 }
+export const THEME = {
+  main: '#2c3e50',
+  background: '#131920',
+  white: '#fff',
+  black: '#000',
+  grayscale: [
+    '#f8fafb',
+    '#f1f5f5',
+    '#eaeeef',
+    '#e1e4e6',
+    '#ced3d6',
+    '#a9afb3',
+    '#878d91',
+    '#4d5256',
+    '#363a3c',
+    '#292a2b'
+  ],
+  title: '#face41',
+  boxBorder: '#6ea791',
+  boxBackground: '#367c69',
+  primary: ['#2ecc71', '#27ae60'],
+  secondary: ['#34495e', '#2c3e50'],
+  warning: ['#e74c3c', '#c0392b'],
+  font: {
+    title: 'Galada, Lobster',
+    context: 'Comfortaa'
+  },
+}

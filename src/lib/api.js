@@ -4,8 +4,6 @@ const server = ON_DEVELOPMENT
   ? GAME_SERVER_URL
   : `https://${window.location.hostname}`
 
-console.log({ env: process.env.NODE_ENV })
-
 export class LobbyApi {
   constructor() {
     this.api = ky.create({

@@ -23,25 +23,27 @@ class LobbyContainer extends Component {
     this.checkRoomState = this.checkRoomState.bind(this)
     this.getGameClient = this.getGameClient.bind(this)
     this.startGame = this.startGame.bind(this)
+    this.cleanup = this.cleanup.bind(this)
   }
 
   componentDidMount() {
     this.checkRoomStateAndJoin();
     this.interval = setInterval(this.checkRoomState, 1000);
-    window.addEventListener("beforeunload", this.cleanup.bind(this));
+    window.addEventListener('beforeunload', this.cleanup)
   }
 
   componentWillUnmount() {
     this.cleanup()
-    window.removeEventListener("beforeunload", this.cleanup.bind(this));
+    window.removeEventListener('beforeunload', this.cleanup)
   }
 
   cleanup() {
-    console.log("cleaning up");
+    console.log('cleaning up')
     const { id, myId, userAuthToken } = this.state
 
-    api.leaveRoom(id, myId, userAuthToken)
-    clearInterval(this.interval)
+    api.leaveRoom(id, myId, userAuthToken).then(() => {
+      clearInterval(this.interval)
+    })
   }
 
   joinRoom(playerNo) {
