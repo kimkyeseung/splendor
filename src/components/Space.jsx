@@ -133,12 +133,27 @@ const normalStyle = css`
   justify-content: space-between;
   ${getBackgroundStyle()}
   & > .header {
-    height: 50px;
+    min-height: ${basicHeight / 18 * 5}px;
     background: rgba(255, 255, 255, 0.8);
     display: flex;
     justify-content: space-between;
-    padding: 0.2rem;
+    padding: 0 0.5rem;
     border-radius: 12px 12px 0 0;
+    & > .vp {
+      font-size: 2.6em;
+    }
+    & > .value {
+      width: ${basicWidth / 15 * 4}px;
+      height: ${basicHeight / 18 * 4}px;
+    }
+  }
+  & > .costs {
+    padding: 0.2rem;
+    & > .cost {
+      width: ${basicWidth / 15 * 2.6}px;
+      height: ${basicHeight / 18 * 2.6}px;
+      font-size: 1.5em;
+    }
   }
 `
 
@@ -157,19 +172,31 @@ const backStyle = css`
 const largeSize = css`
   height: ${basicHeight * 1.5}px;
   width: ${basicWidth * 1.5}px;
-  border-radius: 15px;
+  border-radius: 18px;
   ${getBackgroundStyle(1.5)}
   & > .header {
-    height: 60px;
-    border-radius: 15px 15px 0 0;
-    & > .vp, .value {
+    min-height: ${basicHeight / 18 * 5 * 1.5}px;
+    border-radius: 18px 18px 0 0;
+    padding: 0 0.75rem;
+    & > .vp {
+      font-size: ${2.6 * 1.5}em;
+      transform: translate3d(0px, 0px, 30px);
+    }
+    & > .value {
+      height: ${basicHeight / 18 * 4 * 1.5}px;
+      width: ${basicWidth / 15 * 4 * 1.5}px;
       transform: translate3d(0px, 0px, 25px);
     }
   }
-  & .cost {
-    transform: translate3d(0px, 0px, 20px);
-    font-size: 1.3em;
-    width: 30px; height: 30px;
+  & > .costs {
+    padding: 0.3rem;
+    & > .cost {
+      width: ${basicWidth / 15 * 2.6 * 1.5}px;
+      height: ${basicHeight / 18 * 2.6 * 1.5}px;
+      font-size: 2.5em;
+      margin: 0.3rem;
+      transform: translate3d(0px, 0px, 20px);
+    }
   }
   .title {
     font-size: 32px;
@@ -178,8 +205,8 @@ const largeSize = css`
 `
 
 const thumbnailSize = css`
-  height: 36px;
-  width: 30px;
+  height: ${basicHeight * 0.2}px;
+  width: ${basicWidth * 0.2}px;
   border-width: 3px;
   border-radius: 3px;
   box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.25);

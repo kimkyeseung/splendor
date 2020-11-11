@@ -52,6 +52,8 @@ export const THEME = {
   warning: ['#e74c3c', '#c0392b'],
   font: {
     title: 'Galada, Lobster',
-    context: 'Comfortaa'
+    context: 'Comfortaa',
+    vp: 'Lobster',
+    cost: 'Lobster'
   },
 }

@@ -16,13 +16,13 @@ const solidShape = css`
 const roundShape = css`
   width: 24px; height: 24px;
   border-radius: 100%;
-  padding-top: 0.2rem;
 `
 
 const StyledCost = styled(Flex)`
   color: white;
   border: 1px solid;
   font-size: 1.2em;
+  font-family: ${({ theme }) => theme.font.cost};
   margin: 0.2rem;
   -webkit-text-stroke-width: .6px;
   -webkit-text-stroke-color: black;

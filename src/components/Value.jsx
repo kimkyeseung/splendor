@@ -11,12 +11,10 @@ cases.noble = css``
 
 cases.development = css`
   display: block;
-  width: 40px; height: 40px;
   border-radius: 100%;
 `
 
 const StyledValue = styled.div`
-  width: 30px; height: 30px;
   border: 1px solid;
   ${({ value }) => value && theme.basic[value]};
   ${({ type }) => type && cases[type]};
@@ -25,8 +23,8 @@ const StyledValue = styled.div`
 const Value = props => <StyledValue {...props} />
 
 Value.propTypes = {
-  value: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.oneOf(['development', 'noble']),
+  value: PropTypes.oneOf(['red', 'green', 'blue', 'white', 'black']),
 }
 
 Value.defaultProps = {
