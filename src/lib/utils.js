@@ -9,6 +9,8 @@ export const emptyHand = (G, ctx) => {
     const { grade, index } = hand.development
     if (index >= 0 && !board[`dev${grade}${index}`]) {
       board[`dev${grade}${index}`] = drawDevelopment(G, grade)
+    } else if (index === -1) {
+
     }
     hand.development = null
   }
@@ -79,6 +81,34 @@ export const gainDevelopment = (G, ctx) => {
     developments.push(hand.development.name)
   }
   emptyHand(G, ctx)
+}
+
+export const deselectDevelopment = (G, ctx) => {
+  const {
+    fields,
+    board,
+    developOneDeck,
+    developTwoDeck,
+    developThreeDeck
+  } = G
+  const { hand } = fields[ctx.currentPlayer]
+
+  if (hand.development) {
+    const { name, grade, index } = hand.development
+
+    if (index >= 0) {
+      board[`dev${grade}${index}`] = name
+    } else {
+      const deck = {
+        '1': developOneDeck,
+        '2': developTwoDeck,
+        '3': developThreeDeck
+      }
+      deck[grade].push(name)
+    }
+
+    emptyHand(G, ctx)
+  }
 }
 
 export const payToken = (G, ctx, token, amount = 1) => {

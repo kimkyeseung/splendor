@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import Cost from './Cost'
 import NOBLES from '../assets/nobles.json'
+import { VictoryPoints } from './ui'
 
 const basicSize = 150
 
@@ -65,7 +66,7 @@ const Noble = ({ noble, handler }) => {
       handler(noble)
     }}>
       <header>
-        <p className="vp">{victoryPoint}</p>
+        <VictoryPoints className="vp">{victoryPoint}</VictoryPoints>
         <div className="condition">
           {Object.keys(condition).map((color, i) => (
             <Cost key={i} value={color} amount={condition[color]} solid />

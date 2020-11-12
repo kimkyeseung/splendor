@@ -9,7 +9,7 @@ import {
 import { INVALID_MOVE } from 'boardgame.io/core'
 import {
   getWinner, emptyHand,
-  holdDevelopment, drawDevelopment,
+  holdDevelopment, drawDevelopment, deselectDevelopment,
   reserveDevelopment, gainDevelopment,
   gainTokensFromHand,
   restoreTokenStore, holdToken, payDevelopmentPrice,
@@ -110,6 +110,7 @@ const game = (playerNames) => {
       selectDevelopment(G, ctx, dev, { grade, index }) {
         const { board } = G
 
+        deselectDevelopment(G, ctx)
         holdDevelopment(G, ctx, { grade, index, name: dev })
         if (index >= 0) {
           board[`dev${grade}${index}`] = null
@@ -119,31 +120,7 @@ const game = (playerNames) => {
       },
 
       deselectDevelopment(G, ctx) {
-        const {
-          fields,
-          board,
-          developOneDeck,
-          developTwoDeck,
-          developThreeDeck
-        } = G
-        const { hand } = fields[ctx.currentPlayer]
-
-        if (hand.development) {
-          const { name, grade, index } = hand.development
-
-          if (index >= 0) {
-            board[`dev${grade}${index}`] = name
-          } else {
-            const deck = {
-              '1': developOneDeck,
-              '2': developTwoDeck,
-              '3': developThreeDeck
-            }
-            deck[grade].push(name)
-          }
-
-          emptyHand(G, ctx)
-        }
+        deselectDevelopment(G, ctx)
       },
 
       buyDevelopment(G, ctx) {
