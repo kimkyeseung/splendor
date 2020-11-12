@@ -179,6 +179,11 @@ export const restoreTokenStore = (G, token) => {
 export const holdToken = (G, ctx, token) => { // store => hand
   const { tokenStore, fields } = G
   const { hand } = fields[ctx.currentPlayer]
+
+  if (hand.development) {
+    deselectDevelopment(G, ctx)
+  }
+
   if (tokenStore[token]) {
     tokenStore[token]--
     hand.tokens.push(token)

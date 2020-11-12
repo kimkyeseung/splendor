@@ -31,9 +31,7 @@ const DevelopmentController = ({
             grade={grade}
             blind={blind}
             large
-            onClick={() => {
-              deselectDevelopment()
-            }} />
+          />
         </Tilt>
       </Flex>
       <Blank height={20} />
