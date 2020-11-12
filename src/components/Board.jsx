@@ -20,6 +20,13 @@ const Header = styled.header`
   & > a { color: ${({ theme }) => theme.white}; }
 `
 
+const Hand = styled.section`
+  padding: 2rem;
+  background: ${({ theme }) => theme.main};
+  display: flex;
+  justify-content: center;
+`
+
 const Board = ({
   G, ctx,
   playerID,
@@ -131,8 +138,16 @@ const Board = ({
             }
           />
         }
-        Footer={<div className="hand">
-        </div>} />
+        Footer={
+          <Hand>
+            <DevelopmentRow
+              list={isMultiplayer
+                ? fields[playerID].reservedDevs
+                : fields[currentPlayer].reservedDevs}
+              handler={handleSpaceClick}
+              isExtra/>
+          </Hand>
+        } />
       {controllerVisible && hand.development
         ? <DevelopmentController
           message="What would you like to do with this development card?"
@@ -171,7 +186,7 @@ const Board = ({
         ctx={ctx}
         playerID={playerID}
         winner={gameover.winner}
-        history={history}/>}
+        history={history} />}
     </>
   )
 }

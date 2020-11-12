@@ -2,9 +2,7 @@ import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
 import NOBLES from '../assets/nobles.json'
 import {
   getTokenValidator,
-  tokenLimitValidator,
   buyDevelopmentValidator,
-  reserveDevelopmentValidator
 } from './validator'
 import { INVALID_MOVE } from 'boardgame.io/core'
 import {
@@ -107,15 +105,18 @@ const game = (playerNames) => {
     },
 
     moves: {
-      selectDevelopment(G, ctx, dev, { grade, index }) {
+      selectDevelopment(G, ctx, dev, meta) {
         const { board } = G
 
         deselectDevelopment(G, ctx)
-        holdDevelopment(G, ctx, { grade, index, name: dev })
-        if (index >= 0) {
-          board[`dev${grade}${index}`] = null
-        } else {
-          drawDevelopment(G, grade)
+        holdDevelopment(G, ctx, { ...meta, name: dev })
+        const { index, grade, isExtra } = meta
+        if (!isExtra) {
+          if (index >= 0) {
+            board[`dev${grade}${index}`] = null
+          } else {
+            drawDevelopment(G, grade)
+          }
         }
       },
 

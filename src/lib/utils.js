@@ -1,6 +1,14 @@
 import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
 import NOBLES from '../assets/nobles.json'
 
+export const fillBoard = (G, { grade, index }) => {
+  const { board } = G
+
+  if (grade && index >= 0 && !board[`dev${grade}${index}`]) {
+    board[`dev${grade}${index}`] = drawDevelopment(G, grade)
+  }
+}
+
 export const emptyHand = (G, ctx) => {
   const { board, fields, tokenStore } = G
   const { hand } = fields[ctx.currentPlayer]
@@ -8,9 +16,7 @@ export const emptyHand = (G, ctx) => {
   if (hand.development) {
     const { grade, index } = hand.development
     if (index >= 0 && !board[`dev${grade}${index}`]) {
-      board[`dev${grade}${index}`] = drawDevelopment(G, grade)
-    } else if (index === -1) {
-
+      fillBoard(G, { grade, index })
     }
     hand.development = null
   }
@@ -42,7 +48,6 @@ export const getWinner = G => {
     return { winner: winners[0] }
   }
   const devCounts = winners.map(player => {
-
     const devCount = Object.values(getDevelopmentValues(G, { currentPlayer: player })).reduce(
       (count, value) => count + value
     )
@@ -55,12 +60,12 @@ export const getWinner = G => {
   return { winner }
 }
 
-export const holdDevelopment = (G, ctx, { name, grade, index }) => {
+export const holdDevelopment = (G, ctx, { name, grade, index, isExtra = false }) => {
   const { fields } = G
   const { hand } = fields[ctx.currentPlayer]
 
   emptyHand(G, ctx)
-  hand.development = { name, grade, index }
+  hand.development = { name, grade, index, isExtra }
 }
 
 export const reserveDevelopment = (G, ctx) => {
@@ -75,10 +80,14 @@ export const reserveDevelopment = (G, ctx) => {
 
 export const gainDevelopment = (G, ctx) => {
   const { fields } = G
-  const { hand, developments } = fields[ctx.currentPlayer]
+  const { hand, developments, reservedDevs } = fields[ctx.currentPlayer]
 
   if (hand.development) {
-    developments.push(hand.development.name)
+    const { name, isExtra } = hand.development
+    developments.push(name)
+    if (isExtra) {
+      fields[ctx.currentPlayer].reservedDevs = reservedDevs.filter(dev => dev !== name)
+    }
   }
   emptyHand(G, ctx)
 }
@@ -94,17 +103,19 @@ export const deselectDevelopment = (G, ctx) => {
   const { hand } = fields[ctx.currentPlayer]
 
   if (hand.development) {
-    const { name, grade, index } = hand.development
+    const { name, grade, index, isExtra = false } = hand.development
 
-    if (index >= 0) {
-      board[`dev${grade}${index}`] = name
-    } else {
-      const deck = {
-        '1': developOneDeck,
-        '2': developTwoDeck,
-        '3': developThreeDeck
+    if (!isExtra) {
+      if (index >= 0) {
+        board[`dev${grade}${index}`] = name
+      } else {
+        const deck = {
+          '1': developOneDeck,
+          '2': developTwoDeck,
+          '3': developThreeDeck
+        }
+        deck[grade].push(name)
       }
-      deck[grade].push(name)
     }
 
     emptyHand(G, ctx)

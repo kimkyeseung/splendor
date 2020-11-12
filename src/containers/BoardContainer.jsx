@@ -53,12 +53,18 @@ class BoardContainer extends Component {
     })
   }
 
-  handleSpaceClick(dev, index, grade) {
+  handleSpaceClick(dev, meta) {
     const { moves } = this.props
     const { selectDevelopment } = moves
-    const position = { index, grade }
 
-    selectDevelopment(dev, position)
+    selectDevelopment(dev, meta)
+  }
+
+  handleReservedDevelopmentClick(dev) {
+    const { moves } = this.props
+    const { selectDevelopment } = moves
+
+    selectDevelopment(dev, { isExtra: true })
   }
 
   deselectDevelopment() {
@@ -146,6 +152,7 @@ class BoardContainer extends Component {
         deselectToken={this.deselectToken}
         returnToken={this.returnToken}
         handleNobleClick={this.handleNobleClick}
+        handleReservedDevelopmentClick={this.handleReservedDevelopmentClick}
         history={history}
       />
     )

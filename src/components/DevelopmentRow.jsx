@@ -13,20 +13,20 @@ const Effect = styled.div`
   }
 `
 
-const DevelopmentRow = ({ deck, list, handler, grade }) => (
+const DevelopmentRow = ({ deck, list, handler, grade, isExtra = false }) => (
   <Flex>
-    <Deck
+    {deck && <Deck
       onClick={() => {
         const dev = deck[deck.length - 1]
-        handler(dev, -1, grade)
+        handler(dev, { index: -1, grade, isExtra })
       }}
       cards={deck}
-      grade={grade} />
+      grade={grade} />}
     {list.map((dev, index) => (
       <Tilt key={dev} options={{ scale: 1, max: 20 }}>
         <Effect>
           <Card onClick={() => {
-            handler(dev, index, grade)
+            handler(dev, { index, grade, isExtra })
           }} grade={grade} dev={dev} />
         </Effect>
       </Tilt>
