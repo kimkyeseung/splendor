@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Layout } from 'components'
+import { Layout, Icon } from 'components'
 import Noble from './Noble'
 import Token from './Token'
 import BoardLayout from '../layouts/BoardLayout'
@@ -25,6 +25,13 @@ const Hand = styled.section`
   background: ${({ theme }) => theme.main};
   display: flex;
   justify-content: center;
+  position: relative;
+  & > .icon {
+    position: absolute;
+    left: 20px;
+    font-size: 10em;
+    opacity: 0.1;
+  }
 `
 
 const Board = ({
@@ -140,6 +147,7 @@ const Board = ({
         }
         Footer={
           <Hand>
+            <Icon name="cart" />
             <DevelopmentRow
               list={isMultiplayer
                 ? fields[playerID].reservedDevs
@@ -155,6 +163,7 @@ const Board = ({
           buySelectedDevelopment={buySelectedDevelopment}
           reserveSelectedDevelopment={reserveSelectedDevelopment}
           focusedDevelopment={DEVELOPMENT_CARDS[hand.development.name]}
+          reserved={hand.development.isExtra}
           blind={hand.development.index === -1} />
         : null}
       {controllerVisible && hand.gettableNobles && hand.gettableNobles.length

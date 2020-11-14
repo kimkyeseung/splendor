@@ -11,6 +11,7 @@ export { VictoryPoints } from './molecules/VictoryPoints'
 export { Modal } from './molecules/Modal'
 export { Button } from './molecules/Button'
 export { CircleProgress } from './molecules/CircleProgress'
+export { Icon } from './molecules/Icon'
 
 export {
   Layout, BoardLayout

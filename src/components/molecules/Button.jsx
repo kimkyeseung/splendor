@@ -1,6 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
+import { Icon } from 'components'
 
 const primaryCss = css`
   background-color: ${({ theme }) => theme.primary[0]};
@@ -20,9 +22,10 @@ const secondaryCss = css`
 
 const buttonStyle = css`
   position: relative;
-  display: block;
+  display: flex;
   margin: 0 auto;
-  padding: 0;
+  padding: 0.75rem 1.25rem;
+  justify-content: space-around;
   overflow: hidden;
   border-width: 0;
   outline: none;
@@ -39,9 +42,11 @@ const buttonStyle = css`
   }
   ${({ secondary }) => secondary && primaryCss};
   ${({ primary }) => primary && secondaryCss};
+  & > .icon {
+    margin-right: 0.5rem;
+  }
   & span {
     display: block;
-    padding: 0.75rem 1.25rem;
   }
   &:disabled {
     cursor: default;
@@ -60,12 +65,21 @@ const StyledButton = styled.button`
   ${buttonStyle}
 `
 
-export const Button = ({ active, children, to, ...props }) => (
+export const Button = ({ active, icon, children, to, ...props }) => (
   to
     ? <StyledLink to={to} active={active} {...props}>
+      {icon ? <Icon name={icon} /> : null}
       <span>{children}</span>
     </StyledLink>
     : <StyledButton active={active} {...props}>
+      {icon ? <Icon name={icon} /> : null}
       <span>{children}</span>
     </StyledButton>
 )
+
+Button.propTypes = {
+  primary: PropTypes.bool,
+  secondary: PropTypes.bool,
+  icon: PropTypes.string,
+  to: PropTypes.string
+}

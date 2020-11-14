@@ -15,7 +15,8 @@ const DevelopmentController = ({
   deselectDevelopment,
   buySelectedDevelopment,
   reserveSelectedDevelopment,
-  blind
+  blind,
+  reserved
 }) => {
   const { grade } = focusedDevelopment
 
@@ -35,14 +36,14 @@ const DevelopmentController = ({
       </Flex>
       <Blank height={20} />
       <Flex>
-        {!blind && <Button primary onClick={ev => {
+        {!blind && <Button icon="money" primary onClick={ev => {
           ev.preventDefault()
           buySelectedDevelopment()
         }}>Purchase</Button>}
-        <Button secondary onClick={ev => {
+        {!reserved && <Button icon="cart" secondary onClick={ev => {
           ev.preventDefault()
           reserveSelectedDevelopment()
-        }}>Reserve</Button>
+        }}>Reserve</Button>}
         <Button onClick={() => {
           deselectDevelopment()
         }}>Cancel</Button>
