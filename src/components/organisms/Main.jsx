@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Blank, Flex } from '../atoms'
-import { Box, Button, Modal } from '../molecules'
+import { Blank, Flex, Box, Button, Modal } from 'components'
 
 const Title = styled.div`
   text-align: center;

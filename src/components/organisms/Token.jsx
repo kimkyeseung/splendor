@@ -1,12 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import config from '../../config'
-
-const { theme } = config
 
 const tokenSize = 90
-
 const StyledToken = styled.div`
   display: flex;
   justify-content: space-between;
@@ -40,7 +36,7 @@ const One = styled.div`
   left: ${({ index }) => `${index * 3}px`};
   border: 1px solid;
   padding: 0.7rem;
-  ${({ value }) => value && theme.basic[value]};
+  ${({ theme, value }) => value && theme.colorSet[value]};
   &::after {
     content: '';
     display: block;

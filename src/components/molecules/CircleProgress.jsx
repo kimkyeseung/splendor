@@ -40,6 +40,12 @@ export const CircleProgress = ({ size, amount, max, color, strokeWidth }) => {
   )
 }
 
+CircleProgress.propTypes = {
+  strokeWidth: PropTypes.number,
+  size: PropTypes.number,
+  color: PropTypes.string
+}
+
 CircleProgress.defaultProps = {
   strokeWidth: 4,
   size: 200,

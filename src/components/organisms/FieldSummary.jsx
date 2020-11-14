@@ -1,13 +1,9 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import config from '../../config'
-import { DEFAULT_SETTING } from '../../lib/config'
-import { Flex, Blank } from '../atoms'
+import { DEFAULT_SETTING } from 'config'
+import { Flex, Blank } from 'components'
 import Space from './Space'
-
-import DEVELOPMENT_CARDS from '../../assets/developmentCards.json'
-
-const { theme } = config
+import { DEVELOPMENT_CARDS } from 'assets'
 
 const StyledFieldSummary = styled.div`
   position: relative;
@@ -32,7 +28,7 @@ const Development = styled.div`
   line-height: 40px;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
-  ${({ value }) => theme.basic[value]};
+  ${({ theme, value }) => theme.colorSet[value]};
   ${({ blank }) => blank && `
     border: 0;
   `}
@@ -54,7 +50,7 @@ const Token = styled.div`
   font-size: 1.4em;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
-  ${({ value }) => theme.basic[value]};
+  ${({ theme, value }) => theme.colorSet[value]};
 `
 
 Development.Wrapper = styled.div`

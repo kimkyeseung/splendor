@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "components/*": [
-        "./src/components/*"
+      "components": [
+        "./components/*"
       ],
       "containers/*": [
-        "./src/containers/*"
+        "./containers/*"
       ],
       "config": [
-        "./src/lib/config"
+        "./lib/config"
       ],
       "api": [
-        "./src/lib/api"
+        "./lib/api"
       ],
       "game": [
-        "./src/lib/game"
+        "./lib/game"
       ]
     }
   }

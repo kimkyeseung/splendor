@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Token from './Token'
-import { Flex, Blank } from '../atoms'
-import { Button, Modal } from '../molecules'
+import { Flex, Blank, Button, Modal } from 'components'
 
 const Message = styled.div`
   font-size: 1.2em;

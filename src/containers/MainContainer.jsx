@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { LobbyApi } from '../lib/api'
-import Main from '../components/organisms/Main'
+import { LobbyApi } from 'api'
+import Main from 'components/organisms/Main'
 
 const api = new LobbyApi()
 

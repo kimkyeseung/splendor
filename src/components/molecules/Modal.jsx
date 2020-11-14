@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Portal } from '../atoms'
-import { Box } from './Box'
+import { Portal, Box } from 'components'
 
 const ModalWrapper = styled.div`
   position: fixed;

@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Noble from './Noble'
-import { Flex, Blank } from '../atoms'
-import { Modal } from '../molecules'
+import { Flex, Blank, Modal } from 'components'
 
 const Message = styled.div`
   font-size: 1.2em;

@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
     "boardgame.io": "^0.42.0",
+    "craco": "0.0.3",
     "esm": "^3.2.25",
     "koa-static": "^5.0.0",
     "ky": "^0.24.0",
@@ -29,10 +30,10 @@
     "styled-reset": "^4.2.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
     "serve": "nodemon -r esm src/server.js"
   },
   "eslintConfig": {
@@ -49,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "craco-alias": "^2.1.1"
   }
 }

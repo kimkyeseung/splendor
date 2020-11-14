@@ -1,14 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-import config from '../../config'
-
-const { theme } = config
 
 const cases = {}
-
 cases.noble = css``
-
 cases.development = css`
   display: block;
   border-radius: 100%;
@@ -16,7 +11,7 @@ cases.development = css`
 
 const StyledValue = styled.div`
   border: 1px solid;
-  ${({ value }) => value && theme.basic[value]};
+  ${({ theme, value }) => value && theme.colorSet[value]};
   ${({ type }) => type && cases[type]};
 `
 

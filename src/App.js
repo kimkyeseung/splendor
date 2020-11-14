@@ -9,7 +9,7 @@ import {
   Switch,
   Route
 } from 'react-router-dom'
-import { Block } from './components/atoms'
+import { Block } from './components'
 import { withRouter } from 'react-router'
 import qs from 'query-string'
 import { THEME } from './lib/config'

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import FieldSummary from '../components/organisms/FieldSummary'
-import VictoryPointsMarker from '../components/organisms/VictoryPointsMarker'
-import { Flex } from '../components/atoms'
-import { DEFAULT_SETTING } from '../lib/config'
+import FieldSummary from 'components/organisms/FieldSummary'
+import VictoryPointsMarker from 'components/organisms/VictoryPointsMarker'
+import { Flex } from 'components'
+import { DEFAULT_SETTING } from 'config'
 
 const Name = styled.div`
   background-color: ${({ theme }) => theme.white};

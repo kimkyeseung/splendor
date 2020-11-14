@@ -1,5 +1,5 @@
 import React from 'react'
-import { Block, Flex } from '../atoms'
+import { Block, Flex } from 'components'
 
 const Layout = ({ Developments, Nobles, Tokens }) => (
   <Flex>

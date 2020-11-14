@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { LobbyApi } from '../lib/api'
+import { LobbyApi } from 'api'
 import { Client } from 'boardgame.io/react'
 import Board from './BoardContainer'
 import { SocketIO } from 'boardgame.io/multiplayer'
-import { game } from '../lib'
-import Lobby from '../components/organisms/Lobby'
-import { ON_DEVELOPMENT, GAME_SERVER_URL } from '../lib/config'
+import game from 'game'
+import Lobby from 'components/organisms/Lobby'
+import { ON_DEVELOPMENT, GAME_SERVER_URL } from 'config'
 
 const api = new LobbyApi()
 

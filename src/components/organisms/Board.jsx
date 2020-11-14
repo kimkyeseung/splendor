@@ -1,18 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { Layout } from 'components'
 import Noble from './Noble'
 import Token from './Token'
-import Layout from '../layouts/Layout'
 import BoardLayout from '../layouts/BoardLayout'
 import DevelopmentRow from './DevelopmentRow'
 import TokenController from './TokenController'
 import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
 import Aside from './Aside'
-import Player from '../../containers/Player'
-import DEVELOPMENT_CARDS from '../../assets/developmentCards.json'
 import Result from './Result'
+import Player from 'containers/Player'
+import { DEVELOPMENT_CARDS } from 'assets'
 
 const Header = styled.header`
   padding: 1rem;
@@ -145,7 +145,7 @@ const Board = ({
                 ? fields[playerID].reservedDevs
                 : fields[currentPlayer].reservedDevs}
               handler={handleSpaceClick}
-              isExtra/>
+              isExtra />
           </Hand>
         } />
       {controllerVisible && hand.development

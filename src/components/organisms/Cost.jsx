@@ -1,10 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-import config from '../../config'
-import { Flex } from '../atoms'
-
-const { theme } = config
+import { Flex } from 'components'
 
 const solidShape = css`
   border-radius: 4px;
@@ -27,7 +24,7 @@ const StyledCost = styled(Flex)`
   -webkit-text-stroke-width: .6px;
   -webkit-text-stroke-color: black;
   ${({ solid }) => solid ? solidShape : roundShape};
-  ${({ value }) => value && theme.basic[value]};
+  ${({ theme, value }) => value && theme.colorSet[value]};
 `
 
 const Cost = ({ amount, ...props }) => <StyledCost justifyContent="center" {...props}>{amount}</StyledCost>
