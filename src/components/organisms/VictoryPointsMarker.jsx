@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CircleProgress } from './ui'
-import { Flex } from './units'
-import { VictoryPoints } from './ui'
+import { CircleProgress } from '../molecules'
+import { Flex } from '../atoms'
+import { VictoryPoints } from '../molecules'
 
 const StyledVP = styled.div`
   position: relative;

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Block, Flex } from './units'
+import { Block, Flex } from '../atoms'
 
 const Layout = ({ Header, LeftPanel, RightPanel, Main, Footer }) => (
   <Flex flexDirection="column" style={{ height: "100vh" }}>

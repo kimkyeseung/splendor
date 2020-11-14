@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import FieldSummary from '../components/FieldSummary'
-import VictoryPointsMarker from '../components/VictoryPointsMarker'
-import { Flex } from '../components/units'
+import FieldSummary from '../components/organisms/FieldSummary'
+import VictoryPointsMarker from '../components/organisms/VictoryPointsMarker'
+import { Flex } from '../components/atoms'
 import { DEFAULT_SETTING } from '../lib/config'
 
 const Name = styled.div`

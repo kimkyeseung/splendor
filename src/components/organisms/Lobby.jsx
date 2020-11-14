@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import { Blank, Flex } from './units'
-import { Box, Button } from './ui'
-import { ON_DEVELOPMENT } from '../lib/config'
+import { Blank, Flex } from '../atoms'
+import { Box, Button } from '../molecules'
+import { ON_DEVELOPMENT } from '../../lib/config'
 
 const Title = styled.div`
   text-align: center;

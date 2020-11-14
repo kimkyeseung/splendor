@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { Flex, Blank } from './units'
-import { Button, Modal } from './ui'
+import { Flex, Blank } from '../atoms'
+import { Button, Modal } from '../molecules'
 
 const Title = styled.div`
   text-align: center;

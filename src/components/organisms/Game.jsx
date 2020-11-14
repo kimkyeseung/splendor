@@ -1,7 +1,7 @@
 import React from 'react'
 import { Client } from 'boardgame.io/react'
-import Board from '../containers/BoardContainer'
-import { game } from '../lib'
+import Board from '../../containers/BoardContainer'
+import { game } from '../../lib'
 
 const Game = ({ players, history }) => {
   const Splendor = game(players)

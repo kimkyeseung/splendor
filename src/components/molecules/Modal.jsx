@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Portal } from '../units'
+import { Portal } from '../atoms'
 import { Box } from './Box'
 
 const ModalWrapper = styled.div`

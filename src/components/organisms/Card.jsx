@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import Value from './Value'
 import Cost from './Cost'
 import Space from './Space'
-import { Flex } from './units'
-import { VictoryPoints } from './ui'
+import { Flex } from '../atoms'
+import { VictoryPoints } from '../molecules'
 
-import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
+import DEVELOPMENT_CARDS from '../../assets/developmentCards.json'
 
 const Title = styled.div`
   text-align: center;

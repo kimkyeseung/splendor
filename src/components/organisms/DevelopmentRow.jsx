@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Flex } from './units'
+import { Flex } from '../atoms'
 import Card from './Card'
 import Deck from './Deck'
 import Tilt from 'react-tilt'

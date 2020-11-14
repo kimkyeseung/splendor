@@ -1,11 +1,11 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import config from '../config'
-import { DEFAULT_SETTING } from '../lib/config'
-import { Flex, Blank } from '../components/units'
+import config from '../../config'
+import { DEFAULT_SETTING } from '../../lib/config'
+import { Flex, Blank } from '../atoms'
 import Space from './Space'
 
-import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
+import DEVELOPMENT_CARDS from '../../assets/developmentCards.json'
 
 const { theme } = config
 

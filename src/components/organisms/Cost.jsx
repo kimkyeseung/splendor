@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-import config from '../config'
-import { Flex } from './units'
+import config from '../../config'
+import { Flex } from '../atoms'
 
 const { theme } = config
 

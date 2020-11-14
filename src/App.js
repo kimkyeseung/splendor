@@ -3,13 +3,13 @@ import MainContainer from './containers/MainContainer'
 import LobbyContainer from './containers/LobbyContainer'
 import { ToastContainer } from 'react-toastify'
 import GithubCorner from 'react-github-corner'
-import Game from './components/Game'
+import Game from './components/organisms/Game'
 import styled from 'styled-components'
 import {
   Switch,
   Route
 } from 'react-router-dom'
-import { Block } from './components/units'
+import { Block } from './components/atoms'
 import { withRouter } from 'react-router'
 import qs from 'query-string'
 import { THEME } from './lib/config'

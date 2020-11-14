@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Board from '../components/Board'
+import Board from '../components/organisms/Board'
 import { toast } from 'react-toastify'
 
 class BoardContainer extends Component {

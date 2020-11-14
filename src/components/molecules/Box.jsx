@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Block, Flex } from '../units'
+import { Block, Flex } from '../atoms'
 
 const StyledBlock = styled(Block)`
   padding: 3rem;

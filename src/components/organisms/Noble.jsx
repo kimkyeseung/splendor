@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import Cost from './Cost'
-import NOBLES from '../assets/nobles.json'
-import { VictoryPoints } from './ui'
+import NOBLES from '../../assets/nobles.json'
+import { VictoryPoints } from '../molecules'
 
 const basicSize = 150
 

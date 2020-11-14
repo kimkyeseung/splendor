@@ -1,7 +1,7 @@
 import React from 'react'
-import { Block, Flex } from './units'
+import { Block, Flex } from '../atoms'
 
-const Layout = ({ Developments, Nobles, Tokens, ...props }) => (
+const Layout = ({ Developments, Nobles, Tokens }) => (
   <Flex>
     <Block>
       {Developments}

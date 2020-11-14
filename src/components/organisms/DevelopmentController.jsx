@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import Card from './Card'
-import { Flex, Blank } from './units'
-import { Button, Modal } from './ui'
+import { Flex, Blank } from '../atoms'
+import { Button, Modal } from '../molecules'
 import Tilt from 'react-tilt'
 
 const Message = styled.div`
