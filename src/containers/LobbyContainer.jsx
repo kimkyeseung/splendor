@@ -7,6 +7,8 @@ import game from 'game'
 import Lobby from 'components/organisms/Lobby'
 import { Flex, Button } from 'components'
 import { ON_DEVELOPMENT, GAME_SERVER_URL, WEB_SERVER_URL } from 'config'
+import { getGameFromStorage, setGameToStorage } from 'utils'
+import { Beforeunload } from 'react-beforeunload'
 
 const api = new LobbyApi()
 
@@ -30,13 +32,11 @@ class LobbyContainer extends Component {
 
   componentDidMount() {
     this.checkRoomStateAndJoin();
-    this.interval = setInterval(this.checkRoomState, 1000);
-    window.addEventListener('beforeunload', this.cleanup)
+    this.interval = setInterval(this.checkRoomState, 1000)
   }
 
   componentWillUnmount() {
     this.cleanup()
-    window.removeEventListener('beforeunload', this.cleanup)
   }
 
   cleanup() {
@@ -183,6 +183,11 @@ class LobbyContainer extends Component {
 
     api.startGame(id, myId, userAuthToken)
       .then(() => {
+        setGameToStorage(id, {
+          playerID: myId,
+          name: joined.find(({ id }) => `${id}` === myId).name,
+          credentials: userAuthToken
+        })
         this.setState({ started: true }, () => {
           clearInterval(this.interval)
         })
@@ -194,13 +199,13 @@ class LobbyContainer extends Component {
 
   render() {
     const { joined, myId, id, started } = this.state
+    const { history } = this.props
 
     if (started) {
       return this.getGameClient()
     }
 
     if (!id) {
-      const { history } = this.props
 
       return (
         <div>
@@ -215,15 +220,21 @@ class LobbyContainer extends Component {
     }
 
     return (
-      <Lobby
-        players={joined}
-        myId={myId}
-        gameId={id}
-        isHost={joined.length && joined[0].id === myId}
-        serverURL={this.server}
-        startGame={this.startGame}
-        updatePlayerName={this.updatePlayerName}
-      />
+      <Beforeunload onBeforeunload={ev => {
+        this.cleanup()
+        history.push('/')
+        ev.preventDefault()
+      }}>
+        <Lobby
+          players={joined}
+          myId={myId}
+          gameId={id}
+          isHost={joined.length && joined[0].id === myId}
+          serverURL={this.server}
+          startGame={this.startGame}
+          updatePlayerName={this.updatePlayerName}
+        />
+      </Beforeunload>
     )
   }
 }

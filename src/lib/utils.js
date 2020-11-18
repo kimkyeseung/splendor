@@ -254,3 +254,18 @@ export const getDevelopmentValues = (G, ctx) => {
 
   return values
 }
+
+export const getGameFromStorage = key => {
+  let store = window.localStorage.getItem('splendor')
+  store = JSON.parse(store)
+  if (store) {
+    return store[key]
+  }
+}
+
+export const setGameToStorage = (key, data) => {
+  let store = window.localStorage.getItem('splendor')
+  store = JSON.parse(store)
+  store[key] = data
+  window.localStorage.setItem(JSON.stringify(store))
+}

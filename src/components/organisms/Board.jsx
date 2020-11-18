@@ -91,18 +91,11 @@ const Board = ({
           <Aside>
             {players.map(player => (
               <Player
-                key={player}
+                key={player.id}
                 G={G}
                 player={player}
                 ctx={ctx} />
             ))}
-            {/* {Object.keys(G.fields).map(player => (
-              <Player
-                key={player}
-                G={G}
-                player={players ? players.find(({ id }) => `${id}` === player) : { id: player }}
-                ctx={ctx} />
-            ))} */}
           </Aside>
         }
         Main={

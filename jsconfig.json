@@ -16,6 +16,9 @@
       ],
       "game": [
         "./lib/game"
+      ],
+      "utils": [
+        "./lib/utils"
       ]
     }
   }
