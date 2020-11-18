@@ -48,7 +48,8 @@ const Board = ({
   deselectToken,
   returnToken,
   handleNobleClick,
-  history
+  history,
+  players
 }) => {
   const { currentPlayer, gameover } = ctx
   const {
@@ -88,15 +89,20 @@ const Board = ({
         }
         LeftPanel={
           <Aside>
-            {Object.keys(G.fields).map(player => (
+            {players.map(player => (
               <Player
                 key={player}
-                field={G.fields[player]}
                 G={G}
-                selectedTokens={selectedTokens}
                 player={player}
                 ctx={ctx} />
             ))}
+            {/* {Object.keys(G.fields).map(player => (
+              <Player
+                key={player}
+                G={G}
+                player={players ? players.find(({ id }) => `${id}` === player) : { id: player }}
+                ctx={ctx} />
+            ))} */}
           </Aside>
         }
         Main={

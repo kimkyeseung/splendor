@@ -15,6 +15,7 @@ class BoardContainer extends Component {
 
   constructor(props) {
     super(props)
+    this.getCurrentPlayerName = this.getCurrentPlayerName.bind(this)
     this.handleSpaceClick = this.handleSpaceClick.bind(this)
     this.deselectDevelopment = this.deselectDevelopment.bind(this)
     this.buySelectedDevelopment = this.buySelectedDevelopment.bind(this)
@@ -41,7 +42,7 @@ class BoardContainer extends Component {
 
       isMyTurn
         ? toast.success(`It's My Turn`)
-        : toast(`It's Player ${ctx.currentPlayer}'s Turn`)
+        : toast(`It's ${this.getCurrentPlayerName()}'s Turn`)
     }
   }
 
@@ -51,6 +52,12 @@ class BoardContainer extends Component {
       pauseOnHover: false,
       autoClose: 2000
     })
+  }
+
+  getCurrentPlayerName() {
+    const { ctx, players } = this.props
+
+    return players.find(({ id }) => ctx.currentPlayer === `${id}`).name || ctx.currentPlayer
   }
 
   handleSpaceClick(dev, meta) {
@@ -134,7 +141,7 @@ class BoardContainer extends Component {
   }
 
   render() {
-    const { G, ctx, playerID, isMultiplayer, history } = this.props
+    const { G, ctx, playerID, isMultiplayer, history, players } = this.props
 
     return (
       <Board
@@ -154,6 +161,7 @@ class BoardContainer extends Component {
         handleNobleClick={this.handleNobleClick}
         handleReservedDevelopmentClick={this.handleReservedDevelopmentClick}
         history={history}
+        players={players}
       />
     )
   }

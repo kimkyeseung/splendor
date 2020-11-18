@@ -34,7 +34,7 @@ const developCards = Object.keys(DEVELOPMENT_CARDS).reduce((cards, cardId) => {
 
 const tokenLimit = DEFAULT_SETTING.playerTokenLimit
 
-const game = (playerNames) => {
+const game = () => {
   const Splendor = {
     name: 'splendor',
 
@@ -73,7 +73,6 @@ const game = (playerNames) => {
       const defaultValues = { white: 0, red: 0, blue: 0, green: 0, black: 0, yellow: 0 }
       Array(numPlayers).fill(1).forEach((a, i) => {
         fields[i] = {
-          name: playerNames[i] || i,
           developments: [],
           tokenAssets: { ...defaultValues },
           reservedDevs: [],

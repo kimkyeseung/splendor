@@ -5,6 +5,7 @@ import Board from './BoardContainer'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import game from 'game'
 import Lobby from 'components/organisms/Lobby'
+import { Flex, Button } from 'components'
 import { ON_DEVELOPMENT, GAME_SERVER_URL, WEB_SERVER_URL } from 'config'
 
 const api = new LobbyApi()
@@ -95,7 +96,7 @@ class LobbyContainer extends Component {
       )
   }
 
-  checkRoomState () {
+  checkRoomState() {
     const { id } = this.state
     if (!id) {
       return
@@ -135,14 +136,18 @@ class LobbyContainer extends Component {
   }
 
   getGameClient() {
-    const { joined, id, myId, userAuthToken, } = this.state
+    const { joined, id, myId, userAuthToken } = this.state
     const { history } = this.props
 
-    const Splendor = game(joined.length)
+    const Splendor = game(joined)
     const SplendorGame = Client({
       game: Splendor,
+      numPlayers: joined.length,
+      matchID: id,
+      playerID: myId,
+      credentials: userAuthToken,
       board: props => (
-        <Board {...props} history={history} />
+        <Board {...props} players={joined} history={history} />
       ),
       multiplayer: SocketIO({
         server: ON_DEVELOPMENT
@@ -157,7 +162,7 @@ class LobbyContainer extends Component {
         players={joined.filter(player => player.name && player.id)}
         playerID={String(myId)}
         credentials={userAuthToken}
-      ></SplendorGame>
+      />
     )
   }
 
@@ -195,7 +200,18 @@ class LobbyContainer extends Component {
     }
 
     if (!id) {
-      return <div>생성된 게임이 없습니다.</div>
+      const { history } = this.props
+
+      return (
+        <div>
+          <Flex>
+            생성된 게임이 없습니다.
+          </Flex>
+          <Button onClick={() => {
+            history.push('/')
+          }}>Back</Button>
+        </div>
+      )
     }
 
     return (
@@ -207,7 +223,7 @@ class LobbyContainer extends Component {
         serverURL={this.server}
         startGame={this.startGame}
         updatePlayerName={this.updatePlayerName}
-         />
+      />
     )
   }
 }

@@ -7,7 +7,8 @@ const server = ON_DEVELOPMENT
 export class LobbyApi {
   constructor() {
     this.api = ky.create({
-      prefixUrl: `${server}/games/${GAME_NAME}`
+      prefixUrl: `${server}/games/${GAME_NAME}`,
+      headers: { cache: 'no-cache' }
     })
   }
 

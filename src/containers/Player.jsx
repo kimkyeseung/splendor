@@ -30,14 +30,14 @@ class Player extends Component {
   }
 
   render() {
-    const { ctx, player, G, selectedTokens, field } = this.props
+    const { ctx, player, G } = this.props
     const { currentPlayer } = ctx
-    const score = G.fields[player].victoryPoints
+    const score = G.fields[player.id].victoryPoints
 
     return (
       <StyledPlayer>
         <Flex alginItems="center">
-          <Name>{field.name}</Name>
+          <Name>{player.name || player.id}</Name>
           {score
             ? <VictoryPointsMarker
               score={score}
@@ -45,8 +45,8 @@ class Player extends Component {
             : null}
         </Flex>
         <FieldSummary
-          active={`${player}` === `${currentPlayer}`}
-          field={G.fields[player]} />
+          active={`${player.id}` === `${currentPlayer}`}
+          field={G.fields[player.id]} />
       </StyledPlayer>
     )
   }
