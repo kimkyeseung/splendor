@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Box, Button, Blank, Flex } from 'components'
 import { ON_DEVELOPMENT } from 'config'
 
@@ -25,18 +25,25 @@ const Empty = styled.div`
   padding: 0.75rem 1.25rem;
 `
 
+const myPlayerStyle = css`
+  border: 0;
+  color: ${({ theme }) => theme.white};
+  background-color: ${({ theme }) => theme.primary[0]};
+`
+
 const Player = styled.div`
   color: ${({ theme }) => theme.black};
   border: 2px solid;
   border-color: ${({ theme }) => theme.primary[0]};
   border-radius: 10px;
   padding: 0.75rem 1.25rem;
+  ${({ isMe }) => isMe && myPlayerStyle}
 `
 
 Player.Name = styled.div``
 
 const Wrapper = styled.div`
-  width: 800px;
+  width: 640px;
   padding: 1rem;
 `
 
@@ -51,7 +58,9 @@ const GameId = styled.div`
 `
 
 
-const Lobby = ({ gameId, players = [], isHost, startGame, myId, serverURL }) => {
+const Lobby = ({
+  gameId, players = [], isHost, startGame, myId, serverURL, updatePlayerName
+}) => {
   const textAreaRef = useRef(null)
 
   const copyText = () => {
@@ -82,32 +91,35 @@ const Lobby = ({ gameId, players = [], isHost, startGame, myId, serverURL }) => 
             </Flex>
             {ON_DEVELOPMENT && <a href={`${serverURL}/lobby/${gameId}`} target="_blank" >go</a>}
             <List>
-              {players.reduce((list, player, index) => {
-                const isMe = myId === player.id
-                if (player) {
-                  list[index] = <Player key={player.id}>
+              {Array(4).fill(1).map((n, index) => {
+                const isMe = myId === (players[index] && players[index].id)
+
+                return players[index] ? (
+                  <Player key={`${index}-${players[index].id}`} isMe={isMe}>
                     <Flex>
                       <span>name: </span>
-                      <Player.Name>{player.name}</Player.Name>
+                      <Flex>
+                        {isMe
+                          ? <Button onClick={ev => {
+                            ev.preventDefault()
+                            const newName = prompt('Enter Your Name', players[index].name)
+                            newName && updatePlayerName(newName)
+                          }}>{players[index].name}</Button>
+                          : <Player.Name>{players[index].name}</Player.Name>}
+                      </Flex>
                     </Flex>
-                    {isMe && 'isMe!'}
                   </Player>
-                }
-                return list
-              }, [
-                <Empty key={0}>wait for Player</Empty>,
-                <Empty key={1}>wait for Player</Empty>,
-                <Empty key={2}>wait for Player</Empty>,
-                <Empty key={3}>wait for Player</Empty>
-              ])}
+                ) : <Empty key={index}>wait for Player</Empty>
+              })}
             </List>
             <Blank height={20} />
-            {isHost && <div>
+            {isHost && <Flex>
               <Button primary disabled={players.length < 2} onClick={ev => {
                 ev.preventDefault()
                 startGame()
-              }}>시작하기</Button>
-            </div>}
+              }}>Start Game</Button>
+              <Button to="/">Back</Button>
+            </Flex>}
           </Wrapper>
         </Flex>
       </Box>

@@ -5,7 +5,7 @@ import Board from './BoardContainer'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import game from 'game'
 import Lobby from 'components/organisms/Lobby'
-import { ON_DEVELOPMENT, GAME_SERVER_URL } from 'config'
+import { ON_DEVELOPMENT, GAME_SERVER_URL, WEB_SERVER_URL } from 'config'
 
 const api = new LobbyApi()
 
@@ -23,6 +23,7 @@ class LobbyContainer extends Component {
     this.checkRoomState = this.checkRoomState.bind(this)
     this.getGameClient = this.getGameClient.bind(this)
     this.startGame = this.startGame.bind(this)
+    this.updatePlayerName = this.updatePlayerName.bind(this)
     this.cleanup = this.cleanup.bind(this)
   }
 
@@ -94,7 +95,7 @@ class LobbyContainer extends Component {
       )
   }
 
-  checkRoomState = () => {
+  checkRoomState () {
     const { id } = this.state
     if (!id) {
       return
@@ -133,7 +134,7 @@ class LobbyContainer extends Component {
     );
   }
 
-  getGameClient = () => {
+  getGameClient() {
     const { joined, id, myId, userAuthToken, } = this.state
     const { history } = this.props
 
@@ -143,7 +144,11 @@ class LobbyContainer extends Component {
       board: props => (
         <Board {...props} history={history} />
       ),
-      multiplayer: SocketIO({ server: this.server })
+      multiplayer: SocketIO({
+        server: ON_DEVELOPMENT
+          ? WEB_SERVER_URL
+          : `https://${window.location.hostname}`
+      })
     })
 
     return (
@@ -154,6 +159,15 @@ class LobbyContainer extends Component {
         credentials={userAuthToken}
       ></SplendorGame>
     )
+  }
+
+  updatePlayerName(name) {
+    const { id, myId, userAuthToken, joined } = this.state
+
+    api.updatePlayerMeta(id, myId, userAuthToken, name)
+      .catch(err => {
+        console.log('게임 시작 에러가 발생하였습니다. ', err)
+      })
   }
 
   startGame() {
@@ -191,9 +205,9 @@ class LobbyContainer extends Component {
         gameId={id}
         isHost={joined.length && joined[0].id === myId}
         serverURL={this.server}
-        startGame={() => {
-          this.startGame()
-        }} />
+        startGame={this.startGame}
+        updatePlayerName={this.updatePlayerName}
+         />
     )
   }
 }

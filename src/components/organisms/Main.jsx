@@ -12,7 +12,7 @@ const Title = styled.div`
 
 const Select = styled.div`
   text-align: center;
-  max-width: 240px;
+  max-width: 400px;
   margin: 0 auto;
 `
 
@@ -56,13 +56,13 @@ const Main = ({
       <Box>
         <Flex>
           <Item>
-            <Button to="/play">join game</Button>
+            <Button to="/play">Join game</Button>
           </Item>
           <Item>
-            <Button onClick={() => createGame()}>new game</Button>
+            <Button onClick={() => createGame()}>New game</Button>
           </Item>
           <Item>
-            <Button onClick={() => toggleModal('playModal')}>pass & play</Button>
+            <Button onClick={() => toggleModal('playModal')}>Pass & Play</Button>
           </Item>
         </Flex>
       </Box>
@@ -71,7 +71,7 @@ const Main = ({
         toggleModal('playModal')
       }}>
         <Select>
-          <Message>게임에 참여할 인원을 선택해주세요</Message>
+          <Message>Select the number of people who will participate in the game</Message>
           <Blank height={20} />
           <Flex>
             {[2, 3, 4].map(num => (
@@ -87,13 +87,13 @@ const Main = ({
 
         <Blank height={30} />
         <Select>
-          <Message>플레이어의 이름을 입력해주세요</Message>
+          <Message>Enter names for the players</Message>
           <Blank height={20} />
           <Input.Wrapper>
             {Array(playerNum).fill().map((num, i) => (
               <Input key={i}>
                 <label>
-                  플레이어 <span>{i + 1}</span>
+                  Player <span>{i + 1}</span>
                 </label>
                 <input value={playerNames[i]} onChange={ev => {
                   setPlayerName(ev.target.value, i)
@@ -108,7 +108,7 @@ const Main = ({
             ev.preventDefault()
             startGame()
           }}>
-            시작하기
+            Start Game
           </Button>
         </Select>
       </Modal>

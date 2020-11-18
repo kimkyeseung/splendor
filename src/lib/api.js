@@ -1,7 +1,7 @@
-import { GAME_NAME, GAME_SERVER_URL, ON_DEVELOPMENT } from './config'
+import { GAME_NAME, WEB_SERVER_URL, ON_DEVELOPMENT } from 'config'
 import ky from 'ky-universal'
 const server = ON_DEVELOPMENT
-  ? GAME_SERVER_URL
+  ? WEB_SERVER_URL
   : `https://${window.location.hostname}`
 
 export class LobbyApi {
@@ -33,8 +33,8 @@ export class LobbyApi {
     const payload = { playerID: userId, credentials }
     try {
       await this.api.post(roomId + '/leave', { json: payload }).json()
-    } catch (error) {
-      console.log('error in leaveRoom: ', error)
+    } catch (err) {
+      console.log('error in leaveRoom: ', err)
     }
   }
 
@@ -42,6 +42,21 @@ export class LobbyApi {
     const data = await this.api.get(roomID).json()
     console.log('whosInRoom: ', { data })
     return data.players
+  }
+
+  async updatePlayerMeta(roomId, userId, credentials, newName) {
+    const payload = {
+      playerID: userId,
+      credentials,
+      newName
+    }
+    try {
+      await this.api.post(`${roomId}/update`, {
+        json: payload
+      })
+    } catch (err) {
+      console.log('error in updatePlayerMeta: ', err)
+    }
   }
 
   async startGame(roomId, userId, credentials) {
@@ -53,8 +68,8 @@ export class LobbyApi {
     try {
       await this.api.post(`${roomId}/update`, { json: payload })
       return roomId
-    } catch (error) {
-      console.log('error in startRoom: ', error)
+    } catch (err) {
+      console.log('error in startRoom: ', err)
     }
   }
 }

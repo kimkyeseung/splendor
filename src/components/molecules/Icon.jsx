@@ -3,7 +3,8 @@ import * as Icons from 'react-icons/ri'
 
 const iconNameMap = {
   money: 'RiCoinsLine',
-  cart: 'RiShoppingCart2Line'
+  cart: 'RiShoppingCart2Line',
+  pencil: 'RiPencilLine'
 }
 
 export const Icon = ({ name, ...props }) => {
