@@ -24,7 +24,7 @@ const StyledPlayer = styled.div`
   }
 `
 
-class Player extends Component {
+class PlayerContainer extends Component {
   constructor(props) {
     super(props)
   }
@@ -52,4 +52,4 @@ class Player extends Component {
   }
 }
 
-export default Player
+export default PlayerContainer

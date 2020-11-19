@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { LobbyApi } from 'api'
 import Board from '../components/organisms/Board'
 import { toast } from 'react-toastify'
 import { Beforeunload } from 'react-beforeunload'
-
-const api = new LobbyApi()
 
 class BoardContainer extends Component {
   static propTypes = {

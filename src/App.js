@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import MainContainer from './containers/MainContainer'
-import LobbyContainer from './containers/LobbyContainer'
+import styled from 'styled-components'
+import { Switch, Route } from 'react-router-dom'
+import MainContainer from 'containers/MainContainer'
+import LobbyContainer from 'containers/LobbyContainer'
+import TerminalContainer from 'containers/TerminalContainer'
 import { ToastContainer } from 'react-toastify'
 import GithubCorner from 'react-github-corner'
-import Game from './components/organisms/Game'
-import styled from 'styled-components'
-import {
-  Switch,
-  Route
-} from 'react-router-dom'
+import Game from 'components/organisms/Game'
 import { Block } from './components'
 import { withRouter } from 'react-router'
 import qs from 'query-string'
@@ -85,6 +83,9 @@ class App extends Component {
           <Route path="/game">
             <Game {...qs.parse(location.search)} history={history} />
           </Route>
+          <Route path="/play">
+            <TerminalContainer />
+          </Route>
           <Route path="/lobby/:id" render={props => <LobbyContainer {...props} />} />
         </Switch>
         <ToastContainer />
@@ -93,7 +94,7 @@ class App extends Component {
           direction="right"
           target="_blank"
           bannerColor={THEME.title}
-          />
+        />
       </Body>
     )
   }

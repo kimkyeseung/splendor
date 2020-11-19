@@ -11,7 +11,7 @@ import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
 import Aside from './Aside'
 import Result from './Result'
-import Player from 'containers/Player'
+import Player from 'containers/PlayerContainer'
 import { DEVELOPMENT_CARDS } from 'assets'
 
 const Header = styled.header`
