@@ -160,7 +160,7 @@ class LobbyContainer extends Component {
       playerID: myId,
       credentials: userAuthToken,
       board: props => (
-        <Board {...props} players={joined} leaveGame={this.cleanup} history={history} />
+        <Board {...props} players={joined} history={history} />
       ),
       multiplayer: SocketIO({
         server: ON_DEVELOPMENT
@@ -209,12 +209,7 @@ class LobbyContainer extends Component {
     const { joined, myId, id, started } = this.state
     const { history } = this.props
 
-    if (started) {
-      return this.getGameClient()
-    }
-
     if (!id) {
-
       return (
         <div>
           <Flex>
@@ -233,15 +228,18 @@ class LobbyContainer extends Component {
         history.push('/')
         ev.preventDefault()
       }}>
-        <Lobby
-          players={joined}
-          myId={myId}
-          gameId={id}
-          isHost={joined.length && joined[0].id === myId}
-          serverURL={this.server}
-          startGame={this.startGame}
-          updatePlayerName={this.updatePlayerName}
-        />
+        {started
+          ? this.getGameClient()
+          : <Lobby
+            players={joined}
+            myId={myId}
+            gameId={id}
+            isHost={joined.length && joined[0].id === myId}
+            serverURL={this.server}
+            startGame={this.startGame}
+            updatePlayerName={this.updatePlayerName}
+          />}
+
       </Beforeunload>
     )
   }

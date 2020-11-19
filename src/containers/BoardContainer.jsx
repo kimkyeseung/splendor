@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Board from '../components/organisms/Board'
 import { toast } from 'react-toastify'
-import { Beforeunload } from 'react-beforeunload'
 
 class BoardContainer extends Component {
   static propTypes = {
@@ -27,7 +26,6 @@ class BoardContainer extends Component {
     this.deselectToken = this.deselectToken.bind(this)
     this.returnToken = this.returnToken.bind(this)
     this.handleNobleClick = this.handleNobleClick.bind(this)
-    this.leaveGame = this.leaveGame.bind(this)
   }
 
   componentDidUpdate(prevProps) {
@@ -142,39 +140,29 @@ class BoardContainer extends Component {
     selectGetNoble(noble)
   }
 
-  leaveGame() {
-    this.props.leaveGame()
-  }
-
   render() {
     const { G, ctx, playerID, isMultiplayer, history, players } = this.props
 
     return (
-      <Beforeunload onBeforeunload={ev => {
-        this.leaveGame()
-        history.push('/')
-        ev.preventDefault()
-      }}>
-        <Board
-          G={G}
-          ctx={ctx}
-          playerID={playerID}
-          isMultiplayer={isMultiplayer}
-          handleSpaceClick={this.handleSpaceClick}
-          deselectDevelopment={this.deselectDevelopment}
-          buySelectedDevelopment={this.buySelectedDevelopment}
-          reserveSelectedDevelopment={this.reserveSelectedDevelopment}
-          handleTokenClick={this.handleTokenClick}
-          confirmSelectedToken={this.confirmSelectedToken}
-          cancelSelectedToken={this.cancelSelectedToken}
-          deselectToken={this.deselectToken}
-          returnToken={this.returnToken}
-          handleNobleClick={this.handleNobleClick}
-          handleReservedDevelopmentClick={this.handleReservedDevelopmentClick}
-          history={history}
-          players={players}
-        />
-      </Beforeunload>
+      <Board
+        G={G}
+        ctx={ctx}
+        playerID={playerID}
+        isMultiplayer={isMultiplayer}
+        handleSpaceClick={this.handleSpaceClick}
+        deselectDevelopment={this.deselectDevelopment}
+        buySelectedDevelopment={this.buySelectedDevelopment}
+        reserveSelectedDevelopment={this.reserveSelectedDevelopment}
+        handleTokenClick={this.handleTokenClick}
+        confirmSelectedToken={this.confirmSelectedToken}
+        cancelSelectedToken={this.cancelSelectedToken}
+        deselectToken={this.deselectToken}
+        returnToken={this.returnToken}
+        handleNobleClick={this.handleNobleClick}
+        handleReservedDevelopmentClick={this.handleReservedDevelopmentClick}
+        history={history}
+        players={players}
+      />
     )
   }
 }
