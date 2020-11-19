@@ -8,13 +8,13 @@ export class LobbyApi {
   constructor() {
     this.api = ky.create({
       prefixUrl: `${server}/games/${GAME_NAME}`,
-      headers: { cache: 'no-cache' }
+      headers: { 'Cache-Control': ['no-cache', 'no-store'] }
     })
   }
 
   async createRoom() {
     const data = await this.api
-      .post('create', { numPlayers: 4 })
+      .post('create', { json: { numPlayers: 4 } })
       .json()
 
     return data.matchID

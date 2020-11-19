@@ -265,7 +265,7 @@ export const getGameFromStorage = key => {
 
 export const setGameToStorage = (key, data) => {
   let store = window.localStorage.getItem('splendor')
-  store = JSON.parse(store)
+  store = JSON.parse(store) || {}
   store[key] = data
-  window.localStorage.setItem(JSON.stringify(store))
+  window.localStorage.setItem('splendor', JSON.stringify(store))
 }

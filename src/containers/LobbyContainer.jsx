@@ -31,11 +31,12 @@ class LobbyContainer extends Component {
   }
 
   componentDidMount() {
-    this.checkRoomStateAndJoin();
+    this.checkRoomStateAndJoin()
     this.interval = setInterval(this.checkRoomState, 1000)
   }
 
   componentWillUnmount() {
+    console.log('unmount')
     this.cleanup()
   }
 
@@ -48,9 +49,9 @@ class LobbyContainer extends Component {
     })
   }
 
-  joinRoom(playerNo) {
-    const username = 'Player ' + playerNo
-    const { id } = this.state
+  joinRoom(playerNo, userName) {
+    const username = userName || 'Player ' + playerNo
+    const { id, joined } = this.state
 
     if (id) {
       const { history } = this.props
@@ -60,10 +61,16 @@ class LobbyContainer extends Component {
           this.setState({
             myId: playerNo,
             userAuthToken: authToken
+          }, () => {
+            setGameToStorage(id, {
+              playerID: playerNo,
+              name: username,
+              credentials: authToken
+            })
           })
         },
           (err) => {
-            console.log('게임 창가에 오류가 발생하였습니다.', err)
+            console.log('게임 참가에 오류가 발생하였습니다.', err)
             history.push('/')
           }
         )
@@ -80,11 +87,17 @@ class LobbyContainer extends Component {
     api.whosInRoom(id)
       .then((players) => {
         const joinedPlayers = players.filter((p) => p.name)
+        const started = players.some(p => p.data?.started)
         this.setState({
           joined: joinedPlayers,
         }, () => {
-          const myPlayerNum = joinedPlayers.length
-          this.joinRoom(myPlayerNum)
+          const storedData = getGameFromStorage(id)
+          if (started && storedData) {
+            this.joinRoom(storedData.playerID, storedData.name)
+          } else {
+            const myPlayerNum = joinedPlayers.length
+            this.joinRoom(myPlayerNum)
+          }
         })
       },
         (err) => {
@@ -147,7 +160,7 @@ class LobbyContainer extends Component {
       playerID: myId,
       credentials: userAuthToken,
       board: props => (
-        <Board {...props} players={joined} history={history} />
+        <Board {...props} players={joined} leaveGame={this.cleanup} history={history} />
       ),
       multiplayer: SocketIO({
         server: ON_DEVELOPMENT
@@ -183,11 +196,6 @@ class LobbyContainer extends Component {
 
     api.startGame(id, myId, userAuthToken)
       .then(() => {
-        setGameToStorage(id, {
-          playerID: myId,
-          name: joined.find(({ id }) => `${id}` === myId).name,
-          credentials: userAuthToken
-        })
         this.setState({ started: true }, () => {
           clearInterval(this.interval)
         })
