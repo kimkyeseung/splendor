@@ -12,6 +12,7 @@ export { Modal } from './molecules/Modal'
 export { Button } from './molecules/Button'
 export { CircleProgress } from './molecules/CircleProgress'
 export { Icon } from './molecules/Icon'
+export { Title } from './molecules/Title'
 
 export {
   Layout, BoardLayout

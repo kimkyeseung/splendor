@@ -4,17 +4,9 @@ import PropTypes from 'prop-types'
 import Value from './Value'
 import Cost from './Cost'
 import Space from './Space'
-import { VictoryPoints, Flex } from 'components'
+import { VictoryPoints, Flex, Title } from 'components'
 
 import { DEVELOPMENT_CARDS } from 'assets'
-
-const Title = styled.div`
-  text-align: center;
-  font-size: 24px;
-  color: ${({ theme }) => theme.white};
-  text-shadow: 1px 1px ${({ theme }) => theme.title};
-  font-family: ${({ theme }) => theme.font.title};
-`
 
 const Card = ({ dev, blind, ...props }) => {
   if (!dev) {
@@ -26,7 +18,7 @@ const Card = ({ dev, blind, ...props }) => {
     return (
       <Space grade={grade} blind {...props}>
         <Flex style={{ height: '100%' }} justifyContent="center">
-          <Title className="title">Splendor</Title>
+          <Title className="title" size="card" />
         </Flex>
       </Space>
     )

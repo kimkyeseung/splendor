@@ -1,14 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Button, Modal, Flex, Blank } from 'components'
+import { Button, Modal, Flex, Blank, Title } from 'components'
 
-const Title = styled.div`
-  text-align: center;
-  font-size: 60px;
-  color: ${({ theme }) => theme.title};
-  font-family: ${({ theme }) => theme.font.title};
-`
 const Message = styled.div`
   font-size: 3em;
   color: ${({ theme }) => theme.grayscale[8]};
@@ -22,7 +16,7 @@ const Result = ({ G, ctx, playerID, winner, history }) => {
   return (
     <Modal isOpen={true} closable={false}>
       <Blank height={20} />
-      <Title>Splendor</Title>
+      <Title reverse />
       <Blank height={20} />
       <Message>{isWin ? 'You Win' : 'You Lose'}</Message>
       <Blank height={20} />

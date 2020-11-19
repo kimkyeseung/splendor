@@ -1,14 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Blank, Flex, Box, Button, Modal } from 'components'
-
-const Title = styled.div`
-  text-align: center;
-  font-size: 200px;
-  color: ${({ theme }) => theme.white};
-  text-shadow: 6px 6px ${({ theme }) => theme.title};
-  font-family: ${({ theme }) => theme.font.title};
-`
+import { Blank, Flex, Box, Button, Modal, Title } from 'components'
 
 const Select = styled.div`
   text-align: center;
@@ -43,7 +35,7 @@ const Terminal = ({
   return (
     <>
       <Blank height={160} />
-      <Title>Splendor</Title>
+      <Title />
       <Blank height={100} />
       <Box>
         <Flex>

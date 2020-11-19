@@ -1,15 +1,7 @@
 import React, { useRef } from 'react'
 import styled, { css } from 'styled-components'
-import { Box, Button, Blank, Flex } from 'components'
+import { Box, Button, Blank, Flex, Title } from 'components'
 import { ON_DEVELOPMENT } from 'config'
-
-const Title = styled.div`
-  text-align: center;
-  font-size: 100px;
-  color: ${({ theme }) => theme.white};
-  text-shadow: 3px 3px ${({ theme }) => theme.title};
-  font-family: ${({ theme }) => theme.font.title};
-`
 
 const List = styled.div`
   & > * {
@@ -75,7 +67,7 @@ const Lobby = ({
   return (
     <>
       <Blank height={160} />
-      <Title>Splendor</Title>
+      <Title />
       <Blank height={100} />
       <Box>
         <Flex justifyContent="center">
