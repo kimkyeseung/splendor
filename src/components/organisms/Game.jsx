@@ -7,7 +7,7 @@ const Game = ({ players, history }) => {
   const Splendor = game()
   const SplendorGame = Client({
     game: Splendor,
-    board: (props) => <Board {...props} players={players.map((p, i) => ({ id: i, name: p }))} history={history} />,
+    board: (props) => <Board {...props} players={players.map((p, i) => ({ id: i, name: p }))} />,
     numPlayers: players.length
   })
 

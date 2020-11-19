@@ -66,7 +66,7 @@ class App extends Component {
 
   render() {
     const { playerNum, playerNames } = this.state
-    const { location, history } = this.props
+    const { location } = this.props
 
     return (
       <Body width="100%">
@@ -81,7 +81,7 @@ class App extends Component {
               {...this.props} />
           </Route>
           <Route path="/game">
-            <Game {...qs.parse(location.search)} history={history} />
+            <Game {...qs.parse(location.search)} />
           </Route>
           <Route path="/play">
             <TerminalContainer />

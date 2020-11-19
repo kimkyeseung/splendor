@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Board from '../components/organisms/Board'
+import { withRouter } from 'react-router'
+import Board from 'components/organisms/Board'
 import { toast } from 'react-toastify'
 
 class BoardContainer extends Component {
@@ -167,4 +168,4 @@ class BoardContainer extends Component {
   }
 }
 
-export default BoardContainer
+export default withRouter(BoardContainer)
