@@ -12,6 +12,16 @@ export class LobbyApi {
     })
   }
 
+  async getRooms() {
+    try {
+      const data = await this.api.get('').json()
+      
+      return data.matches
+    } catch (err) {
+      console.log('error in leaveRoom: ', err)
+    }
+  }
+
   async createRoom() {
     const data = await this.api
       .post('create', { json: { numPlayers: 4 } })

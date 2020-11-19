@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { LobbyApi } from 'api'
 import Terminal from 'components/organisms/Terminal'
+import randomName from 'node-random-name'
 
 const api = new LobbyApi()
 
@@ -10,20 +11,32 @@ class TerminalContainer extends Component {
     super(props)
     this.state = {
       error: false,
-      loading: false,
-      playModal: false
+      loading: true,
+      playerName: randomName({ last: true }),
+      rooms: []
     }
     this.createGame = this.createGame.bind(this)
-    this.toggleModal = this.toggleModal.bind(this)
+    this.changePlayerName = this.changePlayerName.bind(this)
   }
 
-  toggleModal(modalName, cb) {
-    if (!modalName) {
-      return
-    }
-    this.setState(prevState => ({
-      [modalName]: !prevState[modalName]
-    }), cb)
+  componentDidMount() {
+    this.getRoomList()
+      .then(() => {
+        this.setState({ loading: false })
+      })
+  }
+
+  getRoomList() {
+    return api.getRooms()
+      .then(rooms => {
+        this.setState({ rooms })
+      })
+  }
+
+  changePlayerName(name) {
+    this.setState({
+      playerName: name
+    })
   }
 
   createGame() {
@@ -52,7 +65,7 @@ class TerminalContainer extends Component {
   }
 
   render() {
-    const { playModal, error } = this.state
+    const { playerName, error, rooms } = this.state
 
     if (error) {
       return <div>Error!</div>
@@ -60,9 +73,9 @@ class TerminalContainer extends Component {
 
     return (
       <Terminal
-        createGame={this.createGame}
-        toggleModal={this.toggleModal}
-        playModal={playModal}
+        playerName={playerName}
+        changePlayerName={this.changePlayerName}
+        rooms={rooms}
         {...this.props} />
     )
   }
