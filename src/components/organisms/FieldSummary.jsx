@@ -115,7 +115,7 @@ const FieldSummary = ({ active, field }) => {
       {victoryPoints ? <VictoryPoint>{victoryPoints}</VictoryPoint> : null}
       <Blank height={15} />
       {<Flex>
-        {totalTokenCount ? <loTokenCount>{totalTokenCount}/{DEFAULT_SETTING.playerTokenLimit}</loTokenCount> : null}
+        {totalTokenCount ? <TokenCount>{totalTokenCount}/{DEFAULT_SETTING.playerTokenLimit}</TokenCount> : null}
         <Flex justifyContent="space-around">
           {reservedDevs.map(dev => {
             const { grade } = DEVELOPMENT_CARDS[dev]

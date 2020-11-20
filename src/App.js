@@ -4,10 +4,12 @@ import { Switch, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import GithubCorner from 'react-github-corner'
 import Game from 'components/organisms/Game'
-import { Block, LobbyPage, JoinPage, MainPage } from 'components'
+import { Block, LobbyPage, JoinPage, MainPage, GamePage } from 'components'
 import { withRouter } from 'react-router'
+import { LobbyApi } from 'api'
 import qs from 'query-string'
 import { THEME } from './lib/config'
+import randomName from 'node-random-name'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Body = styled(Block)`
@@ -19,51 +21,97 @@ const Body = styled(Block)`
   font-size: 20px;
 `
 
+const api = new LobbyApi()
+
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      playerNum: 2,
-      config: {},
-      playerNames: ['0', '1', '2', '3']
+      loading: false,
+      error: false,
+      myId: null,
+      gameId: null,
+      playerName: randomName({ last: true }),
+      userAuthToken: '',
+      joinedPlayers: []
     }
-    this.setPlayerNum = this.setPlayerNum.bind(this)
-    this.setPlayerName = this.setPlayerName.bind(this)
-    this.startGame = this.startGame.bind(this)
+    this.createGame = this.createGame.bind(this)
+    this.leaveGameRoom = this.leaveGameRoom.bind(this)
+    this.updateJoinedPlayers = this.updateJoinedPlayers.bind(this)
+    this.setPlayerInfo = this.setPlayerInfo.bind(this)
+    this.updatePlayerName = this.updatePlayerName.bind(this)
   }
 
-  setPlayerNum(num) {
-    this.setState({ playerNum: num })
+  componentWillUnmount() {
+    this.leaveGameRoom()
   }
 
-  setPlayerName(name, index) {
-    this.setState(({ playerNames }) => {
-      const next = [...playerNames]
-      next[index] = name
-      console.log({ next, name })
-      return { playerNames: next }
+  createGame() {
+    const { loading } = this.state
+
+    if (loading) {
+      return
+    }
+
+    this.setState({
+      loading: true,
+    }, () => {
+      api.createRoom()
+        .then((gameId) => {
+          const { history } = this.props
+          this.setState({ gameId, loading: false }, () => {
+            history.push(`/lobby/${gameId}`)
+          })
+        },
+          (err) => {
+            console.log(err)
+            this.setState({ loading: false, error: true })
+          }
+        )
     })
   }
 
-  startGame() {
-    const { playerNum, playerNames } = this.state
-    const { history } = this.props
-
-    if (playerNum > 4 || playerNum < 2) {
-      return alert('최소 2인이상 4인 이하로 입력해주세요.')
+  leaveGameRoom(
+    gameId = this.state.gameId,
+    myId = this.state.myId,
+    userAuthToken = this.state.userAuthToken
+  ) {
+    if (!myId || !userAuthToken) {
+      return Promise.resolve()
     }
 
-    history.push({
-      pathname: '/play',
-      search: qs.stringify({
-        gameId: new Date().getTime(),
-        players: playerNames.slice(0, playerNum)
-      })
+    return api.leaveRoom(gameId, myId, userAuthToken)
+  }
+
+  updatePlayerName(name) {
+    const { gameId, myId, userAuthToken } = this.state
+
+    this.setState({
+      playerName: name
+    }, () => {
+      api.updatePlayerMeta(gameId, myId, userAuthToken, name)
+        .catch(err => {
+          console.log('게임 시작 에러가 발생하였습니다. ', err)
+        })
     })
+
+  }
+
+  updateJoinedPlayers(players, cb) {
+    this.setState({
+      joinedPlayers: players
+    }, cb)
+  }
+
+  setPlayerInfo(playerId, token, cb) {
+    this.setState({
+      userAuthToken: token,
+      myId: playerId
+    }, cb)
   }
 
   render() {
-    const { playerNum, playerNames } = this.state
+    const { gameId, myId, playerName, userAuthToken, joinedPlayers } = this.state
     const { location } = this.props
 
     return (
@@ -71,18 +119,42 @@ class App extends Component {
         <Switch>
           <Route path="/" exact>
             <MainPage
-              playerNum={playerNum}
-              setPlayerNum={this.setPlayerNum}
-              setPlayerName={this.setPlayerName}
-              playerNames={playerNames}
-              startGame={this.startGame}
+              createGame={this.createGame}
               {...this.props} />
           </Route>
           <Route path="/play">
             <Game {...qs.parse(location.search)} />
           </Route>
-          <Route path="/join" component={JoinPage} />
-          <Route path="/lobby/:id" component={LobbyPage} />
+          <Route path="/join" render={props => (
+            <JoinPage
+              playerName={playerName}
+              changePlayerName={name => { this.setState({ playerName: name }) }} />
+          )} />
+          <Route path="/lobby/:id" render={props => (
+            <LobbyPage
+              myId={myId}
+              gameId={gameId}
+              userAuthToken={userAuthToken}
+              playerName={playerName}
+              updatePlayerName={this.updatePlayerName}
+              leaveGameRoom={this.leaveGameRoom}
+              updateJoinedPlayers={this.updateJoinedPlayers}
+              setPlayerInfo={this.setPlayerInfo}
+              joinedPlayers={joinedPlayers}
+              {...props} />
+          )}>
+          </Route>
+          <Route path="/game/:player/:id/:name" render={props => (
+            <GamePage
+              gameId={gameId}
+              userAuthToken={userAuthToken}
+              leaveGameRoom={this.leaveGameRoom}
+              setPlayerInfo={this.setPlayerInfo}
+              updateJoinedPlayers={this.updateJoinedPlayers}
+              joinedPlayers={joinedPlayers}
+              {...props} />
+          )}>
+          </Route>
         </Switch>
         <ToastContainer />
         <GithubCorner

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { LobbyApi } from 'api'
 import Terminal from 'components/organisms/Terminal'
-import randomName from 'node-random-name'
 
 const api = new LobbyApi()
 
@@ -12,12 +11,10 @@ class TerminalContainer extends Component {
     this.state = {
       error: false,
       loading: true,
-      playerName: randomName({ last: true }),
       rooms: []
     }
     this.createGame = this.createGame.bind(this)
     this.getRoomList = this.getRoomList.bind(this)
-    this.changePlayerName = this.changePlayerName.bind(this)
   }
 
   componentDidMount() {
@@ -37,12 +34,6 @@ class TerminalContainer extends Component {
       .then((rooms = []) => {
         this.setState({ rooms: [...rooms] })
       })
-  }
-
-  changePlayerName(name) {
-    this.setState({
-      playerName: name
-    })
   }
 
   createGame() {
@@ -71,7 +62,8 @@ class TerminalContainer extends Component {
   }
 
   render() {
-    const { playerName, error, rooms } = this.state
+    const { error, rooms } = this.state
+    const { playerName, changePlayerName } = this.props
 
     if (error) {
       return <div>Error!</div>
@@ -80,7 +72,7 @@ class TerminalContainer extends Component {
     return (
       <Terminal
         playerName={playerName}
-        changePlayerName={this.changePlayerName}
+        changePlayerName={changePlayerName}
         rooms={rooms}
         {...this.props} />
     )

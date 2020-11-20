@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { LobbyApi } from 'api'
 import Main from 'components/organisms/Main'
-
-const api = new LobbyApi()
+import qs from 'query-string'
 
 class MainContainer extends Component {
   constructor(props) {
@@ -11,10 +9,27 @@ class MainContainer extends Component {
     this.state = {
       error: false,
       loading: false,
-      playModal: false
+      playModal: false,
+      playerNum: 2,
+      playerNames: ['0', '1', '2', '3']
     }
-    this.createGame = this.createGame.bind(this)
+    this.setPlayerNum = this.setPlayerNum.bind(this)
+    this.setPlayerName = this.setPlayerName.bind(this)
+    this.startGame = this.startGame.bind(this)
     this.toggleModal = this.toggleModal.bind(this)
+  }
+
+  setPlayerNum(num) {
+    this.setState({ playerNum: num })
+  }
+
+  setPlayerName(name, index) {
+    this.setState(({ playerNames }) => {
+      const next = [...playerNames]
+      next[index] = name
+      console.log({ next, name })
+      return { playerNames: next }
+    })
   }
 
   toggleModal(modalName, cb) {
@@ -26,33 +41,25 @@ class MainContainer extends Component {
     }), cb)
   }
 
-  createGame() {
-    const { loading } = this.state
+  startGame() {
+    const { playerNum, playerNames } = this.state
+    const { history } = this.props
 
-    if (loading) {
-      return
+    if (playerNum > 4 || playerNum < 2) {
+      return alert('최소 2인이상 4인 이하로 입력해주세요.')
     }
 
-    this.setState({
-      loading: true,
-    }, () => {
-      api.createRoom()
-        .then((roomId) => {
-          const { history } = this.props
-          this.setState({ loading: false }, () => {
-            history.push(`/lobby/${roomId}`)
-          })
-        },
-          (err) => {
-            console.log(err)
-            this.setState({ loading: false, error: true })
-          }
-        )
+    history.push({
+      pathname: '/play',
+      search: qs.stringify({
+        gameId: new Date().getTime(),
+        players: playerNames.slice(0, playerNum)
+      })
     })
   }
 
   render() {
-    const { playModal, error } = this.state
+    const { playerNum, playerNames, playModal, error } = this.state
 
     if (error) {
       return <div>Error!</div>
@@ -60,9 +67,13 @@ class MainContainer extends Component {
 
     return (
       <Main
-        createGame={this.createGame}
         toggleModal={this.toggleModal}
         playModal={playModal}
+        playerNum={playerNum}
+        playerNames={playerNames}
+        setPlayerNum={this.setPlayerNum}
+        setPlayerName={this.setPlayerName}
+        startGame={this.startGame}
         {...this.props} />
     )
   }
