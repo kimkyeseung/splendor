@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Switch, Route } from 'react-router-dom'
 import MainContainer from 'containers/MainContainer'
-import TerminalContainer from 'containers/TerminalContainer'
 import { ToastContainer } from 'react-toastify'
 import GithubCorner from 'react-github-corner'
 import Game from 'components/organisms/Game'
-import { Block, LobbyPage } from 'components'
+import { Block, LobbyPage, JoinPage } from 'components'
 import { withRouter } from 'react-router'
 import qs from 'query-string'
 import { THEME } from './lib/config'
@@ -18,6 +17,7 @@ const Body = styled(Block)`
   background: ${({ theme }) => theme.background};
   color:  ${({ theme }) => theme.white};
   position: fixed;
+  font-size: 20px;
 `
 
 class App extends Component {
@@ -82,9 +82,7 @@ class App extends Component {
           <Route path="/game">
             <Game {...qs.parse(location.search)} />
           </Route>
-          <Route path="/join">
-            <TerminalContainer />
-          </Route>
+          <Route path="/join" component={JoinPage} />
           <Route path="/lobby/:id" component={LobbyPage} />
         </Switch>
         <ToastContainer />

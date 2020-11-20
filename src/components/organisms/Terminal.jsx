@@ -1,7 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Blank, Flex, Box, Button, Modal, Title } from 'components'
+import { Blank, Flex, Box, Button, Title } from 'components'
 import day from '../../lib/dayjs'
+
+const Wrapper = styled.div`
+  width: 600px;
+  @media screen and (max-device-width: 980px) {
+    width: 100%;
+  }
+`
 
 const Label = styled.div`
   color: ${({ theme }) => theme.grayscale[8]};
@@ -9,15 +16,7 @@ const Label = styled.div`
 
 const Message = styled.div`
   color: ${({ theme }) => theme.grayscale[8]};
-`
-
-const Input = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 4px;
-  & > label {
-    width: 120px;
-  }
+  text-align: center;
 `
 
 const Player = styled.div`
@@ -59,8 +58,10 @@ const Th = styled.div`
 `
 
 const Td = styled.div`
-  padding: 0.2rem 0.3rem;
   min-width: 40px;
+  &:not(:first-child):not(:last-child) {
+    padding: 0.2rem 0.3rem;
+  }
 `
 
 const GameRoomItems = styled.div`
@@ -86,75 +87,61 @@ const GameRoomItems = styled.div`
   }
 `
 
-Input.Wrapper = styled.div`
-`
-
-const Item = styled.div`
-  &:not(:first-child):not(:last-child) {
-    padding: 0 1.25rem;
-  }
-`
-
 const Terminal = ({
   playerName, changePlayerName, rooms
 }) => {
   return (
-    <>
-      <Blank height={160} />
-      <Title />
-      <Blank height={100} />
-      <Box>
-        <Label>My Name</Label>
-        <Blank height={10} />
-        <Player>
-          <Flex>
-            <div className="name">{playerName}</div>
-            <Button icon="pencil" small onClick={() => {
-              const newName = prompt('Enter Your Name', playerName)
-              newName && changePlayerName(newName)
-            }}>Edit</Button>
-          </Flex>
-        </Player>
-        <Blank height={20} />
-        <Label>Room List</Label>
-        <Blank height={10} />
-        {rooms.length
-          ? <GameRoomHeader>
-            <Flex>
-              <Th className="number">No.</Th>
-              <Th className="gameId">Room ID</Th>
-              <Th className="playerCount">Players</Th>
-              <Th className="join">Join</Th>
-            </Flex>
-          </GameRoomHeader>
-          : <Message>No rooms were created.</Message>}
-        {rooms.map(({ matchID, players, createdAt }, index) => {
-          const playerCount = players.filter(({ name }) => name).length
-          const number = index + 1
-
-          return (
-            <GameRoomItems key={matchID}>
-              <Flex>
-                <Td className="number">{number}</Td>
-                <Td className="gameId">
-                  <div>{matchID}</div>
-                  <Blank height={5} />
-                  <div className="createdAt">{day(createdAt).fromNow()}</div>
-                </Td>
-                <Td className="playerCount">{playerCount} / 4</Td>
-                <Td className="join">
-                  <Button small to={`/lobby/${matchID}`}>Join</Button>
-                </Td>
-              </Flex>
-            </GameRoomItems>
-          )
-        })}
-        <Blank height={20} />
+    <Wrapper>
+      <Label>My Name</Label>
+      <Blank height={10} mHeight={1}/>
+      <Player>
         <Flex>
-          <Button to="/">Back</Button>
+          <div className="name">{playerName}</div>
+          <Button icon="pencil" small onClick={() => {
+            const newName = prompt('Enter Your Name', playerName)
+            newName && changePlayerName(newName)
+          }}>Edit</Button>
         </Flex>
-      </Box>
-    </>
+      </Player>
+      <Blank height={20} mHeight={4}/>
+      <Label>Room List</Label>
+      <Blank height={10} mHeight={1}/>
+      {rooms.length
+        ? <GameRoomHeader>
+          <Flex>
+            <Th className="number">No.</Th>
+            <Th className="gameId">Room ID</Th>
+            <Th className="playerCount">Players</Th>
+            <Th className="join">Join</Th>
+          </Flex>
+        </GameRoomHeader>
+        : <Message>No rooms were created.</Message>}
+      {rooms.map(({ matchID, players, createdAt }, index) => {
+        const playerCount = players.filter(({ name }) => name).length
+        const number = index + 1
+
+        return (
+          <GameRoomItems key={matchID}>
+            <Flex>
+              <Td className="number">{number}</Td>
+              <Td className="gameId">
+                <div>{matchID}</div>
+                <Blank height={5} />
+                <div className="createdAt">{day(createdAt).fromNow()}</div>
+              </Td>
+              <Td className="playerCount">{playerCount} / 4</Td>
+              <Td className="join">
+                <Button small to={`/lobby/${matchID}`}>Join</Button>
+              </Td>
+            </Flex>
+          </GameRoomItems>
+        )
+      })}
+      <Blank height={20} mHeight={5} />
+      <Flex>
+        <Button to="/">Back</Button>
+      </Flex>
+    </Wrapper>
   )
 }
 

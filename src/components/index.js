@@ -18,6 +18,7 @@ export { Footer } from './molecules/Footer'
 export { SubTemplate } from './templates/SubTemplate'
 
 export { LobbyPage } from './pages/LobbyPage'
+export { JoinPage } from './pages/JoinPage'
 
 export {
   Layout, BoardLayout
