@@ -82,7 +82,7 @@ class App extends Component {
           <Route path="/game">
             <Game {...qs.parse(location.search)} />
           </Route>
-          <Route path="/play">
+          <Route path="/join">
             <TerminalContainer />
           </Route>
           <Route path="/lobby/:id" component={LobbyPage} />

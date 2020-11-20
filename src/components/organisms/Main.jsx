@@ -48,7 +48,7 @@ const Main = ({
       <Box>
         <Flex>
           <Item>
-            <Button to="/play">Join Game</Button>
+            <Button to="/join">Join Game</Button>
           </Item>
           <Item>
             <Button onClick={() => createGame()}>New Game</Button>
