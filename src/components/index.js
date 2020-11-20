@@ -13,6 +13,11 @@ export { Button } from './molecules/Button'
 export { CircleProgress } from './molecules/CircleProgress'
 export { Icon } from './molecules/Icon'
 export { Title } from './molecules/Title'
+export { Footer } from './molecules/Footer'
+
+export { SubTemplate } from './templates/SubTemplate'
+
+export { LobbyPage } from './pages/LobbyPage'
 
 export {
   Layout, BoardLayout

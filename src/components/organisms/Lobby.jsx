@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import styled, { css } from 'styled-components'
-import { Box, Button, Blank, Flex, Title } from 'components'
+import { Button, Blank, Flex, SubTemplate } from 'components'
 import { ON_DEVELOPMENT } from 'config'
 
 const List = styled.div`
@@ -13,7 +13,7 @@ const Label = styled.div`
   color: ${({ theme }) => theme.black};
 `
 
-const Empty = styled.div`
+const EmptyPlayer = styled.div`
   border: 2px dashed;
   border-color: ${({ theme }) => theme.grayscale[6]};
   border-radius: 10px;
@@ -33,10 +33,11 @@ const Player = styled.div`
   border-color: ${({ theme }) => theme.primary[0]};
   border-radius: 10px;
   padding: 0.75rem 1.25rem;
+  & > .name {
+
+  }
   ${({ isMe }) => isMe && myPlayerStyle}
 `
-
-Player.Name = styled.div``
 
 const Wrapper = styled.div`
   width: 640px;
@@ -69,66 +70,61 @@ const Lobby = ({
   }
 
   return (
-    <>
-      <Blank height={160} />
-      <Title />
-      <Blank height={100} />
-      <Box>
-        <Flex justifyContent="center">
-          <Wrapper>
-            <Label>Game Url</Label>
-            <Blank height={10} />
-            <Flex>
-              <GameId
-                ref={textAreaRef}
-                readOnly
-              >{`${serverURL}/lobby/${gameId}`}</GameId>
-              <Button onClick={() => {
-                copyText()
-              }}>Copy</Button>
-            </Flex>
-            {ON_DEVELOPMENT && <a href={`${serverURL}/lobby/${gameId}`} target="_blank" >go</a>}
+    <SubTemplate content={
+      <Flex justifyContent="center">
+        <Wrapper>
+          <Label>Game Url</Label>
+          <Blank height={10} />
+          <Flex>
+            <GameId
+              ref={textAreaRef}
+              readOnly
+            >{`${serverURL}/lobby/${gameId}`}</GameId>
+            <Button onClick={() => {
+              copyText()
+            }}>Copy</Button>
+          </Flex>
+          {ON_DEVELOPMENT && <a href={`${serverURL}/lobby/${gameId}`} target="_blank" >go</a>}
 
-            <Blank height={20} />
-            <Label>Player List</Label>
-            <Blank height={10} />
-            <List>
-              {Array(4).fill(1).map((n, index) => {
-                const isMe = myId === (players[index] && players[index].id)
+          <Blank height={20} />
+          <Label>Player List</Label>
+          <Blank height={10} />
+          <List>
+            {Array(4).fill(1).map((n, index) => {
+              const isMe = myId === (players[index] && players[index].id)
 
-                return players[index] ? (
-                  <Player key={`${index}-${players[index].id}`} isMe={isMe}>
+              return players[index] ? (
+                <Player key={`${index}-${players[index].id}`} isMe={isMe}>
+                  <Flex>
+                    <span>name: </span>
                     <Flex>
-                      <span>name: </span>
-                      <Flex>
-                        {isMe
-                          ? <Button
-                            small
-                            icon="pencil"
-                            onClick={ev => {
-                              ev.preventDefault()
-                              const newName = prompt('Enter Your Name', players[index].name)
-                              newName && updatePlayerName(newName)
-                            }}>{players[index].name}</Button>
-                          : <Player.Name>{players[index].name}</Player.Name>}
-                      </Flex>
+                      {isMe
+                        ? <Button
+                          small
+                          icon="pencil"
+                          onClick={ev => {
+                            ev.preventDefault()
+                            const newName = prompt('Enter Your Name', players[index].name)
+                            newName && updatePlayerName(newName)
+                          }}>{players[index].name}</Button>
+                        : <div className="name">{players[index].name}</div>}
                     </Flex>
-                  </Player>
-                ) : <Empty key={index}>wait for Player</Empty>
-              })}
-            </List>
-            <Blank height={20} />
-            {isHost && <Flex>
-              <Button primary disabled={players.length < 2} onClick={ev => {
-                ev.preventDefault()
-                startGame()
-              }}>Start Game</Button>
-              <Button to="/">Back</Button>
-            </Flex>}
-          </Wrapper>
-        </Flex>
-      </Box>
-    </>
+                  </Flex>
+                </Player>
+              ) : <EmptyPlayer key={index}>wait for Player</EmptyPlayer>
+            })}
+          </List>
+          <Blank height={20} />
+          {isHost && <Flex>
+            <Button primary disabled={players.length < 2} onClick={ev => {
+              ev.preventDefault()
+              startGame()
+            }}>Start Game</Button>
+            <Button to="/">Back</Button>
+          </Flex>}
+        </Wrapper>
+      </Flex>
+    } />
   )
 }
 
