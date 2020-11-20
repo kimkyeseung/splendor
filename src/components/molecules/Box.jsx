@@ -7,11 +7,13 @@ const StyledBlock = styled(Block)`
   width: fit-content;
   background: ${({ theme }) => theme.white};
   border-radius: 0.5rem;
-  -webkit-box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
   box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
   & > .header {
     font-size: 1.2rem;
+  }
+  @media screen and (max-device-width: 980px) {
+    padding: 1rem;
+    width: 90vw;
   }
 `
 

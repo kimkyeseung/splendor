@@ -4,7 +4,7 @@ import { Blank, Title, Footer, Box } from 'components'
 
 const footerHeight = 100
 
-const Wrapper = styled.div`
+const Template = styled.div`
   position: relative;
   min-height: 100%;
   padding-bottom: ${footerHeight}px;
@@ -15,16 +15,24 @@ const Wrapper = styled.div`
     bottom: 0;
     text-align: center;
   }
+  @media screen and (max-device-width: 980px) {
+    & .box {
+      padding-bottom: 0;
+    }
+    & .footer {
+      display: none;
+    }
+  }
 `
 
 export const SubTemplate = ({ content }) => (
-  <Wrapper>
-    <Blank height={160} />
-    <Title />
-    <Blank height={100} />
-    <Box>
+  <Template>
+    <Blank height={160} mHeight={10}/>
+    <Title className="title" />
+    <Blank height={100} mHeight={5}/>
+    <Box className="box">
       {content}
     </Box>
     <Footer className="footer" />
-  </Wrapper>
+  </Template>
 )

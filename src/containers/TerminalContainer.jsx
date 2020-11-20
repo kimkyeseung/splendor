@@ -34,7 +34,7 @@ class TerminalContainer extends Component {
 
   getRoomList() {
     return api.getRooms()
-      .then(rooms => {
+      .then((rooms = []) => {
         this.setState({ rooms: [...rooms] })
       })
   }
