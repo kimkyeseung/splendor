@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import styled, { css } from 'styled-components'
-import { Button, Blank, Flex, SubTemplate } from 'components'
+import { Button, Blank, Flex } from 'components'
 import { ON_DEVELOPMENT } from 'config'
 
 const List = styled.div`
@@ -70,61 +70,57 @@ const Lobby = ({
   }
 
   return (
-    <SubTemplate content={
-      <Flex justifyContent="center">
-        <Wrapper>
-          <Label>Game Url</Label>
-          <Blank height={10} />
-          <Flex>
-            <GameId
-              ref={textAreaRef}
-              readOnly
-            >{`${serverURL}/lobby/${gameId}`}</GameId>
-            <Button onClick={() => {
-              copyText()
-            }}>Copy</Button>
-          </Flex>
-          {ON_DEVELOPMENT && <a href={`${serverURL}/lobby/${gameId}`} target="_blank" >go</a>}
-
-          <Blank height={20} />
-          <Label>Player List</Label>
-          <Blank height={10} />
-          <List>
-            {Array(4).fill(1).map((n, index) => {
-              const isMe = myId === (players[index] && players[index].id)
-
-              return players[index] ? (
-                <Player key={`${index}-${players[index].id}`} isMe={isMe}>
-                  <Flex>
-                    <span>name: </span>
-                    <Flex>
-                      {isMe
-                        ? <Button
-                          small
-                          icon="pencil"
-                          onClick={ev => {
-                            ev.preventDefault()
-                            const newName = prompt('Enter Your Name', players[index].name)
-                            newName && updatePlayerName(newName)
-                          }}>{players[index].name}</Button>
-                        : <div className="name">{players[index].name}</div>}
-                    </Flex>
-                  </Flex>
-                </Player>
-              ) : <EmptyPlayer key={index}>wait for Player</EmptyPlayer>
-            })}
-          </List>
-          <Blank height={20} />
-          {isHost && <Flex>
-            <Button primary disabled={players.length < 2} onClick={ev => {
-              ev.preventDefault()
-              startGame()
-            }}>Start Game</Button>
-            <Button to="/">Back</Button>
-          </Flex>}
-        </Wrapper>
+    <Wrapper>
+      <Label>Game Url</Label>
+      <Blank height={10} />
+      <Flex>
+        <GameId
+          ref={textAreaRef}
+          readOnly
+        >{`${serverURL}/lobby/${gameId}`}</GameId>
+        <Button onClick={() => {
+          copyText()
+        }}>Copy</Button>
       </Flex>
-    } />
+      {ON_DEVELOPMENT && <a href={`${serverURL}/lobby/${gameId}`} target="_blank" >go</a>}
+
+      <Blank height={20} />
+      <Label>Player List</Label>
+      <Blank height={10} />
+      <List>
+        {Array(4).fill(1).map((n, index) => {
+          const isMe = myId === (players[index] && players[index].id)
+
+          return players[index] ? (
+            <Player key={`${index}-${players[index].id}`} isMe={isMe}>
+              <Flex>
+                <span>name: </span>
+                <Flex>
+                  {isMe
+                    ? <Button
+                      small
+                      icon="pencil"
+                      onClick={ev => {
+                        ev.preventDefault()
+                        const newName = prompt('Enter Your Name', players[index].name)
+                        newName && updatePlayerName(newName)
+                      }}>{players[index].name}</Button>
+                    : <div className="name">{players[index].name}</div>}
+                </Flex>
+              </Flex>
+            </Player>
+          ) : <EmptyPlayer key={index}>wait for Player</EmptyPlayer>
+        })}
+      </List>
+      <Blank height={20} />
+      {isHost && <Flex>
+        <Button primary disabled={players.length < 2} onClick={ev => {
+          ev.preventDefault()
+          startGame()
+        }}>Start Game</Button>
+        <Button to="/">Back</Button>
+      </Flex>}
+    </Wrapper>
   )
 }
 
