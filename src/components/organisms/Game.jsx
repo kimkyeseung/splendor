@@ -3,7 +3,7 @@ import { Client } from 'boardgame.io/react'
 import Board from 'containers/BoardContainer'
 import game from 'game'
 
-const Game = ({ players, history }) => {
+const Game = ({ players = [0, 1] }) => {
   const Splendor = game()
   const SplendorGame = Client({
     game: Splendor,

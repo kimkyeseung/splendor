@@ -54,7 +54,7 @@ class App extends Component {
     }
 
     history.push({
-      pathname: '/game',
+      pathname: '/play',
       search: qs.stringify({
         gameId: new Date().getTime(),
         players: playerNames.slice(0, playerNum)
@@ -78,7 +78,7 @@ class App extends Component {
               startGame={this.startGame}
               {...this.props} />
           </Route>
-          <Route path="/game">
+          <Route path="/play">
             <Game {...qs.parse(location.search)} />
           </Route>
           <Route path="/join" component={JoinPage} />
