@@ -6,6 +6,10 @@ const sizeCase = {
   large: css`
     font-size: 200px;
     text-shadow: 6px 6px ${({ theme }) => theme.title};
+    @media screen and (max-device-width: 980px) {
+      font-size: 4.5em;
+      text-shadow: 4px 4px ${({ theme }) => theme.title};
+    }
   `,
   medium: css`
     font-size: 100px;
@@ -30,12 +34,11 @@ const StyledTitle = styled.div`
   text-align: center;
   font-family: ${({ theme }) => theme.font.title};
   ${({ reverse }) => reverse ? reverseStyle : normalStyle};
-  ${({ size }) => sizeCase[size]};
-
   @media screen and (max-device-width: 980px) {
     font-size: 3em;
     text-shadow: 2px 2px ${({ theme }) => theme.title};
   }
+  ${({ size }) => sizeCase[size]};
 `
 
 export const Title = ({ size, text, ...props }) => (

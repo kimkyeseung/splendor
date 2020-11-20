@@ -19,6 +19,7 @@ export { SubTemplate } from './templates/SubTemplate'
 
 export { LobbyPage } from './pages/LobbyPage'
 export { JoinPage } from './pages/JoinPage'
+export { MainPage } from './pages/MainPage'
 
 export {
   Layout, BoardLayout

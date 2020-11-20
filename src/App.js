@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Switch, Route } from 'react-router-dom'
-import MainContainer from 'containers/MainContainer'
 import { ToastContainer } from 'react-toastify'
 import GithubCorner from 'react-github-corner'
 import Game from 'components/organisms/Game'
-import { Block, LobbyPage, JoinPage } from 'components'
+import { Block, LobbyPage, JoinPage, MainPage } from 'components'
 import { withRouter } from 'react-router'
 import qs from 'query-string'
 import { THEME } from './lib/config'
@@ -71,7 +70,7 @@ class App extends Component {
       <Body width="100%">
         <Switch>
           <Route path="/" exact>
-            <MainContainer
+            <MainPage
               playerNum={playerNum}
               setPlayerNum={this.setPlayerNum}
               setPlayerName={this.setPlayerName}

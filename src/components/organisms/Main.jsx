@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Blank, Flex, Box, Button, Modal, Title } from 'components'
+import { Blank, Flex, Button, Modal } from 'components'
 
 const Select = styled.div`
   text-align: center;
@@ -24,9 +24,29 @@ const Input = styled.div`
 Input.Wrapper = styled.div`
 `
 
+const Items = styled(Flex)`
+
+  @media screen and (max-device-width: 980px) {
+    flex-direction: column;
+  }
+`
+
 const Item = styled.div`
   &:not(:first-child):not(:last-child) {
     padding: 0 1.25rem;
+  }
+  @media screen and (max-device-width: 980px) {
+    width: 80vw;
+    padding: 0;
+    & > * {
+      width: 100%;
+    }
+    &:not(:first-child):not(:last-child) {
+      padding: 0;
+    }
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
   }
 `
 
@@ -42,22 +62,17 @@ const Main = ({
 }) => {
   return (
     <>
-      <Blank height={160} />
-      <Title size="large" />
-      <Blank height={100} />
-      <Box>
-        <Flex>
-          <Item>
-            <Button to="/join">Join Game</Button>
-          </Item>
-          <Item>
-            <Button onClick={() => createGame()}>New Game</Button>
-          </Item>
-          <Item>
-            <Button onClick={() => toggleModal('playModal')}>Pass & Play</Button>
-          </Item>
-        </Flex>
-      </Box>
+      <Items>
+        <Item>
+          <Button to="/join">Join Game</Button>
+        </Item>
+        <Item>
+          <Button onClick={() => createGame()}>New Game</Button>
+        </Item>
+        <Item>
+          <Button onClick={() => toggleModal('playModal')}>Pass & Play</Button>
+        </Item>
+      </Items>
 
       <Modal isOpen={playModal} onClose={() => {
         toggleModal('playModal')

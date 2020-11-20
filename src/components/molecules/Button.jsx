@@ -32,6 +32,7 @@ const smallSizeCss = css`
 
 const buttonStyle = css`
   position: relative;
+  width: fit-content;
   display: flex;
   margin: 0 auto;
   padding: 0.75rem 1.25rem;
