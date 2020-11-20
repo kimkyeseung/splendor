@@ -1,12 +1,18 @@
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+
+const mobieDeviceStyle = css`
+  display: block;
+  height: ${({ mHeight }) => `${mHeight}vh`};
+`
 
 export const Blank = styled.div`
   display: block;
   height: ${({ height }) => height ? `${height}px` : '100px'};
   width: ${({ width }) => width ? `${width}px` : '100%'};
   @media screen and (max-device-width: 980px) {
-    height: ${({ mHeight }) => mHeight ? `${mHeight}vh` : 0};
+    display: none;
+    ${({ mHeight }) => mHeight && mobieDeviceStyle};
   }
 `
 

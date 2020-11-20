@@ -3,6 +3,13 @@ import styled, { css } from 'styled-components'
 import { Button, Blank, Flex } from 'components'
 import { ON_DEVELOPMENT } from 'config'
 
+const Wrapper = styled.div`
+  width: 600px;
+  @media screen and (max-device-width: 980px) {
+    width: 100%;
+  }
+`
+
 const List = styled.div`
   & > * {
     margin: 0.2rem;
@@ -39,19 +46,30 @@ const Player = styled.div`
   ${({ isMe }) => isMe && myPlayerStyle}
 `
 
-const Wrapper = styled.div`
-  width: 640px;
-  padding: 1rem;
-`
-
-const GameId = styled.div`
-  border-radius: 10px;
-  font-size: 1.25em;
-  border: 2px solid black;
-  padding: 0.75rem 1.25rem;
-  font-family: ${({ theme }) => theme.font.context};
-  background-color: ${({ theme }) => theme.grayscale[8]};
-  color: ${({ theme }) => theme.grayscale[1]};
+const GameId = styled(Flex)`
+  flex-direction: column;
+  & > .id {
+    border-radius: 10px;
+    font-size: 1.25em;
+    border: 2px solid black;
+    padding: 0.75rem 1.25rem;
+    font-family: ${({ theme }) => theme.font.context};
+    background-color: ${({ theme }) => theme.grayscale[8]};
+    color: ${({ theme }) => theme.grayscale[1]};
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+  }
+  @media screen and (max-device-width: 980px) {
+    flex-direction: row;
+    & > .id {
+      margin-right: 0.2rem;
+      font-size: 0.7em;
+    }
+    & button span {
+      font-size: 0.7em;
+    }
+  }
 `
 
 
@@ -72,21 +90,23 @@ const Lobby = ({
   return (
     <Wrapper>
       <Label>Game Url</Label>
-      <Blank height={10} />
-      <Flex>
-        <GameId
+      <Blank height={10} mHeight={1} />
+      <GameId>
+        <div
           ref={textAreaRef}
           readOnly
-        >{`${serverURL}/lobby/${gameId}`}</GameId>
+          className="id"
+        >{`${serverURL}/lobby/${gameId}`}</div>
+        <Blank height={10} />
         <Button onClick={() => {
           copyText()
         }}>Copy</Button>
-      </Flex>
-      {ON_DEVELOPMENT && <a href={`${serverURL}/lobby/${gameId}`} target="_blank" >go</a>}
+      </GameId>
+      {/* {ON_DEVELOPMENT && <a href={`${serverURL}/lobby/${gameId}`} target="_blank" >go</a>} */}
 
-      <Blank height={20} />
+      <Blank height={20} mHeight={4} />
       <Label>Player List</Label>
-      <Blank height={10} />
+      <Blank height={10} mHeight={1} />
       <List>
         {Array(4).fill(1).map((n, index) => {
           const isMe = myId === (players[index] && players[index].id)
@@ -112,14 +132,14 @@ const Lobby = ({
           ) : <EmptyPlayer key={index}>wait for Player</EmptyPlayer>
         })}
       </List>
-      <Blank height={20} />
-      {isHost && <Flex>
-        <Button primary disabled={players.length < 2} onClick={ev => {
+      <Blank height={20} mHeight={4} />
+      <Flex>
+        {isHost && <Button primary disabled={players.length < 2} onClick={ev => {
           ev.preventDefault()
           startGame()
-        }}>Start Game</Button>
+        }}>Start Game</Button>}
         <Button to="/">Back</Button>
-      </Flex>}
+      </Flex>
     </Wrapper>
   )
 }

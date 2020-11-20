@@ -36,7 +36,6 @@ class LobbyContainer extends Component {
   }
 
   componentWillUnmount() {
-    console.log('unmount')
     this.cleanup()
   }
 

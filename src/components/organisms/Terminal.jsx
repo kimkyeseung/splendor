@@ -137,7 +137,7 @@ const Terminal = ({
           </GameRoomItems>
         )
       })}
-      <Blank height={20} mHeight={5} />
+      <Blank height={20} mHeight={4} />
       <Flex>
         <Button to="/">Back</Button>
       </Flex>
