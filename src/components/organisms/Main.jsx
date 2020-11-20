@@ -48,10 +48,10 @@ const Main = ({
       <Box>
         <Flex>
           <Item>
-            <Button to="/play">Join game</Button>
+            <Button to="/play">Join Game</Button>
           </Item>
           <Item>
-            <Button onClick={() => createGame()}>New game</Button>
+            <Button onClick={() => createGame()}>New Game</Button>
           </Item>
           <Item>
             <Button onClick={() => toggleModal('playModal')}>Pass & Play</Button>

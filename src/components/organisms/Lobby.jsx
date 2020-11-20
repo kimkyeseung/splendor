@@ -9,6 +9,10 @@ const List = styled.div`
   }
 `
 
+const Label = styled.div`
+  color: ${({ theme }) => theme.black};
+`
+
 const Empty = styled.div`
   border: 2px dashed;
   border-color: ${({ theme }) => theme.grayscale[6]};
@@ -72,6 +76,8 @@ const Lobby = ({
       <Box>
         <Flex justifyContent="center">
           <Wrapper>
+            <Label>Game Url</Label>
+            <Blank height={10} />
             <Flex>
               <GameId
                 ref={textAreaRef}
@@ -82,6 +88,10 @@ const Lobby = ({
               }}>Copy</Button>
             </Flex>
             {ON_DEVELOPMENT && <a href={`${serverURL}/lobby/${gameId}`} target="_blank" >go</a>}
+
+            <Blank height={20} />
+            <Label>Player List</Label>
+            <Blank height={10} />
             <List>
               {Array(4).fill(1).map((n, index) => {
                 const isMe = myId === (players[index] && players[index].id)
@@ -92,11 +102,14 @@ const Lobby = ({
                       <span>name: </span>
                       <Flex>
                         {isMe
-                          ? <Button onClick={ev => {
-                            ev.preventDefault()
-                            const newName = prompt('Enter Your Name', players[index].name)
-                            newName && updatePlayerName(newName)
-                          }}>{players[index].name}</Button>
+                          ? <Button
+                            small
+                            icon="pencil"
+                            onClick={ev => {
+                              ev.preventDefault()
+                              const newName = prompt('Enter Your Name', players[index].name)
+                              newName && updatePlayerName(newName)
+                            }}>{players[index].name}</Button>
                           : <Player.Name>{players[index].name}</Player.Name>}
                       </Flex>
                     </Flex>

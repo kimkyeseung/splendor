@@ -5,7 +5,7 @@ import Board from './BoardContainer'
 import { SocketIO } from 'boardgame.io/multiplayer'
 import game from 'game'
 import Lobby from 'components/organisms/Lobby'
-import { Flex, Button } from 'components'
+import { Box, Flex, Button } from 'components'
 import { ON_DEVELOPMENT, GAME_SERVER_URL, WEB_SERVER_URL } from 'config'
 import { getGameFromStorage, setGameToStorage } from 'utils'
 import { Beforeunload } from 'react-beforeunload'
@@ -211,14 +211,16 @@ class LobbyContainer extends Component {
 
     if (!id) {
       return (
-        <div>
+        <Box>
           <Flex>
             생성된 게임이 없습니다.
           </Flex>
-          <Button onClick={() => {
-            history.push('/')
-          }}>Back</Button>
-        </div>
+          <Flex>
+            <Button onClick={() => {
+              history.push('/')
+            }}>Back</Button>
+          </Flex>
+        </Box>
       )
     }
 

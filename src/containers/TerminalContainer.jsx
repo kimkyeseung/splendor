@@ -16,6 +16,7 @@ class TerminalContainer extends Component {
       rooms: []
     }
     this.createGame = this.createGame.bind(this)
+    this.getRoomList = this.getRoomList.bind(this)
     this.changePlayerName = this.changePlayerName.bind(this)
   }
 
@@ -24,12 +25,17 @@ class TerminalContainer extends Component {
       .then(() => {
         this.setState({ loading: false })
       })
+    this.interval = setInterval(this.getRoomList, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
 
   getRoomList() {
     return api.getRooms()
       .then(rooms => {
-        this.setState({ rooms })
+        this.setState({ rooms: [...rooms] })
       })
   }
 

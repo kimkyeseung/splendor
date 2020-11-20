@@ -20,6 +20,16 @@ const secondaryCss = css`
   }
 `
 
+const smallSizeCss = css`
+  font-size: 0.85em;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  display: inline-flex;
+  & > .icon {
+    margin-right: 0.2rem;
+  }
+`
+
 const buttonStyle = css`
   position: relative;
   display: flex;
@@ -40,8 +50,6 @@ const buttonStyle = css`
   &:hover, &:focus {
     background-color: ${({ theme }) => theme.grayscale[3]};
   }
-  ${({ secondary }) => secondary && primaryCss};
-  ${({ primary }) => primary && secondaryCss};
   & > .icon {
     margin-right: 0.5rem;
   }
@@ -55,6 +63,9 @@ const buttonStyle = css`
       background-color: ${({ theme }) => theme.grayscale[1]};
     }
   }
+  ${({ secondary }) => secondary && primaryCss};
+  ${({ primary }) => primary && secondaryCss};
+  ${({ small }) => small && smallSizeCss};
 `
 
 const StyledLink = styled(Link)`
@@ -80,6 +91,7 @@ export const Button = ({ active, icon, children, to, ...props }) => (
 Button.propTypes = {
   primary: PropTypes.bool,
   secondary: PropTypes.bool,
+  small: PropTypes.bool,
   icon: PropTypes.string,
   to: PropTypes.string
 }
