@@ -5,9 +5,13 @@ import { Flex } from 'components'
 
 const solidShape = css`
   border-radius: 4px;
-  padding: 0.25rem;
+  padding: 0.1rem;
   padding-bottom: 0;
   margin: 0.2rem auto;
+  @media screen and (max-device-width: 980px) {
+    padding: 0;
+    font-size: 1em;
+  }
 `
 
 const roundShape = css`

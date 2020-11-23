@@ -22,6 +22,17 @@ const background = css`
   &.NB08 { background-position-x: -${basicSize * 7}px; }
   &.NB09 { background-position-x: -${basicSize * 8}px; }
   &.NB10 { background-position-x: -${basicSize * 9}px; }
+  @media screen and (max-device-width: 980px) {
+    &.NB02 { background-position-x: -${basicSize / 2}px; }
+    &.NB03 { background-position-x: -${basicSize}px; }
+    &.NB04 { background-position-x: -${basicSize / 2 * 3}px; }
+    &.NB05 { background-position-x: -${basicSize / 2 * 4}px; }
+    &.NB06 { background-position-x: -${basicSize / 2 * 5}px; }
+    &.NB07 { background-position-x: -${basicSize / 2 * 6}px; }
+    &.NB08 { background-position-x: -${basicSize / 2 * 7}px; }
+    &.NB09 { background-position-x: -${basicSize / 2 * 8}px; }
+    &.NB10 { background-position-x: -${basicSize / 2 * 9}px; }
+  }
 `
 
 const normalStyle = css`
@@ -43,7 +54,7 @@ const normalStyle = css`
       -webkit-text-stroke-color: black;
     }
     & > .condition {
-      padding: 0 0.4rem;
+      padding: 0 0.3rem;
     }
   }
 `
@@ -59,10 +70,18 @@ const Tile = styled.div`
   @media screen and (max-device-width: 980px) {
     height: ${basicSize / 2}px;
     width: ${basicSize / 2}px;
+    position: relative;
     & > header {
       width: 20px;
+      padding: 0;
       & > .vp {
         font-size: 1.5em;
+        position: absolute;
+        right: 5px;
+        bottom: 2px;
+      }
+      & > .condition {
+        padding: 0 0.2rem;
       }
     }
   }

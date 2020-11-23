@@ -14,7 +14,7 @@ const StyledAside = styled.aside`
 
 const Aside = ({ children, ...props }) => {
   return (
-    <StyledAside>{children}</StyledAside>
+    <StyledAside {...props}>{children}</StyledAside>
   )
 }
 

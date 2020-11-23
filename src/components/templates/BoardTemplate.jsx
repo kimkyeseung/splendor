@@ -12,6 +12,7 @@ const Template = styled.div`
   .opponents {
     width: 20%;
     align-self: stretch;
+    height: auto;
   }
   @media screen and (max-device-width: 980px) {
     .title {
@@ -48,7 +49,6 @@ const NobleWrapper = styled.div`
   justify-content: center;
   @media screen and (max-device-width: 980px) {
     width: 100%;
-    padding: 0.5rem;
     flex-direction: row;
     order: 1;
   }
@@ -56,6 +56,7 @@ const NobleWrapper = styled.div`
 
 const Board = styled.div`
   flex: 1 1 auto;
+  display: flex;
 
   @media screen and (max-device-width: 980px) {
     order: 2;
