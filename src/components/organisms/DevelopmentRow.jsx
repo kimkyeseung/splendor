@@ -13,25 +13,44 @@ const Effect = styled.div`
   }
 `
 
+const Row = styled.div`
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  & > .list {
+    display: flex;
+    justify-content: space-around;
+    & > * {
+      margin: 0.4rem;
+      @media screen and (max-device-width: 980px) {
+        margin: 0.2rem;
+      }
+    }
+  }
+`
+
 const DevelopmentRow = ({ deck, list, handler, grade, isExtra = false }) => (
-  <Flex>
+  <Row>
     {deck && <Deck
+      className="deck"
       onClick={() => {
         const dev = deck[deck.length - 1]
         handler(dev, { index: -1, grade, isExtra })
       }}
       cards={deck}
       grade={grade} />}
-    {list.map((dev, index) => (
-      <Tilt key={dev} options={{ scale: 1, max: 20 }}>
-        <Effect>
-          <Card onClick={() => {
-            handler(dev, { index, grade, isExtra })
-          }} grade={grade} dev={dev} />
-        </Effect>
-      </Tilt>
-    ))}
-  </Flex>
+    <div className="list">
+      {list.map((dev, index) => (
+        <Tilt key={dev} options={{ scale: 1, max: 20 }}>
+          <Effect>
+            <Card onClick={() => {
+              handler(dev, { index, grade, isExtra })
+            }} grade={grade} dev={dev} />
+          </Effect>
+        </Tilt>
+      ))}
+    </div>
+  </Row>
 )
 
 DevelopmentRow.propTypes = {

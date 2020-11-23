@@ -9,22 +9,26 @@ const Template = styled.div`
     width: '100%';
     flex-grow: 1;
   }
-  .opponents {
+  & .opponents {
     width: 20%;
     align-self: stretch;
     height: auto;
   }
   @media screen and (max-device-width: 980px) {
-    .title {
+    & .title {
       display: none;
     }
-    .container {
+    & .container {
       flex-direction: column;
-      .opponents {
+      & .opponents {
         width: 100%;
         order: 0;
       }
-      .board {
+      & .board {
+        width: 100%;
+        & .developments {
+          
+        }
       }
     }
   }

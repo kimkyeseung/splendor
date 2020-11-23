@@ -95,36 +95,16 @@ const getBackgroundStyle = (ratio = 1) => css`
     background-position-x: -${basicWidth * ratio}px;
     background-position-y: -${basicHeight * ratio}px;
   }
-  &.DEV301B, &.DEV303B {
-    background-position-x: -${basicWidth * ratio * 6}px;
-  }
-  &.DEV302B, &.DEV304B {
-    background-position-x: -${basicWidth * ratio * 7}px;
-  }
-  &.DEV305G, &.DEV307G {
-    background-position-x: -${basicWidth * ratio * 4}px;
-  }
-  &.DEV306G, &.DEV308G {
-    background-position-x: -${basicWidth * ratio * 5}px;
-  }
-  &.DEV309K, &.DEV311K {
-    background-position-x: -${basicWidth * ratio * 8}px;
-  }
-  &.DEV310K, &.DEV312K {
-    background-position-x: -${basicWidth * ratio * 9}px;
-  }
-  &.DEV313R, &.DEV315R {
-    background-position-x: -${basicWidth * ratio * 2}px;
-  }
-  &.DEV314R, &.DEV316R {
-    background-position-x: -${basicWidth * ratio * 3}px;
-  }
-  &.DEV317W, &.DEV319W {
-    background-position-x: 0;
-  }
-  &.DEV318W, &.DEV320W {
-    background-position-x: -${basicWidth * ratio}px;
-  }
+  &.DEV301B, &.DEV303B { background-position-x: -${basicWidth * ratio * 6}px; }
+  &.DEV302B, &.DEV304B { background-position-x: -${basicWidth * ratio * 7}px; }
+  &.DEV305G, &.DEV307G { background-position-x: -${basicWidth * ratio * 4}px; }
+  &.DEV306G, &.DEV308G { background-position-x: -${basicWidth * ratio * 5}px; }
+  &.DEV309K, &.DEV311K { background-position-x: -${basicWidth * ratio * 8}px; }
+  &.DEV310K, &.DEV312K { background-position-x: -${basicWidth * ratio * 9}px; }
+  &.DEV313R, &.DEV315R { background-position-x: -${basicWidth * ratio * 2}px; }
+  &.DEV314R, &.DEV316R { background-position-x: -${basicWidth * ratio * 3}px; }
+  &.DEV317W, &.DEV319W { background-position-x: 0; }
+  &.DEV318W, &.DEV320W { background-position-x: -${basicWidth * ratio}px; }
 `
 
 const normalStyle = css`
@@ -155,18 +135,50 @@ const normalStyle = css`
       font-size: 1.5em;
     }
   }
+  @media screen and (max-device-width: 980px) {
+    ${getBackgroundStyle(0.5)};
+    & > .header {
+      min-height: 30px;
+      border-radius: 8px 8px 0 0;
+      & > .vp {
+        font-size: 1.5em;
+      }
+      & > .value {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    & > .costs {
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      & > .cost {
+        margin: 0.1rem;
+        width: 20px;
+        height: 20px;
+        font-size: 1.2em;
+      }
+    }
+  }
 `
 
 const emptyStyle = css`
   background-image: none;
   border: 2px dotted gray;
   box-shadow: none;
+  @media screen and (max-device-width: 980px) {
+    background-image: none;
+  }
 `
 
 const backStyle = css`
   background-image: none;
   border: 8px solid white;
   background: ${({ grade }) => backColors[grade - 1]};
+  @media screen and (max-device-width: 980px) {
+    border: 2px solid white;
+    background: ${({ grade }) => backColors[grade - 1]};
+  }
 `
 
 const largeSize = css`
@@ -210,7 +222,6 @@ const thumbnailSize = css`
   border-width: 3px;
   border-radius: 3px;
   box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.25);
-  margin: 0;
   &:not(:last-child) {
     margin-right: 0.2rem;
   }
@@ -220,27 +231,17 @@ const Space = styled.div`
   height: ${basicHeight}px;
   width: ${basicWidth}px;
   border-radius: 12px;
-  margin: 0.4rem;
   padding: 0;
   box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.25);
   ${({ empty }) => empty ? emptyStyle : normalStyle};
   ${({ large }) => large && largeSize};
   ${({ blind }) => blind && backStyle};
   ${({ thumbnail }) => thumbnail && thumbnailSize};
-
   @media screen and (max-device-width: 980px) {
-    height: ${basicHeight * 0.4}px;
-    width: ${basicWidth * 0.4}px;
-    & > .header {
-      min-height: 30px;
-      & > .vp {
-        font-size: 1.5em;
-      }
-      & > .value {
-        width: 20px;
-        height: 20px;
-      }
-    }
+    height: ${basicHeight * 0.5}px;
+    width: ${basicWidth * 0.5}px;
+    border-radius: 8px;
+    box-shadow: none;
   }
 `
 

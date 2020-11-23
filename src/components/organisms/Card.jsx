@@ -40,6 +40,7 @@ const Card = ({ dev, blind, ...props }) => {
 
 Card.propTypes = {
   dev: PropTypes.oneOf(Object.keys(DEVELOPMENT_CARDS)),
+  blind: PropTypes.bool,
   onClick: PropTypes.func
 }
 
