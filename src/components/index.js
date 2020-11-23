@@ -16,6 +16,7 @@ export { Title } from './molecules/Title'
 export { Footer } from './molecules/Footer'
 
 export { SubTemplate } from './templates/SubTemplate'
+export { BoardTemplate } from './templates/BoardTemplate'
 
 export { LobbyPage } from './pages/LobbyPage'
 export { JoinPage } from './pages/JoinPage'

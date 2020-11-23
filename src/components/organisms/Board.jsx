@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { Layout, Icon } from 'components'
+import { BoardTemplate, Icon } from 'components'
 import Noble from './Noble'
 import Token from './Token'
-import BoardLayout from '../layouts/BoardLayout'
 import DevelopmentRow from './DevelopmentRow'
 import TokenController from './TokenController'
 import DevelopmentController from './DevelopmentController'
@@ -13,12 +11,6 @@ import Aside from './Aside'
 import Result from './Result'
 import Player from 'containers/PlayerContainer'
 import { DEVELOPMENT_CARDS } from 'assets'
-
-const Header = styled.header`
-  padding: 1rem;
-  background: ${({ theme }) => theme.main};
-  & > a { color: ${({ theme }) => theme.white}; }
-`
 
 const Hand = styled.section`
   padding: 2rem;
@@ -81,13 +73,8 @@ const Board = ({
 
   return (
     <>
-      <Layout
-        Header={
-          <Header>
-            <Link to="/">로비</Link>
-          </Header>
-        }
-        LeftPanel={
+      <BoardTemplate
+        opponents={
           <Aside>
             {players.map(player => (
               <Player
@@ -98,53 +85,49 @@ const Board = ({
             ))}
           </Aside>
         }
-        Main={
-          <BoardLayout
-            Developments={
-              <>
-                <DevelopmentRow
-                  deck={developThreeDeck}
-                  list={developmentThree}
-                  handler={handleSpaceClick}
-                  grade={3}
-                />
-                <DevelopmentRow
-                  deck={developTwoDeck}
-                  list={developmentTwo}
-                  handler={handleSpaceClick}
-                  grade={2}
-                />
-                <DevelopmentRow
-                  deck={developOneDeck}
-                  list={developmentOne}
-                  handler={handleSpaceClick}
-                  grade={1}
-                />
-              </>
-            }
-            Tokens={
-              <Token.Wrapper>
-                {tokenIndex.map(token => (
-                  <Token
-                    key={token}
-                    color={token}
-                    count={tokenStore[token]}
-                    onClick={() => {
-                      handleTokenClick(token)
-                    }} />
-                ))}
-              </Token.Wrapper>
-            }
-            Nobles={
-              <Noble.Wrapper>
-                {nobleTiles.map(noble => (
-                  <Noble key={noble} noble={noble} />
-                ))}
-              </Noble.Wrapper>
-            }
-          />
+        developments={
+          <>
+            <DevelopmentRow
+              deck={developThreeDeck}
+              list={developmentThree}
+              handler={handleSpaceClick}
+              grade={3}
+            />
+            <DevelopmentRow
+              deck={developTwoDeck}
+              list={developmentTwo}
+              handler={handleSpaceClick}
+              grade={2}
+            />
+            <DevelopmentRow
+              deck={developOneDeck}
+              list={developmentOne}
+              handler={handleSpaceClick}
+              grade={1}
+            />
+          </>
         }
-        Footer={
+        tokens={
+          <Token.Wrapper>
+            {tokenIndex.map(token => (
+              <Token
+                key={token}
+                color={token}
+                count={tokenStore[token]}
+                onClick={() => {
+                  handleTokenClick(token)
+                }} />
+            ))}
+          </Token.Wrapper>
+        }
+        nobles={
+          <Noble.Wrapper>
+            {nobleTiles.map(noble => (
+              <Noble key={noble} noble={noble} />
+            ))}
+          </Noble.Wrapper>
+        }
+        player={
           <Hand>
             <Icon name="cart" />
             <DevelopmentRow
