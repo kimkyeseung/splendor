@@ -32,7 +32,11 @@ class TerminalContainer extends Component {
   getRoomList() {
     return api.getRooms()
       .then((rooms = []) => {
-        this.setState({ rooms: [...rooms] })
+        this.setState({
+          rooms: [
+            ...rooms.filter(({ players }) => players.every(({ data }) => !data?.started))
+          ]
+        })
       })
   }
 
