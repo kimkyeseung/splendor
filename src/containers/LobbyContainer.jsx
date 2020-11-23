@@ -20,6 +20,7 @@ class LobbyContainer extends Component {
     this.checkRoomState = this.checkRoomState.bind(this)
     this.startGame = this.startGame.bind(this)
     this.leaveGame = this.leaveGame.bind(this)
+    this.updatePlayerName = this.updatePlayerName.bind(this)
   }
 
   componentDidMount() {
@@ -151,10 +152,16 @@ class LobbyContainer extends Component {
     leaveGameRoom(this.state.gameID, myId, userAuthToken)
   }
 
+  updatePlayerName(name) {
+    const { updatePlayerName } = this.props
+    const { gameID } = this.state
+
+    updatePlayerName(gameID, name)
+  }
 
   render() {
     const { gameID: id } = this.state
-    const { history, joinedPlayers, gameId, myId, updatePlayerName } = this.props
+    const { history, joinedPlayers, gameId, myId } = this.props
 
     if (!gameId && !id) {
       return (
@@ -179,7 +186,7 @@ class LobbyContainer extends Component {
         isHost={gameId && gameId === id}
         serverURL={this.server}
         startGame={this.startGame}
-        updatePlayerName={updatePlayerName}
+        updatePlayerName={this.updatePlayerName}
       />
     )
   }

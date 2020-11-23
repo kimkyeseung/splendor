@@ -5,6 +5,7 @@ export { Blank } from './atoms/Blank'
 export { Flex } from './atoms/Flex'
 export { Portal } from './atoms/Portal'
 export { Gc } from './atoms/Gc'
+export { Tooltip } from './atoms/Tooltip'
 
 export { Box } from './molecules/Box'
 export { VictoryPoints } from './molecules/VictoryPoints'

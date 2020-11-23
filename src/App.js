@@ -45,7 +45,7 @@ class App extends Component {
   }
 
   createGame() {
-    const { loading } = this.state
+    const { loading, joinedPlayers } = this.state
 
     if (loading) {
       return
@@ -82,8 +82,8 @@ class App extends Component {
     return api.leaveRoom(gameId, myId, userAuthToken)
   }
 
-  updatePlayerName(name) {
-    const { gameId, myId, userAuthToken } = this.state
+  updatePlayerName(gameId = this.state.gameId, name) {
+    const { myId, userAuthToken } = this.state
 
     this.setState({
       playerName: name
