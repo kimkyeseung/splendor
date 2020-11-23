@@ -9,12 +9,36 @@ const StyledFieldSummary = styled.div`
   position: relative;
   padding: 0.5rem 0;
   opacity: 0.8;
+  & .assets {
+    display: flex;
+    max-width: 160px;
+    min-width: 140px;
+    padding: 0.2rem 0;
+    flex-wrap: wrap;
+    & .asset {
+      position: relative;
+      margin-right: 12px;
+      margin-bottom: 6px;
+    }
+  }
   ${({ active }) => active && activeCSs};
+  @media screen and (max-device-width: 980px) {
+    & .assets {
+      max-width: 120px;
+      & .asset {
+        margin-right: 6px;
+        margin-bottom: 3px;
+      }
+    }
+  }
 `
 
 const activeCSs = css`
   opacity: 1;
   transform: scale(1.1);
+  @media screen and (max-device-width: 980px) {
+    transform: none;
+  }
 `
 
 const Development = styled.div`
@@ -53,14 +77,6 @@ const Token = styled.div`
   ${({ theme, value }) => theme.colorSet[value]};
 `
 
-Development.Wrapper = styled.div`
-  display: flex;
-  max-width: 160px;
-  min-width: 140px;
-  padding: 0.2rem 0;
-  flex-wrap: wrap;
-`
-
 Token.Wrapper = styled.div`
   display: flex;
 `
@@ -86,12 +102,6 @@ const TokenCount = styled.div`
   font-size: 1.8em;
 `
 
-const Dev = styled.div`
-  position: relative;
-  margin-right: 12px;
-  margin-bottom: 6px;
-`
-
 const FieldSummary = ({ active, field }) => {
   const { developments, tokenAssets, victoryPoints, reservedDevs } = field
   const totalTokenCount = Object.values(tokenAssets).reduce((total, count) => total + count, 0)
@@ -99,19 +109,19 @@ const FieldSummary = ({ active, field }) => {
 
   return (
     <StyledFieldSummary active={active}>
-      <Development.Wrapper>
+      <div className="assets">
         {tokenList.map(value => (
-          <Dev key={value}>
+          <div className="asset" key={value}>
             <Development value={value}>{developments[value]}</Development>
             {tokenAssets[value] ?
               <Token value={value}>{tokenAssets[value]}</Token> : null}
-          </Dev>
+          </div>
         ))}
-        <Dev>
+        <div className="asset">
           <Development blank />
           {tokenAssets.yellow ? <Token value="yellow">{tokenAssets.yellow}</Token> : null}
-        </Dev>
-      </Development.Wrapper>
+        </div>
+      </div>
       {victoryPoints ? <VictoryPoint>{victoryPoints}</VictoryPoint> : null}
       <Blank height={15} />
       {<Flex>

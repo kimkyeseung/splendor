@@ -9,6 +9,7 @@ const StyledAside = styled.aside`
 
   @media screen and (max-device-width: 980px) {
     display: flex;
+    padding: 0.2rem;
   }
 `
 
