@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { LobbyApi } from 'api'
 import Lobby from 'components/organisms/Lobby'
-import { Box, Flex, Button } from 'components'
-import { ON_DEVELOPMENT, GAME_SERVER_URL, WEB_SERVER_URL } from 'config'
+import { Flex, Button } from 'components'
+import { ON_DEVELOPMENT, GAME_SERVER_URL } from 'config'
+import { setGameToStorage, getGameFromStorage } from 'utils'
 
 const api = new LobbyApi()
 
@@ -10,7 +11,7 @@ class LobbyContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id: props.gameId || props.match.params.id
+      gameID: props.gameId || props.match.params.id
     }
     this.server = ON_DEVELOPMENT
       ? GAME_SERVER_URL
@@ -18,6 +19,7 @@ class LobbyContainer extends Component {
     this.joinRoom = this.joinRoom.bind(this)
     this.checkRoomState = this.checkRoomState.bind(this)
     this.startGame = this.startGame.bind(this)
+    this.leaveGame = this.leaveGame.bind(this)
   }
 
   componentDidMount() {
@@ -31,16 +33,23 @@ class LobbyContainer extends Component {
 
   joinRoom(playerNo) {
     const { setPlayerInfo, playerName } = this.props
-    const { id } = this.state
-    if (!id) {
+    const { gameID } = this.state
+    if (!gameID) {
       return Promise.resolve()
     }
 
     const { history } = this.props
-    return api.joinRoom(id, playerName, playerNo)
+
+    return api.joinRoom(gameID, playerName, playerNo)
       .then((authToken) => {
         console.log('게임에 참가하였습니다. 플레이어: ', playerNo)
-        setPlayerInfo(playerNo, authToken)
+        setPlayerInfo(playerNo, authToken, () => {
+          setGameToStorage(gameID, {
+            playerID: playerNo,
+            credentials: authToken
+          })
+          console.log(localStorage.splendor)
+        })
       },
         (err) => {
           console.log('게임 참가에 오류가 발생하였습니다.', err)
@@ -51,38 +60,48 @@ class LobbyContainer extends Component {
 
   checkRoomStateAndJoin = () => {
     console.log("pinging room endpoint to check whos there...")
-    const { id } = this.state
-    const { updateJoinedPlayers } = this.props
-    if (!id) {
+    const { gameID } = this.state
+    const { updateJoinedPlayers, leaveGameRoom } = this.props
+    if (!gameID) {
       return Promise.resolve()
     }
 
-    return api.whosInRoom(id)
-      .then((players) => {
-        const joinedPlayers = players.filter((p) => p.name)
-        updateJoinedPlayers(joinedPlayers, () => {
-          const myPlayerNum = joinedPlayers.length
-          this.joinRoom(myPlayerNum)
+    const storedData = getGameFromStorage(gameID)
+    console.log({ storedData })
+
+    return storedData && storedData.playerID !== undefined && storedData.credentials
+      ? leaveGameRoom(gameID, storedData.playerID, storedData.credentials)
+        .then(() => {
+          setTimeout(() => { // leaveGameRoom이 완료되더라도 실제로 반영되는데 시차가 있기때문에 1초의 여유를 줘서 재진입
+            this.joinRoom(storedData.playerID)
+          }, 1000)
         })
-      },
-        (err) => {
-          console.log("room does not exist", err)
-          this.setState({
-            id: null,
+      : api.whosInRoom(gameID)
+        .then((players) => {
+          const joinedPlayers = players.filter((p) => p.name)
+          updateJoinedPlayers(joinedPlayers, () => {
+            const myPlayerNum = joinedPlayers.length
+            this.joinRoom(myPlayerNum)
           })
-        }
-      )
+        },
+          (err) => {
+            console.log("room does not exist", err)
+            this.setState({
+              gameID: null,
+            })
+          }
+        )
   }
 
   checkRoomState() {
     const { updateJoinedPlayers, myId, playerName, history } = this.props
-    const { id } = this.state
+    const { gameID } = this.state
 
-    if (!id) {
+    if (!gameID) {
       return
     }
 
-    return api.whosInRoom(id).then(
+    return api.whosInRoom(gameID).then(
       (players) => {
         const joinedPlayers = []
         let started = false
@@ -96,14 +115,14 @@ class LobbyContainer extends Component {
         })
         updateJoinedPlayers(joinedPlayers, () => {
           if (started) {
-            history.push(`/game/${myId}/${id}/${playerName}`)
+            history.push(`/game/${myId}/${gameID}/${playerName}`)
           }
         })
       },
       (err) => {
         console.log('room does not exist ', err)
         this.setState({
-          id: null,
+          gameID: null
         })
       }
     );
@@ -112,7 +131,7 @@ class LobbyContainer extends Component {
   startGame() {
     const { gameId, myId, playerName, userAuthToken } = this.props
     if (!gameId) {
-      return Promise.resolve()
+      return Promise.reject()
     }
 
     return api.startGame(gameId, myId, userAuthToken)
@@ -126,8 +145,15 @@ class LobbyContainer extends Component {
       })
   }
 
+  leaveGame() {
+    const { leaveGameRoom, userAuthToken, myId } = this.props
+    console.log("out at lobbyC", { gameId: this.state.gameID, userAuthToken })
+    leaveGameRoom(this.state.gameID, myId, userAuthToken)
+  }
+
+
   render() {
-    const { id } = this.state
+    const { gameID: id } = this.state
     const { history, joinedPlayers, gameId, myId, updatePlayerName } = this.props
 
     if (!gameId && !id) {

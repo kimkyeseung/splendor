@@ -74,6 +74,7 @@ class App extends Component {
     myId = this.state.myId,
     userAuthToken = this.state.userAuthToken
   ) {
+    console.log('try leave gameroom', { gameId, myId, userAuthToken })
     if (!myId || !userAuthToken) {
       return Promise.resolve()
     }

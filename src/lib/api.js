@@ -15,7 +15,7 @@ export class LobbyApi {
   async getRooms() {
     try {
       const data = await this.api.get('').json()
-      
+
       return data.matches
     } catch (err) {
       console.log('error in leaveRoom: ', err)
@@ -51,7 +51,7 @@ export class LobbyApi {
 
   async whosInRoom(roomID) {
     const data = await this.api.get(roomID).json()
-    console.log('whosInRoom: ', { data })
+
     return data.players
   }
 
