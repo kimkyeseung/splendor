@@ -56,6 +56,16 @@ const Tile = styled.div`
   padding: 0;
   overflow: hidden;
   ${normalStyle}
+  @media screen and (max-device-width: 980px) {
+    height: ${basicSize / 2}px;
+    width: ${basicSize / 2}px;
+    & > header {
+      width: 20px;
+      & > .vp {
+        font-size: 1.5em;
+      }
+    }
+  }
 `
 
 const Noble = ({ noble, handler }) => {
@@ -84,12 +94,5 @@ Noble.propTypes = {
 Noble.defaultProps = {
   handler: () => { }
 }
-
-Noble.Wrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`
 
 export default Noble

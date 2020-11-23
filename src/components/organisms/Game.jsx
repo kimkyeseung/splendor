@@ -8,7 +8,8 @@ const Game = ({ players = [0, 1] }) => {
   const SplendorGame = Client({
     game: Splendor,
     board: (props) => <Board {...props} players={players.map((p, i) => ({ id: i, name: p }))} />,
-    numPlayers: players.length
+    numPlayers: players.length,
+    debug: false
   })
 
   return (

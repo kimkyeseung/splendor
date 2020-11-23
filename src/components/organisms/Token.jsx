@@ -13,6 +13,13 @@ const StyledToken = styled.div`
   & > .count {
 
   }
+
+  @media screen and (max-device-width: 980px) {
+    & > .tokenBundle {
+      width: 50px;
+      height: 50px;
+    }
+  }
 `
 
 const Effect = styled.div`
@@ -45,6 +52,12 @@ const One = styled.div`
     opacity: 0.75;
     background: lightgray;
   }
+
+  @media screen and (max-device-width: 980px) {
+    width: ${tokenSize / 2}px;
+    height: ${tokenSize / 2}px;
+    padding: 0.35rem;
+  }
 `
 
 const Token = ({ color, count, ...props }) => (
@@ -59,11 +72,6 @@ const Token = ({ color, count, ...props }) => (
     <div className="count">{count}</div>
   </StyledToken>
 )
-
-Token.Wrapper = styled.div`
-  display: flex;
-  flex-direction: column-reverse;
-`
 
 Token.propTypes = {
   color: PropTypes.oneOf(['red', 'green', 'blue', 'yellow', 'black', 'white']).isRequired,

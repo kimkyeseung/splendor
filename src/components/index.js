@@ -1,5 +1,4 @@
-import Layout from './layouts/Layout'
-import BoardLayout from './layouts/BoardLayout'
+import Aside from './organisms/Aside'
 
 export { Block } from './atoms/Block'
 export { Blank } from './atoms/Blank'
@@ -25,5 +24,5 @@ export { MainPage } from './pages/MainPage'
 export { GamePage } from './pages/GamePage'
 
 export {
-  Layout, BoardLayout
+  Aside
 }

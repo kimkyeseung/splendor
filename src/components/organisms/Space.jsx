@@ -227,6 +227,21 @@ const Space = styled.div`
   ${({ large }) => large && largeSize};
   ${({ blind }) => blind && backStyle};
   ${({ thumbnail }) => thumbnail && thumbnailSize};
+
+  @media screen and (max-device-width: 980px) {
+    height: ${basicHeight * 0.4}px;
+    width: ${basicWidth * 0.4}px;
+    & > .header {
+      min-height: 30px;
+      & > .vp {
+        font-size: 1.5em;
+      }
+      & > .value {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
 `
 
 Space.propTypes = {

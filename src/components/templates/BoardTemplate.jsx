@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Blank, Block, Flex, Title } from 'components'
+import { Blank, Block, Flex, Title, Aside } from 'components'
 
 const Template = styled.div`
   position: relative;
@@ -9,10 +9,58 @@ const Template = styled.div`
     width: '100%';
     flex-grow: 1;
   }
+  .opponents {
+    width: 20%;
+    align-self: stretch;
+  }
   @media screen and (max-device-width: 980px) {
     .title {
       display: none;
     }
+    .container {
+      flex-direction: column;
+      .opponents {
+        width: 100%;
+        order: 0;
+      }
+      .board {
+      }
+    }
+  }
+`
+
+const TokenWrapper = styled.div`
+  display: flex;
+  flex-direction: column-reverse;
+  width: fit-content;
+  @media screen and (max-device-width: 980px) {
+    width: 100%;
+    padding: 0.5rem;
+    flex-direction: row-reverse;
+  }
+`
+
+const NobleWrapper = styled.div`
+  height: 100%;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  @media screen and (max-device-width: 980px) {
+    width: 100%;
+    padding: 0.5rem;
+    flex-direction: row;
+    order: 1;
+  }
+`
+
+const Board = styled.div`
+  flex: 1 1 auto;
+
+  @media screen and (max-device-width: 980px) {
+    order: 2;
+    display: flex;
+    flex-direction: column-reverse;
   }
 `
 
@@ -20,24 +68,22 @@ export const BoardTemplate = ({ opponents, developments, nobles, tokens, player 
   <Template>
     <Blank height={30} />
     <Title className="title" />
-    <Blank height={20} mHeight={5} />
+    <Blank height={20} />
     <Flex className="container">
-      <Block width="20%" style={{ alignSelf: 'stretch' }}>
+      <Aside className="opponents">
         {opponents}
-      </Block>
-      <Block flex='1 1 auto'>
-        <Flex>
-          <Block>
-            {developments}
-          </Block>
-          <Block width="fit-content">
-            {tokens}
-          </Block>
-        </Flex>
-      </Block>
-      <Block width="fit-content">
+      </Aside>
+      <Board className="board">
+        <Block className="developments">
+          {developments}
+        </Block>
+        <TokenWrapper className="tokens">
+          {tokens}
+        </TokenWrapper>
+      </Board>
+      <NobleWrapper>
         {nobles}
-      </Block>
+      </NobleWrapper>
     </Flex>
     {player}
   </Template>

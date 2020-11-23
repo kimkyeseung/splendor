@@ -7,7 +7,6 @@ import DevelopmentRow from './DevelopmentRow'
 import TokenController from './TokenController'
 import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
-import Aside from './Aside'
 import Result from './Result'
 import Player from 'containers/PlayerContainer'
 import { DEVELOPMENT_CARDS } from 'assets'
@@ -47,7 +46,6 @@ const Board = ({
   const {
     board,
     tokenStore,
-    selectedTokens,
     fields,
     nobleTiles,
     developOneDeck,
@@ -75,15 +73,13 @@ const Board = ({
     <>
       <BoardTemplate
         opponents={
-          <Aside>
-            {players.map(player => (
-              <Player
-                key={player.id}
-                G={G}
-                player={player}
-                ctx={ctx} />
-            ))}
-          </Aside>
+          players.map(player => (
+            <Player
+              key={player.id}
+              G={G}
+              player={player}
+              ctx={ctx} />
+          ))
         }
         developments={
           <>
@@ -108,24 +104,20 @@ const Board = ({
           </>
         }
         tokens={
-          <Token.Wrapper>
-            {tokenIndex.map(token => (
-              <Token
-                key={token}
-                color={token}
-                count={tokenStore[token]}
-                onClick={() => {
-                  handleTokenClick(token)
-                }} />
-            ))}
-          </Token.Wrapper>
+          tokenIndex.map(token => (
+            <Token
+              key={token}
+              color={token}
+              count={tokenStore[token]}
+              onClick={() => {
+                handleTokenClick(token)
+              }} />
+          ))
         }
         nobles={
-          <Noble.Wrapper>
-            {nobleTiles.map(noble => (
-              <Noble key={noble} noble={noble} />
-            ))}
-          </Noble.Wrapper>
+          nobleTiles.map(noble => (
+            <Noble key={noble} noble={noble} />
+          ))
         }
         player={
           <Hand>
