@@ -20,7 +20,7 @@ export class LobbyApi {
   }
   async getRooms() {
     try {
-      const data = await this.api.get('')
+      const { data } = await this.api.get()
 
       return data.matches
     } catch (err) {
@@ -31,7 +31,7 @@ export class LobbyApi {
   async createRoom() {
     const { data } = await this.api
       .post('/create', { numPlayers: 4 })
-console.log(data)
+
     return data.matchID
   }
 
