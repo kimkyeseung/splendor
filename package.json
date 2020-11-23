@@ -29,6 +29,7 @@
     "react-scripts": "3.4.3",
     "react-tilt": "^0.1.4",
     "react-toastify": "^6.0.9",
+    "react-tooltip": "^4.2.11",
     "styled-components": "^5.2.0",
     "styled-reset": "^4.2.3"
   },
