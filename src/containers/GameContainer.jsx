@@ -37,7 +37,7 @@ class GameContainer extends Component {
       return
     }
 
-    api.whosInRoom(this.gameID)
+    return api.whosInRoom(this.gameID)
       .then((players) => {
         console.log({ players })
         const joinedPlayers = players.filter((p) => p.name)

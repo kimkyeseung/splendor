@@ -32,20 +32,21 @@ class LobbyContainer extends Component {
   joinRoom(playerNo) {
     const { setPlayerInfo, playerName } = this.props
     const { id } = this.state
-
-    if (id) {
-      const { history } = this.props
-      api.joinRoom(id, playerName, playerNo)
-        .then((authToken) => {
-          console.log('게임에 참가하였습니다. 플레이어: ', playerNo)
-          setPlayerInfo(playerNo, authToken)
-        },
-          (err) => {
-            console.log('게임 참가에 오류가 발생하였습니다.', err)
-            history.push('/')
-          }
-        )
+    if (!id) {
+      return Promise.resolve()
     }
+
+    const { history } = this.props
+    return api.joinRoom(id, playerName, playerNo)
+      .then((authToken) => {
+        console.log('게임에 참가하였습니다. 플레이어: ', playerNo)
+        setPlayerInfo(playerNo, authToken)
+      },
+        (err) => {
+          console.log('게임 참가에 오류가 발생하였습니다.', err)
+          history.push('/')
+        }
+      )
   }
 
   checkRoomStateAndJoin = () => {
@@ -53,10 +54,10 @@ class LobbyContainer extends Component {
     const { id } = this.state
     const { updateJoinedPlayers } = this.props
     if (!id) {
-      return
+      return Promise.resolve()
     }
 
-    api.whosInRoom(id)
+    return api.whosInRoom(id)
       .then((players) => {
         const joinedPlayers = players.filter((p) => p.name)
         updateJoinedPlayers(joinedPlayers, () => {
@@ -81,7 +82,7 @@ class LobbyContainer extends Component {
       return
     }
 
-    api.whosInRoom(id).then(
+    return api.whosInRoom(id).then(
       (players) => {
         const joinedPlayers = []
         let started = false
@@ -111,10 +112,10 @@ class LobbyContainer extends Component {
   startGame() {
     const { gameId, myId, playerName, userAuthToken } = this.props
     if (!gameId) {
-      return
+      return Promise.resolve()
     }
 
-    api.startGame(gameId, myId, userAuthToken)
+    return api.startGame(gameId, myId, userAuthToken)
       .then(() => {
         const { history } = this.props
         clearInterval(this.interval)
@@ -131,7 +132,7 @@ class LobbyContainer extends Component {
 
     if (!gameId && !id) {
       return (
-        <Box>
+        <>
           <Flex>
             생성된 게임이 없습니다.
           </Flex>
@@ -140,7 +141,7 @@ class LobbyContainer extends Component {
               history.push('/')
             }}>Back</Button>
           </Flex>
-        </Box>
+        </>
       )
     }
 
