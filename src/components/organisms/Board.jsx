@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { BoardTemplate, Icon } from 'components'
 import Noble from './Noble'
 import Token from './Token'
@@ -7,23 +6,10 @@ import DevelopmentRow from './DevelopmentRow'
 import TokenController from './TokenController'
 import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
+import MyField from './MyField'
 import Result from './Result'
 import Player from 'containers/PlayerContainer'
 import { DEVELOPMENT_CARDS } from 'assets'
-
-const Hand = styled.section`
-  padding: 2rem;
-  background: ${({ theme }) => theme.main};
-  display: flex;
-  justify-content: center;
-  position: relative;
-  & > .icon {
-    position: absolute;
-    left: 20px;
-    font-size: 10em;
-    opacity: 0.1;
-  }
-`
 
 const Board = ({
   G, ctx,
@@ -68,6 +54,7 @@ const Board = ({
 
   const isMyTurn = playerID === ctx.currentPlayer
   const controllerVisible = !isMultiplayer || isMyTurn
+  players = players.filter(({ id }) => `${id}` !== playerID)
 
   return (
     <>
@@ -120,15 +107,11 @@ const Board = ({
           ))
         }
         player={
-          <Hand>
-            <Icon name="cart" />
-            <DevelopmentRow
-              list={isMultiplayer
-                ? fields[playerID].reservedDevs
-                : fields[currentPlayer].reservedDevs}
-              handler={handleSpaceClick}
-              isExtra />
-          </Hand>
+          <MyField
+            field={fields[playerID]}
+            reserveds={isMultiplayer
+              ? fields[playerID].reservedDevs
+              : fields[currentPlayer].reservedDevs} />
         } />
       {controllerVisible && hand.development
         ? <DevelopmentController
