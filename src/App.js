@@ -2,13 +2,11 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Switch, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import GithubCorner from 'react-github-corner'
 import Game from 'components/organisms/Game'
 import { Block, LobbyPage, JoinPage, MainPage, GamePage } from 'components'
 import { withRouter } from 'react-router'
 import { LobbyApi } from 'api'
 import qs from 'query-string'
-import { THEME } from './lib/config'
 import randomName from 'node-random-name'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -157,12 +155,6 @@ class App extends Component {
           </Route>
         </Switch>
         <ToastContainer />
-        <GithubCorner
-          href="https://github.com/kimkyeseung/splendor"
-          direction="right"
-          target="_blank"
-          bannerColor={THEME.title}
-        />
       </Body>
     )
   }

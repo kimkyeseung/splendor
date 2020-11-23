@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Blank, Title, Footer, Box } from 'components'
+import { Blank, Title, Footer, Box, Gc } from 'components'
 
 const footerHeight = 100
 
@@ -34,5 +34,6 @@ export const SubTemplate = ({ content }) => (
       {content}
     </Box>
     <Footer className="footer" />
+    <Gc />
   </Template>
 )
