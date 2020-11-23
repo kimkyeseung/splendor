@@ -26,7 +26,9 @@ const Board = ({
   returnToken,
   handleNobleClick,
   history,
-  players
+  players,
+  matchData,
+  ...props
 }) => {
   const { currentPlayer, gameover } = ctx
   const {
@@ -54,19 +56,21 @@ const Board = ({
 
   const isMyTurn = playerID === ctx.currentPlayer
   const controllerVisible = !isMultiplayer || isMyTurn
-  players = players.filter(({ id }) => `${id}` !== playerID)
 
   return (
     <>
       <BoardTemplate
         opponents={
-          players.map(player => (
-            <Player
-              key={player.id}
-              G={G}
-              player={player}
-              ctx={ctx} />
-          ))
+          Object.keys(fields)
+            .reduce((list, key) => key !== playerID
+              ? [...list, <Player
+                key={key}
+                G={G}
+                player={{ id: key, name: isMultiplayer ? matchData[key]?.name : players[key]?.name }}
+                field={fields[key]}
+                ctx={ctx} />]
+              : list,
+              [])
         }
         developments={
           <>
@@ -108,10 +112,9 @@ const Board = ({
         }
         player={
           <MyField
-            field={fields[playerID]}
-            reserveds={isMultiplayer
-              ? fields[playerID].reservedDevs
-              : fields[currentPlayer].reservedDevs} />
+            field={isMultiplayer
+              ? fields[playerID]
+              : fields[currentPlayer]} />
         } />
       {controllerVisible && hand.development
         ? <DevelopmentController

@@ -27,7 +27,7 @@ class MainContainer extends Component {
     this.setState(({ playerNames }) => {
       const next = [...playerNames]
       next[index] = name
-      console.log({ next, name })
+
       return { playerNames: next }
     })
   }

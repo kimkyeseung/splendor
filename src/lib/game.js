@@ -38,7 +38,7 @@ const game = () => {
   const Splendor = {
     name: 'splendor',
 
-    setup: ({ numPlayers, random, ...G }) => {
+    setup: ({ numPlayers, random, ...ctx }, setupData) => {
       const developOneDeck = random.Shuffle(developCards.gradeOne)
       const developTwoDeck = random.Shuffle(developCards.gradeTwo)
       const developThreeDeck = random.Shuffle(developCards.gradeThree)

@@ -142,14 +142,8 @@ class BoardContainer extends Component {
   }
 
   render() {
-    const { G, ctx, playerID, isMultiplayer, history, players } = this.props
-
     return (
       <Board
-        G={G}
-        ctx={ctx}
-        playerID={playerID}
-        isMultiplayer={isMultiplayer}
         handleSpaceClick={this.handleSpaceClick}
         deselectDevelopment={this.deselectDevelopment}
         buySelectedDevelopment={this.buySelectedDevelopment}
@@ -161,8 +155,7 @@ class BoardContainer extends Component {
         returnToken={this.returnToken}
         handleNobleClick={this.handleNobleClick}
         handleReservedDevelopmentClick={this.handleReservedDevelopmentClick}
-        history={history}
-        players={players}
+        {...this.props}
       />
     )
   }
