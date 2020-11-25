@@ -39,7 +39,6 @@ class GameContainer extends Component {
 
     return api.whosInRoom(this.gameID)
       .then((players) => {
-        console.log({ players })
         const joinedPlayers = players.filter((p) => p.name)
         updateJoinedPlayers(joinedPlayers, () => {
           this.joinGame()
@@ -77,7 +76,6 @@ class GameContainer extends Component {
 
   render() {
     const { history, userAuthToken, joinedPlayers } = this.props
-
     const Splendor = game()
     const SplendorGame = Client({
       game: Splendor,
@@ -98,12 +96,11 @@ class GameContainer extends Component {
     return (
       <Beforeunload onBeforeunload={ev => {
         this.leaveGame()
-        // history.push('/')
         ev.preventDefault()
       }}>
         <SplendorGame
+          matchID={this.gameID}
           gameID={this.gameID}
-          players={joinedPlayers.filter(player => player.name)}
           playerID={String(this.playerID)}
           credentials={userAuthToken}
         />
