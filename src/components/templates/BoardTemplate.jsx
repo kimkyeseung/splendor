@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Blank, Block, Flex, Title, Aside } from 'components'
 
 const Template = styled.div`
+  width: 1200px;
   position: relative;
   min-height: 100%;
   & .container {
@@ -15,6 +16,7 @@ const Template = styled.div`
     height: auto;
   }
   @media screen and (max-device-width: 980px) {
+    width: 100%;
     & .title {
       display: none;
     }
@@ -71,9 +73,6 @@ const Board = styled.div`
 
 export const BoardTemplate = ({ opponents, developments, nobles, tokens, player }) => (
   <Template>
-    <Blank height={30} />
-    <Title className="title" />
-    <Blank height={20} />
     <Flex className="container">
       <Aside className="opponents">
         {opponents}

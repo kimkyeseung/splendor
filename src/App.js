@@ -17,6 +17,8 @@ const Body = styled(Block)`
   color:  ${({ theme }) => theme.white};
   position: fixed;
   font-size: 20px;
+  display: flex;
+  justify-content: center;
 `
 
 const api = new LobbyApi()
