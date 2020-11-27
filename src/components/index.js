@@ -1,5 +1,3 @@
-import Aside from './organisms/Aside'
-
 export { Block } from './atoms/Block'
 export { Blank } from './atoms/Blank'
 export { Flex } from './atoms/Flex'
@@ -23,7 +21,3 @@ export { LobbyPage } from './pages/LobbyPage'
 export { JoinPage } from './pages/JoinPage'
 export { MainPage } from './pages/MainPage'
 export { GamePage } from './pages/GamePage'
-
-export {
-  Aside
-}

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Blank, Block, Flex, Title, Aside, Card } from 'components'
+import { Blank, Block, Flex, Title } from 'components'
 
 const Template = styled.div`
   width: 1200px;
@@ -53,6 +53,15 @@ const Section = styled.section`
   }
 `
 
+const OpponentsWrapper = styled.div`
+  padding: 1rem;
+
+  @media screen and (max-device-width: 980px) {
+    display: flex;
+    padding: 0.2rem;
+  }
+`
+
 const TokenWrapper = styled.div`
   display: flex;
   flex-direction: column-reverse;
@@ -66,7 +75,7 @@ const TokenWrapper = styled.div`
 
 const NobleWrapper = styled.div`
   height: 100%;
-  width: fit-content;
+  width: 100%;
   display: flex;
   justify-content: center;
   @media screen and (max-device-width: 980px) {
@@ -91,9 +100,9 @@ export const BoardTemplate = ({ opponents, developments, nobles, tokens, player 
     <Blank height={20} />
     <Flex className="container" alignItems="stretch">
       <Section>
-        <Aside className="opponents">
+        <OpponentsWrapper className="opponents">
           {opponents}
-        </Aside>
+        </OpponentsWrapper>
       </Section>
       <Blank width={20} />
       <Board className="board">
