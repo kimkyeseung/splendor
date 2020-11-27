@@ -183,7 +183,7 @@ class LobbyContainer extends Component {
         players={joinedPlayers}
         myId={myId}
         gameId={id}
-        isHost={gameId && gameId === id}
+        isHost={joinedPlayers[0]?.id === myId}
         serverURL={this.server}
         startGame={this.startGame}
         updatePlayerName={this.updatePlayerName}
