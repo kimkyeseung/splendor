@@ -6,10 +6,16 @@ const mobieDeviceStyle = css`
   height: ${({ mHeight }) => `${mHeight}vh`};
 `
 
+const verticalBlankStyle = css`
+  width: ${({ width }) => `${width}px`};
+  height: auto;
+  display: inline-block;
+`
+
 export const Blank = styled.div`
   display: block;
   height: ${({ height }) => height ? `${height}px` : '100px'};
-  width: ${({ width }) => width ? `${width}px` : '100%'};
+  ${({ width }) => width ? verticalBlankStyle : `width: 100%`};
   @media screen and (max-device-width: 980px) {
     display: none;
     ${({ mHeight }) => mHeight && mobieDeviceStyle};
