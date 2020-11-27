@@ -85,7 +85,7 @@ export const THEME = {
   title: '#face41',
   boxBorder: '#6ea791',
   boxBackground: '#367c69',
-  primary: ['#2ecc71', '#27ae60'],
+  primary: ['#6c5ce7', '#a29bfe'],
   secondary: ['#34495e', '#2c3e50'],
   warning: ['#e74c3c', '#c0392b'],
   font: {
