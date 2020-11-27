@@ -5,7 +5,6 @@ import FieldSummary from './FieldSummary'
 
 const StyledField = styled.section`
   padding: 2rem;
-  background: ${({ theme }) => theme.main};
   display: flex;
   justify-content: center;
   position: relative;

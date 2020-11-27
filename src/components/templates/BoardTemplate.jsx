@@ -13,7 +13,6 @@ const Template = styled.div`
     flex-grow: 1;
   }
   & .opponents {
-    width: 20%;
     align-self: stretch;
     height: auto;
   }

@@ -8,7 +8,7 @@ import DevelopmentController from './DevelopmentController'
 import NobleController from './NobleController'
 import MyField from './MyField'
 import Result from './Result'
-import Player from 'containers/PlayerContainer'
+import Player from 'components/organisms/Player'
 import { DEVELOPMENT_CARDS } from 'assets'
 
 const Board = ({
