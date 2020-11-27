@@ -7,7 +7,7 @@ import {
   BrowserRouter as Router,
 } from 'react-router-dom'
 import * as serviceWorker from './serviceWorker'
-import { THEME } from './lib/config'
+import { THEME } from 'config'
 
 const GlobalStyle = createGlobalStyle`
   ${reset}

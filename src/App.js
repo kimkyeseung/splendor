@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css'
 const Body = styled(Block)`
   height: 100%;
   box-sizing: border-box;
-  background: ${({ theme }) => theme.background};
+  background: ${({ theme }) => theme.black};
   color:  ${({ theme }) => theme.white};
   position: fixed;
   font-size: 20px;
