@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import OpponentFieldSummary from 'components/organisms/OpponentFieldSummary'
+import { Button } from 'components'
 import VictoryPointsMarker from 'components/organisms/VictoryPointsMarker'
 import { Flex } from 'components'
 import { DEFAULT_SETTING } from 'config'
@@ -52,7 +53,7 @@ const StyledPlayer = styled.div`
   }
 `
 
-const Player = ({ ctx, player, G }) => {
+const Player = ({ ctx, player, G, watchPlayer }) => {
   const { currentPlayer } = ctx
   const score = G.fields[player.id].victoryPoints
   const isActive = `${player.id}` === `${currentPlayer}`
@@ -68,6 +69,9 @@ const Player = ({ ctx, player, G }) => {
       <OpponentFieldSummary
         active={isActive}
         field={G.fields[player.id]} />
+        <Button onClick={() => {
+          watchPlayer(player.id)
+        }}>Watch</Button>
     </StyledPlayer>
   )
 }

@@ -104,102 +104,6 @@ const game = () => {
     },
 
     moves: {
-      selectDevelopment(G, ctx, dev, meta) {
-        const { board } = G
-
-        deselectDevelopment(G, ctx)
-        holdDevelopment(G, ctx, { ...meta, name: dev })
-        const { index, grade, isExtra } = meta
-        if (!isExtra) {
-          if (index >= 0) {
-            board[`dev${grade}${index}`] = null
-          } else {
-            drawDevelopment(G, grade)
-          }
-        }
-      },
-
-      deselectDevelopment(G, ctx) {
-        deselectDevelopment(G, ctx)
-      },
-
-      buyDevelopment(G, ctx) {
-        const { fields } = G
-        const currentPlayer = fields[ctx.currentPlayer]
-        const { hand } = currentPlayer
-
-        if (hand.development) {
-          const buyable = buyDevelopmentValidator(G, ctx)
-
-          if (buyable) {
-            payDevelopmentPrice(G, ctx)
-            gainDevelopment(G, ctx)
-            currentPlayer.done = true
-          } else {
-            if (typeof window === 'object') {
-              window.alert('비용이 모자랍니다.')
-            }
-            return INVALID_MOVE
-          }
-        }
-      },
-
-      reserveDevelopment(G, ctx) {
-        const { fields } = G
-        const currentPlayer = fields[ctx.currentPlayer]
-        const { reservedDevs, tokenAssets, hand } = currentPlayer
-
-        if (reservedDevs.length < DEFAULT_SETTING.playerReserveDevelopmentLimit) {
-          gainTokenFromStore(G, ctx, 'yellow')
-
-          if (hand.development) {
-            reserveDevelopment(G, ctx)
-
-            const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
-            if (tokenCount > tokenLimit) {
-              G.tokenOverloaded = tokenCount - tokenLimit
-              ctx.events.setStage('returnTokens')
-            } else {
-              currentPlayer.done = true
-            }
-          }
-        }
-      },
-
-      selectToken(G, ctx, token) {
-        holdToken(G, ctx, token)
-      },
-
-      deselectToken(G, ctx, index) {
-        const { fields } = G
-        const { hand } = fields[ctx.currentPlayer]
-        const [token] = hand.tokens.splice(index, 1)
-
-        restoreTokenStore(G, token)
-      },
-
-      cancelSelectedToken(G, ctx) {
-        emptyHand(G, ctx)
-      },
-
-      getTokens(G, ctx) {
-        const { tokenStore, fields } = G
-        const currentPlayer = fields[ctx.currentPlayer]
-        const { hand, tokenAssets } = currentPlayer
-        if (!getTokenValidator(hand.tokens, tokenStore)) {
-          return INVALID_MOVE
-        }
-
-        gainTokensFromHand(G, ctx)
-
-        const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
-        if (tokenCount > tokenLimit) {
-          G.tokenOverloaded = tokenCount - tokenLimit
-          ctx.events.setStage('returnTokens')
-        } else {
-          currentPlayer.done = true
-        }
-      }
     },
 
     turn: {
@@ -208,6 +112,10 @@ const game = () => {
         const { fields } = G
         const currentPlayer = fields[ctx.currentPlayer]
         currentPlayer.done = false
+        ctx.events.setActivePlayers({
+          currentPlayer: 'basic',
+          others: 'watch'
+        })
       },
 
       onMove: (G, ctx) => {
@@ -240,6 +148,119 @@ const game = () => {
         }
       },
       stages: {
+        basic: {
+          moves: {
+            selectDevelopment(G, ctx, dev, meta) {
+              const { board } = G
+
+              deselectDevelopment(G, ctx)
+              holdDevelopment(G, ctx, { ...meta, name: dev })
+              const { index, grade, isExtra } = meta
+              if (!isExtra) {
+                if (index >= 0) {
+                  board[`dev${grade}${index}`] = null
+                } else {
+                  drawDevelopment(G, grade)
+                }
+              }
+            },
+
+            deselectDevelopment(G, ctx) {
+              deselectDevelopment(G, ctx)
+            },
+
+            buyDevelopment(G, ctx) {
+              const { fields } = G
+              const currentPlayer = fields[ctx.currentPlayer]
+              const { hand } = currentPlayer
+
+              if (hand.development) {
+                const buyable = buyDevelopmentValidator(G, ctx)
+
+                if (buyable) {
+                  payDevelopmentPrice(G, ctx)
+                  gainDevelopment(G, ctx)
+                  currentPlayer.done = true
+                } else {
+                  if (typeof window === 'object') {
+                    window.alert('비용이 모자랍니다.')
+                  }
+                  return INVALID_MOVE
+                }
+              }
+            },
+
+            reserveDevelopment(G, ctx) {
+              const { fields } = G
+              const currentPlayer = fields[ctx.currentPlayer]
+              const { reservedDevs, tokenAssets, hand } = currentPlayer
+
+              if (reservedDevs.length < DEFAULT_SETTING.playerReserveDevelopmentLimit) {
+                gainTokenFromStore(G, ctx, 'yellow')
+
+                if (hand.development) {
+                  reserveDevelopment(G, ctx)
+
+                  const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
+                  if (tokenCount > tokenLimit) {
+                    G.tokenOverloaded = tokenCount - tokenLimit
+                    ctx.events.setStage('returnTokens')
+                  } else {
+                    currentPlayer.done = true
+                  }
+                }
+              }
+            },
+
+            selectToken(G, ctx, token) {
+              holdToken(G, ctx, token)
+            },
+
+            deselectToken(G, ctx, index) {
+              const { fields } = G
+              const { hand } = fields[ctx.currentPlayer]
+              const [token] = hand.tokens.splice(index, 1)
+
+              restoreTokenStore(G, token)
+            },
+
+            cancelSelectedToken(G, ctx) {
+              emptyHand(G, ctx)
+            },
+
+            getTokens(G, ctx) {
+              const { tokenStore, fields } = G
+              const currentPlayer = fields[ctx.currentPlayer]
+              const { hand, tokenAssets } = currentPlayer
+              if (!getTokenValidator(hand.tokens, tokenStore)) {
+                return INVALID_MOVE
+              }
+
+              gainTokensFromHand(G, ctx)
+
+              const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
+              if (tokenCount > tokenLimit) {
+                G.tokenOverloaded = tokenCount - tokenLimit
+                ctx.events.setStage('returnTokens')
+              } else {
+                currentPlayer.done = true
+              }
+            },
+
+            watchSomething(G, ctx, target) {
+              console.log('watching', target)
+              const { fields } = G
+            }
+          }
+        },
+        watch: {
+          moves: {
+            watchSomething(G, ctx, target) {
+              console.log('watching', target)
+              const { fields } = G
+            }
+          }
+        },
         returnTokens: {
           moves: {
             returnTokens(G, ctx, token) {

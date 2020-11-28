@@ -25,6 +25,7 @@ const Board = ({
   deselectToken,
   returnToken,
   handleNobleClick,
+  watchPlayer,
   history,
   players,
   matchData,
@@ -66,6 +67,7 @@ const Board = ({
               ? [...list, <Player
                 key={key}
                 G={G}
+                watchPlayer={watchPlayer}
                 player={{ id: key, name: isMultiplayer ? matchData[key]?.name : players[key]?.name }}
                 field={fields[key]}
                 ctx={ctx} />]

@@ -27,6 +27,7 @@ class BoardContainer extends Component {
     this.deselectToken = this.deselectToken.bind(this)
     this.returnToken = this.returnToken.bind(this)
     this.handleNobleClick = this.handleNobleClick.bind(this)
+    this.watchPlayer = this.watchPlayer.bind(this)
   }
 
   componentDidUpdate(prevProps) {
@@ -56,9 +57,9 @@ class BoardContainer extends Component {
   }
 
   getCurrentPlayerName() {
-    const { ctx, players } = this.props
+    const { ctx, players, matchData } = this.props
 
-    return players.find(({ id }) => ctx.currentPlayer === `${id}`).name || ctx.currentPlayer
+    return matchData.find(({ id }) => ctx.currentPlayer === `${id}`)?.name || ctx.currentPlayer
   }
 
   handleSpaceClick(dev, meta) {
@@ -141,6 +142,13 @@ class BoardContainer extends Component {
     selectGetNoble(noble)
   }
 
+  watchPlayer(player) {
+    const { G, ctx, moves } = this.props
+    const { watchSomething } = moves
+
+    watchSomething(player)
+  }
+
   render() {
     return (
       <Board
@@ -155,6 +163,7 @@ class BoardContainer extends Component {
         returnToken={this.returnToken}
         handleNobleClick={this.handleNobleClick}
         handleReservedDevelopmentClick={this.handleReservedDevelopmentClick}
+        watchPlayer={this.watchPlayer}
         {...this.props}
       />
     )
