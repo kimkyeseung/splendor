@@ -18,7 +18,7 @@ const StyledField = styled.section`
 
 const MyField = ({ field, ...props }) => (
   <StyledField {...props}>
-    <FieldSummary isMyField field={field} />
+    <FieldSummary field={field} />
     <DevelopmentRow
       list={field.reservedDevs} />
   </StyledField>

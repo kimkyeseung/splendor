@@ -1,40 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { DEFAULT_SETTING } from 'config'
 import { Flex, Blank } from 'components'
-import Space from './Space'
-import { DEVELOPMENT_CARDS } from 'assets'
+import VictoryPointsMarker from 'components/organisms/VictoryPointsMarker'
 
-const opponentFieldStyle = css`
-  padding: 0.5rem 0;
-  opacity: 0.8;
-  & .assets {
-    display: flex;
-    max-width: 160px;
-    min-width: 140px;
-    padding: 0.2rem 0;
-    flex-wrap: wrap;
-    & .asset {
-      position: relative;
-      margin-right: 12px;
-      margin-bottom: 6px;
-    }
-  }
-  ${({ active }) => active && activeCSs};
-  @media screen and (max-device-width: 980px) {
-    & .assets {
-      max-width: 120px;
-      & .asset {
-        margin-right: 6px;
-        margin-bottom: 3px;
-      }
-    }
-  }
-`
-
-const myFieldStyle = css`
-
+const StyledFieldSummary = styled.div`
+  position: relative;
   & .assets {
     display: flex;
     & .asset {
@@ -55,41 +27,12 @@ const myFieldStyle = css`
   }
 `
 
-const StyledFieldSummary = styled.div`
-  position: relative;
-  ${({ isMyField }) => isMyField
-    ? myFieldStyle
-    : opponentFieldStyle};
-`
-
-const activeCSs = css`
-  opacity: 1;
-  transform: scale(1.1);
-  @media screen and (max-device-width: 980px) {
-    transform: none;
-  }
-`
-
-const myDevelopmentStyle = css`
+const Development = styled.div`
   height: 90px;
   width: 75px;
   line-height: 40px;
   font-size: 2em;
   border-radius: 8px;
-`
-
-const opponentDevelopmentStyle = css`
-  height: 36px;
-  width: 30px;
-  line-height: 40px;
-  font-size: 1.8em;
-  border-radius: 4px;
-`
-
-const Development = styled.div`
-  ${({ isMyField }) => isMyField
-    ? myDevelopmentStyle
-    : opponentDevelopmentStyle};
   border: 1px solid ${({ theme }) => theme.grayscale[5]};
   color: ${({ theme }) => theme.white};
   text-align: center;
@@ -109,24 +52,6 @@ const Development = styled.div`
   }
 `
 
-const myTokenStyle = css`
-  height: 46px;
-  width: 46px;
-  line-height: 46px;
-  border: 2px solid ${({ theme }) => theme.grayscale[5]};
-  font-size: 1.8em;
-  transform: translate(23px, 23px);
-`
-
-const opponentTokenStyle = css`
-  height: 24px;
-  width: 24px;
-  line-height: 24px;
-  border: 1px solid ${({ theme }) => theme.grayscale[5]};
-  font-size: 1.4em;
-  transform: translate(12px, 12px);
-`
-
 const Token = styled.div`
   position: absolute;
   bottom: 0;
@@ -138,7 +63,12 @@ const Token = styled.div`
   margin: 0 0.26rem;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
-  ${({ isMyField }) => isMyField ? myTokenStyle : opponentTokenStyle};
+  height: 46px;
+  width: 46px;
+  line-height: 46px;
+  border: 2px solid ${({ theme }) => theme.grayscale[5]};
+  font-size: 1.8em;
+  transform: translate(23px, 23px);
   ${({ theme, value }) => theme.colorSet[value]};
 `
 
@@ -168,7 +98,7 @@ const TokenCount = styled.div`
 `
 
 const FieldSummary = ({ active, field, isMyField }) => {
-  const { developments, tokenAssets, victoryPoints, reservedDevs } = field
+  const { developments, tokenAssets, victoryPoints } = field
   const totalTokenCount = Object.values(tokenAssets).reduce((total, count) => total + count, 0)
   const tokenList = ['white', 'blue', 'red', 'green', 'black']
 
@@ -200,19 +130,14 @@ const FieldSummary = ({ active, field, isMyField }) => {
             : null}
         </div>
       </div>
-      {victoryPoints ? <VictoryPoint>{victoryPoints}</VictoryPoint> : null}
+      {/* victoryPoints */true
+        ? <VictoryPointsMarker
+          score={victoryPoints}
+          total={DEFAULT_SETTING.victoryPointGoal} />
+        : null}
       <Blank height={15} />
       {<Flex>
         {totalTokenCount ? <TokenCount>{totalTokenCount}/{DEFAULT_SETTING.playerTokenLimit}</TokenCount> : null}
-        <Flex justifyContent="space-around">
-          {reservedDevs.map(dev => {
-            const { grade } = DEVELOPMENT_CARDS[dev]
-
-            return (
-              <Space key={dev} blind grade={grade} thumbnail />
-            )
-          })}
-        </Flex>
       </Flex>}
     </StyledFieldSummary>
   )

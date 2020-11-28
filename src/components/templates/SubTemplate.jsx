@@ -8,6 +8,7 @@ const Template = styled.div`
   position: relative;
   min-height: 100%;
   padding-bottom: ${footerHeight}px;
+  width: 100%;
   & .footer {
     width: 100%;
     height: ${footerHeight}px;
