@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Flex } from 'components'
 import Card from './Card'
 import Deck from './Deck'
 import Tilt from 'react-tilt'
@@ -29,13 +28,13 @@ const Row = styled.div`
   }
 `
 
-const DevelopmentRow = ({ deck, list, handler, grade, isExtra = false }) => (
+const DevelopmentRow = ({ deck, list, handler, grade }) => (
   <Row>
     {deck && <Deck
       className="deck"
       onClick={() => {
         const dev = deck[deck.length - 1]
-        handler(dev, { index: -1, grade, isExtra })
+        handler('deck', dev, { grade })
       }}
       cards={deck}
       grade={grade} />}
@@ -44,7 +43,7 @@ const DevelopmentRow = ({ deck, list, handler, grade, isExtra = false }) => (
         <Tilt key={dev} options={{ scale: 1, max: 20 }}>
           <Effect>
             <Card onClick={() => {
-              handler(dev, { index, grade, isExtra })
+              handler('board', dev, { index, grade })
             }} grade={grade} dev={dev} />
           </Effect>
         </Tilt>

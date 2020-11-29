@@ -60,12 +60,12 @@ export const getWinner = G => {
   return { winner }
 }
 
-export const holdDevelopment = (G, ctx, { name, grade, index, isExtra = false }) => {
+export const holdDevelopment = (G, ctx, type, { name, grade, index }) => {
   const { fields } = G
   const { hand } = fields[ctx.currentPlayer]
 
   emptyHand(G, ctx)
-  hand.development = { name, grade, index, isExtra }
+  hand.development = { name, grade, index, type }
 }
 
 export const reserveDevelopment = (G, ctx) => {
@@ -83,9 +83,9 @@ export const gainDevelopment = (G, ctx) => {
   const { hand, developments, reservedDevs } = fields[ctx.currentPlayer]
 
   if (hand.development) {
-    const { name, isExtra } = hand.development
+    const { name, type } = hand.development
     developments.push(name)
-    if (isExtra) {
+    if (type === 'reserved') {
       fields[ctx.currentPlayer].reservedDevs = reservedDevs.filter(dev => dev !== name)
     }
   }
@@ -103,19 +103,22 @@ export const deselectDevelopment = (G, ctx) => {
   const { hand } = fields[ctx.currentPlayer]
 
   if (hand.development) {
-    const { name, grade, index, isExtra = false } = hand.development
+    const { name, grade, index, type } = hand.development
 
-    if (!isExtra) {
-      if (index >= 0) {
+    switch (type) {
+      case 'board':
         board[`dev${grade}${index}`] = name
-      } else {
+        break
+      case 'deck':
         const deck = {
           '1': developOneDeck,
           '2': developTwoDeck,
           '3': developThreeDeck
         }
         deck[grade].push(name)
-      }
+        break
+      case 'reserved':
+        break
     }
 
     emptyHand(G, ctx)

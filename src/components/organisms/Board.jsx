@@ -116,7 +116,8 @@ const Board = ({
           <MyField
             field={isMultiplayer
               ? fields[playerID]
-              : fields[currentPlayer]} />
+              : fields[currentPlayer]}
+            handler={handleSpaceClick} />
         } />
       {controllerVisible && hand.development
         ? <DevelopmentController
@@ -125,8 +126,7 @@ const Board = ({
           buySelectedDevelopment={buySelectedDevelopment}
           reserveSelectedDevelopment={reserveSelectedDevelopment}
           focusedDevelopment={DEVELOPMENT_CARDS[hand.development.name]}
-          reserved={hand.development.isExtra}
-          blind={hand.development.index === -1} />
+          type={hand.development.type} />
         : null}
       {controllerVisible && hand.gettableNobles && hand.gettableNobles.length
         ? <NobleController

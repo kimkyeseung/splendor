@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { DEFAULT_SETTING } from 'config'
-import { Flex, Blank } from 'components'
-import VictoryPointsMarker from 'components/organisms/VictoryPointsMarker'
 
 const StyledFieldSummary = styled.div`
   position: relative;
@@ -72,31 +69,6 @@ const Token = styled.div`
   ${({ theme, value }) => theme.colorSet[value]};
 `
 
-Token.Wrapper = styled.div`
-  display: flex;
-`
-
-const VictoryPoint = styled.div`
-  height: 40px; width: 40px;
-  border-radius: 100%;
-  text-align: center;
-  line-height: 40px;
-  color: ${({ theme }) => theme.white};
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
-  background-color: darkorange;
-  border: 4px solid green;
-  font-size: 2em;
-  position: absolute;
-  right: 5px;
-  top: 5px;
-`
-
-const TokenCount = styled.div`
-  color: ${({ theme }) => theme.white};
-  font-size: 1.8em;
-`
-
 const FieldSummary = ({ active, field, isMyField }) => {
   const { developments, tokenAssets, victoryPoints } = field
   const totalTokenCount = Object.values(tokenAssets).reduce((total, count) => total + count, 0)
@@ -130,15 +102,6 @@ const FieldSummary = ({ active, field, isMyField }) => {
             : null}
         </div>
       </div>
-      {/* victoryPoints */true
-        ? <VictoryPointsMarker
-          score={victoryPoints}
-          total={DEFAULT_SETTING.victoryPointGoal} />
-        : null}
-      <Blank height={15} />
-      {<Flex>
-        {totalTokenCount ? <TokenCount>{totalTokenCount}/{DEFAULT_SETTING.playerTokenLimit}</TokenCount> : null}
-      </Flex>}
     </StyledFieldSummary>
   )
 }

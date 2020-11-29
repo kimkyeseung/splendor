@@ -59,21 +59,15 @@ class BoardContainer extends Component {
   getCurrentPlayerName() {
     const { ctx, players, matchData } = this.props
 
-    return matchData.find(({ id }) => ctx.currentPlayer === `${id}`)?.name || ctx.currentPlayer
+    return matchData.find(({ id }) =>
+      ctx.currentPlayer === `${id}`)?.name || ctx.currentPlayer
   }
 
-  handleSpaceClick(dev, meta) {
+  handleSpaceClick(type, dev, meta) {
     const { moves } = this.props
     const { selectDevelopment } = moves
 
-    selectDevelopment(dev, meta)
-  }
-
-  handleReservedDevelopmentClick(dev) {
-    const { moves } = this.props
-    const { selectDevelopment } = moves
-
-    selectDevelopment(dev, { isExtra: true })
+    selectDevelopment(type, dev, meta)
   }
 
   deselectDevelopment() {
@@ -162,7 +156,6 @@ class BoardContainer extends Component {
         deselectToken={this.deselectToken}
         returnToken={this.returnToken}
         handleNobleClick={this.handleNobleClick}
-        handleReservedDevelopmentClick={this.handleReservedDevelopmentClick}
         watchPlayer={this.watchPlayer}
         {...this.props}
       />

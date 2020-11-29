@@ -99,7 +99,6 @@ const game = () => {
         developThreeDeck,
         nobleTiles,
         tokenOverloaded: 0,
-        focusedDevelopment: {}
       }
     },
 
@@ -150,18 +149,22 @@ const game = () => {
       stages: {
         basic: {
           moves: {
-            selectDevelopment(G, ctx, dev, meta) {
+            selectDevelopment(G, ctx, type, dev, meta = {}) {
               const { board } = G
 
               deselectDevelopment(G, ctx)
-              holdDevelopment(G, ctx, { ...meta, name: dev })
-              const { index, grade, isExtra } = meta
-              if (!isExtra) {
-                if (index >= 0) {
+              console.log({ type, dev, meta })
+              holdDevelopment(G, ctx, type, { ...meta, name: dev })
+              const { index, grade } = meta
+              switch (type) {
+                case 'board':
                   board[`dev${grade}${index}`] = null
-                } else {
+                  break
+                case 'deck':
                   drawDevelopment(G, grade)
-                }
+                  break
+                case 'reserved':
+                  break
               }
             },
 

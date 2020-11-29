@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Card from './Card'
 import { Flex, Blank, Button, Modal } from 'components'
@@ -11,14 +12,15 @@ const Message = styled.div`
 
 const DevelopmentController = ({
   message,
-  focusedDevelopment,
+  focusedDevelopment = {},
   deselectDevelopment,
   buySelectedDevelopment,
   reserveSelectedDevelopment,
-  blind,
-  reserved
+  type
 }) => {
   const { grade } = focusedDevelopment
+  const reserved = type === 'reserved'
+  const blind = type === 'deck'
 
   return (
     <Modal isOpen={true} dimmed={false} onClose={deselectDevelopment}>
@@ -50,6 +52,11 @@ const DevelopmentController = ({
       </Flex>
     </Modal>
   )
+}
+
+DevelopmentController.propTypes = {
+  message: PropTypes.string,
+  type: PropTypes.oneOf(['board', 'reserved', 'deck'])
 }
 
 export default DevelopmentController
