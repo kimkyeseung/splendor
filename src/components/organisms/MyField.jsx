@@ -70,7 +70,7 @@ const MyField = ({ field, handler, player, ...props }) => {
 MyField.propTypes = {
   field: PropTypes.shape({
     victoryPoints: PropTypes.number,
-    tokenAssets: PropTypes.objectOf(PropTypes.oneOf(['red', 'green', 'yellow', 'black', 'white', 'blue']))
+    tokenAssets: PropTypes.objectOf(PropTypes.number)
   })
 }
 

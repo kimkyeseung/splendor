@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Blank } from 'components'
+import { getDevelopmentValuesFromFields } from 'utils'
 
 const StyledFieldSummary = styled.div`
   position: relative;
@@ -37,9 +38,9 @@ const Development = styled.div`
   border: 1px solid ${({ theme }) => theme.grayscale[5]};
   color: ${({ theme }) => theme.white};
   text-align: center;
-  font-size: 1.8em;
-  line-height: 40px;
-  -webkit-text-stroke-width: 1px;
+  font-size: 2.4em;
+  line-height: 90px;
+  -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: black;
   ${({ theme, value }) => theme.colorSet[value]};
   ${({ blank }) => blank && `
@@ -76,6 +77,7 @@ const Token = styled.div`
 const FieldSummary = ({ active, field, name, isMyField }) => {
   const { developments, tokenAssets } = field
   const tokenList = ['white', 'blue', 'red', 'green', 'black']
+  const developmentValues = getDevelopmentValuesFromFields(developments)
 
   return (
     <StyledFieldSummary active={active} isMyField={isMyField}>
@@ -87,7 +89,7 @@ const FieldSummary = ({ active, field, name, isMyField }) => {
             <Development
               isMyField={isMyField}
               value={value}>
-              {developments[value]}
+              {developmentValues[value]}
             </Development>
             {tokenAssets[value] ?
               <Token

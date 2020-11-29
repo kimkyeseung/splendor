@@ -238,10 +238,7 @@ export const getVictoryPoints = (G, ctx) => {
   return devScore + nobleScore
 }
 
-export const getDevelopmentValues = (G, ctx) => {
-  const { fields } = G
-  const { developments } = fields[ctx.currentPlayer]
-
+export const getDevelopmentValuesFromFields = (developments) => {
   const values = {}
   values.red = 0
   values.green = 0
@@ -256,6 +253,13 @@ export const getDevelopmentValues = (G, ctx) => {
   })
 
   return values
+}
+
+export const getDevelopmentValues = (G, ctx) => {
+  const { fields } = G
+  const { developments } = fields[ctx.currentPlayer]
+
+  return getDevelopmentValuesFromFields(developments)
 }
 
 export const getGameFromStorage = key => {
