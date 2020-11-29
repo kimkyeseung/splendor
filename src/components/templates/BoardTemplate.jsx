@@ -53,7 +53,7 @@ const Section = styled.section`
 `
 
 const OpponentsWrapper = styled.div`
-  padding: 1rem;
+  padding: 0.5rem;
 
   @media screen and (max-device-width: 980px) {
     display: flex;

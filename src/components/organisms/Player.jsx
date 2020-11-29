@@ -32,7 +32,7 @@ const Name = styled.p`
 `
 
 const StyledPlayer = styled.div`
-  padding: 0.25rem;
+  padding: 0.5rem;
   border-radius: 12px;
   width: 100%;
   cursor: zoom-in;
