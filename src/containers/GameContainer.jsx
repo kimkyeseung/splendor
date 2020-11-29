@@ -99,9 +99,7 @@ class GameContainer extends Component {
         ev.preventDefault()
       }}>
         <SplendorGame
-          matchID={this.gameID}
           gameID={this.gameID}
-          players={joinedPlayers.filter(player => player.name)}
           playerID={String(this.playerID)}
           credentials={userAuthToken}
         />
