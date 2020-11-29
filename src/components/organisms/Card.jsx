@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import Value from './Value'
 import Cost from './Cost'
@@ -41,6 +40,7 @@ const Card = ({ dev, blind, ...props }) => {
 Card.propTypes = {
   dev: PropTypes.oneOf(Object.keys(DEVELOPMENT_CARDS)),
   blind: PropTypes.bool,
+  small: PropTypes.bool,
   onClick: PropTypes.func
 }
 

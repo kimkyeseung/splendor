@@ -181,6 +181,39 @@ const backStyle = css`
   }
 `
 
+const smallSize = css`
+  height: ${basicHeight * 0.8}px;
+  width: ${basicWidth * 0.8}px;
+  border-radius: 9px;
+  ${getBackgroundStyle(0.8)}
+  & > .header {
+    min-height: ${basicHeight / 18 * 5 * 0.8}px;
+    border-radius: 9px 9px 0 0;
+    padding: 0 0.5rem;
+    & > .vp {
+      font-size: ${2.6 * 0.8}em;
+    }
+    & > .value {
+      height: ${basicHeight / 18 * 4 * 0.8}px;
+      width: ${basicWidth / 15 * 4 * 0.8}px;
+    }
+  }
+  & > .costs {
+    padding: 0.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    & > .cost {
+      width: ${basicWidth / 15 * 4}px;
+      height: ${basicHeight / 18 * 4}px;
+      font-size: 2em;
+      margin: 0.1rem;
+    }
+  }
+  .title {
+    font-size: 32px;
+  }
+`
+
 const largeSize = css`
   height: ${basicHeight * 1.5}px;
   width: ${basicWidth * 1.5}px;
@@ -235,6 +268,7 @@ const Space = styled.div`
   box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.25);
   ${({ empty }) => empty ? emptyStyle : normalStyle};
   ${({ large }) => large && largeSize};
+  ${({ small }) => small && smallSize};
   ${({ blind }) => blind && backStyle};
   ${({ thumbnail }) => thumbnail && thumbnailSize};
   @media screen and (max-device-width: 980px) {
@@ -248,7 +282,8 @@ const Space = styled.div`
 Space.propTypes = {
   onClick: PropTypes.func,
   blind: PropTypes.bool,
-  thumbnail: PropTypes.bool
+  thumbnail: PropTypes.bool,
+  small: PropTypes.bool
 }
 
 export default Space
