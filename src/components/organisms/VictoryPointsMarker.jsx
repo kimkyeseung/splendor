@@ -1,9 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex, VictoryPoints, CircleProgress } from 'components'
 
 const StyledVP = styled.div`
   position: relative;
+  width: ${({ size }) => `${size}px`};
+  & .vp {
+    font-size: ${({ size }) => `${size / 25}em`};
+  }
 `
 
 const Score = styled(Flex)`
@@ -12,15 +17,23 @@ const Score = styled(Flex)`
   right: 0; bottom: 0;
 `
 
-const VictoryPointsMarker = ({ score, total }) => {
-  return (
-    <StyledVP>
-      <CircleProgress max={total} amount={score} size={50} />
-      <Score justifyContent="center">
-        <VictoryPoints>{score}</VictoryPoints>
-      </Score>
-    </StyledVP>
-  )
+const VictoryPointsMarker = ({ score, total, size }) => (
+  <StyledVP size={size}>
+    <CircleProgress max={total} amount={score} size={size} />
+    <Score justifyContent="center">
+      <VictoryPoints className="vp">{score}</VictoryPoints>
+    </Score>
+  </StyledVP>
+)
+
+VictoryPointsMarker.propTypes = {
+  size: PropTypes.number,
+  score: PropTypes.number.isRequired,
+}
+
+VictoryPointsMarker.defaultProps = {
+  size: 50,
+  total: 15
 }
 
 export default VictoryPointsMarker
