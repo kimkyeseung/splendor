@@ -1,9 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { Blank } from 'components'
 
 const StyledFieldSummary = styled.div`
   position: relative;
+  & .name {
+    font-size: 1.5em;
+  }
   & .assets {
     display: flex;
     & .asset {
@@ -69,13 +73,14 @@ const Token = styled.div`
   ${({ theme, value }) => theme.colorSet[value]};
 `
 
-const FieldSummary = ({ active, field, isMyField }) => {
-  const { developments, tokenAssets, victoryPoints } = field
-  const totalTokenCount = Object.values(tokenAssets).reduce((total, count) => total + count, 0)
+const FieldSummary = ({ active, field, name, isMyField }) => {
+  const { developments, tokenAssets } = field
   const tokenList = ['white', 'blue', 'red', 'green', 'black']
 
   return (
     <StyledFieldSummary active={active} isMyField={isMyField}>
+      <div className="name">{name}</div>
+      <Blank height={15} />
       <div className="assets">
         {tokenList.map(value => (
           <div className="asset" key={value}>

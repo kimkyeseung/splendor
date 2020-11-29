@@ -114,6 +114,10 @@ const Board = ({
         }
         player={
           <MyField
+            player={{
+              id: currentPlayer,
+              name: isMultiplayer ? matchData[playerID]?.name : players[currentPlayer]?.name
+            }}
             field={isMultiplayer
               ? fields[playerID]
               : fields[currentPlayer]}

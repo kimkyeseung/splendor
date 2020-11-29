@@ -1,8 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import FieldSummary from './FieldSummary'
 import { DEFAULT_SETTING } from 'config'
-import { Blank } from 'components'
+import { Blank, Flex } from 'components'
 import Card from './Card'
 import VictoryPointsMarker from 'components/organisms/VictoryPointsMarker'
 
@@ -10,18 +11,15 @@ const StyledField = styled.section`
   padding: 2rem;
   display: flex;
   justify-content: center;
-  position: relative;
-  & > .icon {
-    position: absolute;
-    left: 20px;
-    font-size: 10em;
-    opacity: 0.1;
-  }
 `
 
 const ReserveedDevelopments = styled.section`
   display: flex;
-  justify-content: space-around;
+  padding: 0 1.5rem;
+  & > * {
+    margin: 0.2rem;
+  }
+
 `
 
 const FieldInfo = styled.section`
@@ -40,22 +38,19 @@ const TokenCount = styled.div`
   text-align: center;
 `
 
-const MyField = ({ field, handler, ...props }) => {
+const MyField = ({ field, handler, player, ...props }) => {
   const { victoryPoints, tokenAssets } = field
   const totalTokenCount = Object.values(tokenAssets).reduce((total, count) => total + count, 0)
 
   return (
     <StyledField {...props}>
-      <FieldSummary field={field} />
+      <FieldSummary name={player.name || player.id} field={field} />
       <ReserveedDevelopments>
-        {field.reservedDevs.map((dev) => {
-
-          return (
-            <Card onClick={() => {
-              handler('reserved', dev)
-            }} dev={dev} />
-          )
-        })}
+        {field.reservedDevs.map((dev) => (
+          <Card key={dev} small onClick={() => {
+            handler('reserved', dev)
+          }} dev={dev} />
+        ))}
       </ReserveedDevelopments>
       <FieldInfo>
         <VictoryPointsMarker
@@ -70,6 +65,13 @@ const MyField = ({ field, handler, ...props }) => {
       </FieldInfo>
     </StyledField>
   )
+}
+
+MyField.propTypes = {
+  field: PropTypes.shape({
+    victoryPoints: PropTypes.number,
+    tokenAssets: PropTypes.objectOf(PropTypes.oneOf(['red', 'green', 'yellow', 'black', 'white', 'blue']))
+  })
 }
 
 export default MyField
