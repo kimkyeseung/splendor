@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import OpponentFieldSummary from 'components/organisms/OpponentFieldSummary'
-import { Button } from 'components'
 
-const Name = styled.div`
+const Name = styled.p`
   padding: 0.5rem;
   max-width: 150px;
   min-width: 100px;
@@ -36,9 +35,15 @@ const StyledPlayer = styled.div`
   padding: 0.25rem;
   border-radius: 12px;
   width: 100%;
+  cursor: zoom-in;
   background: ${({ theme, active }) => active
     ? theme.primary[0]
     : theme.secondary[0]};
+  &:hover {
+    background: ${({ theme, active }) => active
+      ? theme.primary[1]
+      : theme.secondary[1]};
+  }
   &:not(:last-child) {
     margin-bottom: 1rem;
   }
@@ -52,18 +57,16 @@ const StyledPlayer = styled.div`
 
 const Player = ({ ctx, player, G, watchPlayer }) => {
   const { currentPlayer } = ctx
-  const score = G.fields[player.id].victoryPoints
   const isActive = `${player.id}` === `${currentPlayer}`
 
   return (
-    <StyledPlayer active={isActive}>
+    <StyledPlayer active={isActive} onClick={() => {
+      watchPlayer(player.id)
+    }}>
       <Name>{player.name || player.id}</Name>
       <OpponentFieldSummary
         active={isActive}
         field={G.fields[player.id]} />
-        <Button size="small" onClick={() => {
-          watchPlayer(player.id)
-        }}>Watch</Button>
     </StyledPlayer>
   )
 }
