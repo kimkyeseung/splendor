@@ -20,6 +20,8 @@ const StyledFieldSummary = styled.div`
   ${({ active }) => active && activeCSs};
 
   @media screen and (max-device-width: 980px) {
+    padding: 0;
+    padding-top: 0.2rem;
   }
 `
 
@@ -32,8 +34,6 @@ const activeCSs = css`
 
 const Token = styled.div`
   border-radius: 100%;
-  color: ${({ theme }) => theme.white};
-  text-align: center;
   margin-right: -12px;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
@@ -42,6 +42,9 @@ const Token = styled.div`
   line-height: 24px;
   border: 1px solid ${({ theme }) => theme.grayscale[5]};
   ${({ theme, value }) => theme.colorSet[value]};
+  @media screen and (max-device-width: 980px) {
+    margin-right: -17.5px;
+  }
 `
 
 const FieldSummary = ({ active, field }) => {
@@ -58,7 +61,7 @@ const FieldSummary = ({ active, field }) => {
           )
         })}
       </div>
-      <Blank height={10} />
+      <Blank height={10} mHeight={0.5} />
       <div className="tokens">
         {Object.keys(tokenAssets).reduce((tokens, value) =>
           tokenAssets[value]

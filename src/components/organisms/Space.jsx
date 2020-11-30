@@ -136,6 +136,9 @@ const normalStyle = css`
     }
   }
   @media screen and (max-device-width: 980px) {
+    height: ${basicHeight * 0.5}px;
+    width: ${basicWidth * 0.5}px;
+    border-radius: 8px;
     ${getBackgroundStyle(0.5)};
     & > .header {
       min-height: 30px;
@@ -168,6 +171,9 @@ const emptyStyle = css`
   box-shadow: none;
   @media screen and (max-device-width: 980px) {
     background-image: none;
+    height: ${basicHeight * 0.5}px;
+    width: ${basicWidth * 0.5}px;
+    border-radius: 8px;
   }
 `
 
@@ -258,6 +264,10 @@ const thumbnailSize = css`
   &:not(:last-child) {
     margin-right: 0.2rem;
   }
+  @media screen and (max-device-width: 980px) {
+    height: ${basicHeight * 0.2}px;
+    width: ${basicWidth * 0.2}px;
+  }
 `
 
 const Space = styled.div`
@@ -272,9 +282,6 @@ const Space = styled.div`
   ${({ blind }) => blind && backStyle};
   ${({ thumbnail }) => thumbnail && thumbnailSize};
   @media screen and (max-device-width: 980px) {
-    height: ${basicHeight * 0.5}px;
-    width: ${basicWidth * 0.5}px;
-    border-radius: 8px;
     box-shadow: none;
   }
 `
