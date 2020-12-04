@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Block, Flex } from 'components'
 
 const StyledBlock = styled(Block)`
-  padding: 3rem;
+  padding: 2rem;
   width: fit-content;
   background: ${({ theme }) => theme.white};
   border-radius: 0.5rem;
@@ -17,8 +17,8 @@ const StyledBlock = styled(Block)`
   }
 `
 
-export const Box = ({ children }) => (
-  <Flex justifyContent="center">
+export const Box = ({ children, ...props }) => (
+  <Flex justifyContent="center" {...props}>
     <StyledBlock>{children}</StyledBlock>
   </Flex>
 )
