@@ -11,11 +11,11 @@ const Wrapper = styled.div`
 `
 
 const Label = styled.div`
-  color: ${({ theme }) => theme.grayscale[8]};
+  color: ${({ theme }) => theme.grayscale[6]};
 `
 
 const Message = styled.div`
-  color: ${({ theme }) => theme.grayscale[8]};
+  color: ${({ theme }) => theme.grayscale[6]};
   text-align: center;
 `
 

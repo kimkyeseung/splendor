@@ -5,7 +5,7 @@ import { Flex, Blank, Modal } from 'components'
 
 const Message = styled.div`
   font-size: 1.2em;
-  color: ${({ theme }) => theme.grayscale[8]};
+  color: ${({ theme }) => theme.grayscale[6]};
 `
 
 const LargeTile = styled.div`

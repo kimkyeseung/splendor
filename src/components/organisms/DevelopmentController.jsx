@@ -7,7 +7,7 @@ import Tilt from 'react-tilt'
 
 const Message = styled.div`
   font-size: 1.2em;
-  color: ${({ theme }) => theme.grayscale[8]};
+  color: ${({ theme }) => theme.grayscale[6]};
 `
 
 const DevelopmentController = ({

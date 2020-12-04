@@ -5,7 +5,7 @@ import { Button, Modal, Flex, Blank, Title } from 'components'
 
 const Message = styled.div`
   font-size: 3em;
-  color: ${({ theme }) => theme.grayscale[8]};
+  color: ${({ theme }) => theme.grayscale[6]};
   text-align: center;
 `
 

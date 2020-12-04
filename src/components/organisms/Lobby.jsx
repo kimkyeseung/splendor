@@ -54,7 +54,7 @@ const GameId = styled(Flex)`
     border: 2px solid black;
     padding: 0.75rem 1.25rem;
     font-family: ${({ theme }) => theme.font.context};
-    background-color: ${({ theme }) => theme.grayscale[8]};
+    background-color: ${({ theme }) => theme.grayscale[6]};
     color: ${({ theme }) => theme.grayscale[1]};
     overflow: hidden;
     text-overflow: ellipsis;

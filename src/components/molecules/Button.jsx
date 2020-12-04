@@ -44,7 +44,7 @@ const buttonStyle = css`
   font-size: 1.25em;
   transition: background-color .2s;
   background-color: ${({ theme }) => theme.grayscale[2]};
-  color: ${({ theme }) => theme.grayscale[8]};
+  color: ${({ theme }) => theme.grayscale[6]};
   text-decoration: none;
   font-family: ${({ theme }) => theme.font.context};
   cursor: ${({ cursor }) => cursor || 'pointer'};

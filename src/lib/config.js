@@ -71,8 +71,6 @@ export const THEME = {
   white: '#fff',
   black: '#000',
   grayscale: [
-    '#f8fafb',
-    '#f1f5f5',
     '#eaeeef',
     '#e1e4e6',
     '#ced3d6',
