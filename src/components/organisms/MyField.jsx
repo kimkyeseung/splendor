@@ -8,9 +8,9 @@ import Card from './Card'
 import VictoryPointsMarker from 'components/organisms/VictoryPointsMarker'
 
 const StyledField = styled.section`
-  padding: 2rem;
   display: flex;
   justify-content: center;
+  align-items: center;
 `
 
 const ReserveedDevelopments = styled.section`

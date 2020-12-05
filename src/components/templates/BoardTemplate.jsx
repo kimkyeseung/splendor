@@ -9,17 +9,30 @@ const Template = styled.div`
   display: flex;
   flex-direction: column;
   & .container {
+    max-height: 80vh;
     width: '100%';
     flex-grow: 1;
+    & .opponents {
+      align-self: stretch;
+      height: auto;
+    }
+    & .board {
+      flex-grow: 6;
+      display: flex;
+      flex-direction: column;
+      & > .noble-section {
+        flex-grow: 0;
+      }
+      & > .developments {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+      }
+    }
   }
-  & .opponents {
-    align-self: stretch;
-    height: auto;
-  }
-  & .board {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
+  & .player {
+    max-height: 20vh;
   }
   @media screen and (max-device-width: 980px) {
     width: 100vw;
@@ -105,16 +118,14 @@ export const BoardTemplate = ({ opponents, developments, nobles, tokens, player 
       </Section>
       <Blank width={20} />
       <Board className="board">
-        <Section>
-          <NobleWrapper>
+        <Section className="noble-section">
+          <NobleWrapper className="nobles">
             {nobles}
           </NobleWrapper>
         </Section>
         <Blank height={20} />
-        <Section>
-          <Block className="developments">
-            {developments}
-          </Block>
+        <Section className="developments">
+          {developments}
         </Section>
       </Board>
       <Blank width={20} />
@@ -125,7 +136,7 @@ export const BoardTemplate = ({ opponents, developments, nobles, tokens, player 
       </Section>
     </Flex>
     <Blank height={20} />
-    <Section>
+    <Section className="player">
       {player}
     </Section>
   </Template>

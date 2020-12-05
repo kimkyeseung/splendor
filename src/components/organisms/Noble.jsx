@@ -22,6 +22,17 @@ const background = css`
   &.NB08 { background-position-x: -${basicSize * 7}px; }
   &.NB09 { background-position-x: -${basicSize * 8}px; }
   &.NB10 { background-position-x: -${basicSize * 9}px; }
+  @media screen and (max-device-height: 1150px) {
+    &.NB02 { background-position-x: -${basicSize * 0.7}px; }
+    &.NB03 { background-position-x: -${basicSize * 0.7 * 2}px; }
+    &.NB04 { background-position-x: -${basicSize * 0.7 * 3}px; }
+    &.NB05 { background-position-x: -${basicSize * 0.7 * 4}px; }
+    &.NB06 { background-position-x: -${basicSize * 0.7 * 5}px; }
+    &.NB07 { background-position-x: -${basicSize * 0.7 * 6}px; }
+    &.NB08 { background-position-x: -${basicSize * 0.7 * 7}px; }
+    &.NB09 { background-position-x: -${basicSize * 0.7 * 8}px; }
+    &.NB10 { background-position-x: -${basicSize * 0.7 * 9}px; }
+  }
   @media screen and (max-device-width: 980px) {
     &.NB02 { background-position-x: -${basicSize / 2}px; }
     &.NB03 { background-position-x: -${basicSize}px; }
@@ -60,13 +71,32 @@ const normalStyle = css`
 `
 
 const Tile = styled.div`
-  height: ${basicSize}px;
-  width: ${basicSize}px;
+  max-height: ${basicSize}px;
+  max-width: ${basicSize}px;
   border-radius: 8px;
   margin: 0.4rem;
   padding: 0;
   overflow: hidden;
   ${normalStyle}
+  @media screen and (max-device-height: 1150px) {
+    height: ${basicSize * 0.7}px;
+    width: ${basicSize * 0.7}px;
+    position: relative;
+    & > header {
+      width: 30px;
+      padding: 0;
+      & > .vp {
+        font-size: 2em;
+        position: absolute;
+        right: 5px;
+        bottom: 2px;
+      }
+      & > .condition {
+        padding: 0 0.2rem;
+        font-size: 24px;
+      }
+    }
+  }
   @media screen and (max-device-width: 980px) {
     height: ${basicSize / 2}px;
     width: ${basicSize / 2}px;

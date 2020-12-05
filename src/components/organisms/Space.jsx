@@ -135,6 +135,16 @@ const normalStyle = css`
       font-size: 1.5em;
     }
   }
+  @media screen and (max-device-height: 1050px) {
+    height: ${basicHeight * 0.9}px;
+    width: ${basicWidth * 0.9}px;
+    ${getBackgroundStyle(0.9)};
+    & > .costs {
+      display: flex;
+      flex-wrap: wrap;
+      padding-right: 50px;
+      flex-flow: wrap-reverse;
+    }
   @media screen and (max-device-width: 980px) {
     height: ${basicHeight * 0.5}px;
     width: ${basicWidth * 0.5}px;
@@ -169,6 +179,11 @@ const emptyStyle = css`
   background-image: none;
   border: 2px dotted gray;
   box-shadow: none;
+  @media screen and (max-device-height: 1050px) {
+    background-image: none;
+    height: ${basicHeight * 0.9}px;
+    width: ${basicWidth * 0.9}px;
+  }
   @media screen and (max-device-width: 980px) {
     background-image: none;
     height: ${basicHeight * 0.5}px;
@@ -181,7 +196,11 @@ const backStyle = css`
   background-image: none;
   border: 8px solid white;
   background: ${({ grade }) => backColors[grade - 1]};
+  @media screen and (max-device-height: 1050px) {
+    background: ${({ grade }) => backColors[grade - 1]};
+  }
   @media screen and (max-device-width: 980px) {
+    width: 40px;
     border: 2px solid white;
     background: ${({ grade }) => backColors[grade - 1]};
   }

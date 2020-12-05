@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Blank } from 'components'
 import { getDevelopmentValuesFromFields } from 'utils'
 
 const StyledFieldSummary = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   & .name {
     font-size: 1.5em;
   }
@@ -30,8 +33,8 @@ const StyledFieldSummary = styled.div`
 `
 
 const Development = styled.div`
-  height: 90px;
-  width: 75px;
+  max-height: 90px;
+  max-width: 75px;
   line-height: 40px;
   font-size: 2em;
   border-radius: 8px;
@@ -82,7 +85,6 @@ const FieldSummary = ({ active, field, name, isMyField }) => {
   return (
     <StyledFieldSummary active={active} isMyField={isMyField}>
       <div className="name">{name}</div>
-      <Blank height={15} />
       <div className="assets">
         {tokenList.map(value => (
           <div className="asset" key={value}>

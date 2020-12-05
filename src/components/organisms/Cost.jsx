@@ -7,7 +7,7 @@ const solidShape = css`
   border-radius: 4px;
   padding: 0.1rem;
   padding-bottom: 0;
-  margin: 0.2rem auto;
+  margin: 0.1rem auto;
   @media screen and (max-device-width: 980px) {
     padding: 0;
     font-size: 1em;

@@ -83,7 +83,7 @@ class GameContainer extends Component {
       matchID: this.gameID,
       playerID: String(this.playerID),
       credentials: userAuthToken,
-      debug: true,
+      debug: false,
       board: props => (
         <Board {...props} players={joinedPlayers} history={history} />
       ),

@@ -7,6 +7,7 @@ import Tilt from 'react-tilt'
 
 const Effect = styled.div`
   transition: all 0.2s;
+  height: 100%;
   &:hover {
     transform: translateY(-4px);
   }
@@ -16,15 +17,8 @@ const Row = styled.div`
   display: flex;
   justify-content: space-around;
   position: relative;
-  & > .list {
-    display: flex;
-    justify-content: space-around;
-    & > * {
-      margin: 0.4rem;
-      @media screen and (max-device-width: 980px) {
-        margin: 0.2rem;
-      }
-    }
+  @media screen and (max-device-width: 980px) {
+    & > * { margin: 0.2rem; }
   }
 `
 
@@ -38,17 +32,15 @@ const DevelopmentRow = ({ deck, list, handler, grade }) => (
       }}
       cards={deck}
       grade={grade} />}
-    <div className="list">
-      {list.map((dev, index) => (
-        <Tilt key={dev} options={{ scale: 1, max: 20 }}>
-          <Effect>
-            <Card onClick={() => {
-              handler('board', dev, { index, grade })
-            }} grade={grade} dev={dev} />
-          </Effect>
-        </Tilt>
-      ))}
-    </div>
+    {list.map((dev, index) => (
+      <Tilt key={dev} options={{ scale: 1, max: 20 }}>
+        <Effect>
+          <Card onClick={() => {
+            handler('board', dev, { index, grade })
+          }} grade={grade} dev={dev} />
+        </Effect>
+      </Tilt>
+    ))}
   </Row>
 )
 

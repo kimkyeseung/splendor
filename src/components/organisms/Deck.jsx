@@ -35,6 +35,7 @@ const Dummmy = styled(Space)`
 
 const Effect = styled.div`
   transition: all 0.2s;
+  height: 100%;
   &:hover {
     transform: translate(2px, -6px);
   }
