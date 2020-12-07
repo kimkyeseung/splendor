@@ -49,7 +49,6 @@ class LobbyContainer extends Component {
             playerID: playerNo,
             credentials: authToken
           })
-          console.log(localStorage.splendor)
         })
       },
         (err) => {
@@ -68,7 +67,6 @@ class LobbyContainer extends Component {
     }
 
     const storedData = getGameFromStorage(gameID)
-    console.log({ storedData })
 
     return storedData && storedData.playerID !== undefined && storedData.credentials
       ? leaveGameRoom(gameID, storedData.playerID, storedData.credentials)

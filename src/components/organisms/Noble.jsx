@@ -71,8 +71,8 @@ const normalStyle = css`
 `
 
 const Tile = styled.div`
-  max-height: ${basicSize}px;
-  max-width: ${basicSize}px;
+  height: ${basicSize}px;
+  width: ${basicSize}px;
   border-radius: 8px;
   margin: 0.4rem;
   padding: 0;
