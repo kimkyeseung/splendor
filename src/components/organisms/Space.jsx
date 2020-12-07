@@ -145,6 +145,7 @@ const normalStyle = css`
       padding-right: 50px;
       flex-flow: wrap-reverse;
     }
+  }
   @media screen and (max-device-width: 980px) {
     height: ${basicHeight * 0.5}px;
     width: ${basicWidth * 0.5}px;
@@ -236,6 +237,13 @@ const smallSize = css`
   }
   .title {
     font-size: 32px;
+  }
+
+  @media screen and (max-device-height: 1050px) {
+    height: ${basicHeight * 0.8}px;
+    width: ${basicWidth * 0.8}px;
+    border-radius: 9px;
+    ${getBackgroundStyle(0.8)}
   }
 `
 
