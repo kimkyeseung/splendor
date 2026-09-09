@@ -112,7 +112,9 @@ const Lobby = ({
       <Blank height={10} mHeight={1} />
       <List>
         {Array(seats).fill(1).map((n, index) => {
-          const isMe = myId === (players[index] && players[index].id)
+          // 서버가 자동 배정한 playerID는 문자열이지만 players[].id는
+          // 항상 숫자라서, 타입을 맞춰서 비교해야 한다.
+          const isMe = Boolean(players[index]) && String(myId) === String(players[index].id)
 
           return players[index] ? (
             <Player key={`${index}-${players[index].id}`} isMe={isMe}>

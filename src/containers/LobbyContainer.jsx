@@ -205,7 +205,10 @@ class LobbyContainer extends Component {
         totalSeats={totalSeats}
         myId={myId}
         gameId={id}
-        isHost={joinedPlayers[0]?.id === myId}
+        // 서버가 자리를 자동 배정할 때는 playerID를 문자열로 돌려주는데
+        // (getFirstAvailablePlayerID), whosInRoom이 돌려주는 player.id는
+        // 항상 숫자다. 타입을 맞춰서 비교해야 한다.
+        isHost={joinedPlayers[0] && String(joinedPlayers[0].id) === String(myId)}
         serverURL={this.server}
         startGame={this.startGame}
         updatePlayerName={this.updatePlayerName}
