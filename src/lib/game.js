@@ -172,23 +172,43 @@ const game = () => {
         basic: {
           moves: {
             selectDevelopment(G, ctx, type, dev, meta = {}) {
-              const { board } = G
-
-              deselectDevelopment(G, ctx)
+              const { board, fields } = G
               const { index, grade } = meta
 
               if (type === 'deck') {
                 // 덱의 실제 순서는 클라이언트에 공개되지 않으므로(playerView),
                 // 클라이언트가 보낸 dev 값을 신뢰하지 않고 서버가 직접 뽑은 카드를 사용한다.
+                deselectDevelopment(G, ctx)
                 const drawnDevelopment = drawDevelopment(G, grade)
                 holdDevelopment(G, ctx, type, { ...meta, name: drawnDevelopment })
                 return
               }
 
-              holdDevelopment(G, ctx, type, { ...meta, name: dev })
               if (type === 'board') {
+                // dev가 실제로 그 보드 슬롯에 있는 카드인지 검증한다. 검증 없이
+                // 그대로 믿으면 클라이언트가 아무 카드나 "보드에서 골랐다"고
+                // 주장해 실제로 존재하지 않는 카드를 손에 넣을 수 있다.
+                if (!dev || board[`dev${grade}${index}`] !== dev) {
+                  return INVALID_MOVE
+                }
+                deselectDevelopment(G, ctx)
+                holdDevelopment(G, ctx, type, { ...meta, name: dev })
                 board[`dev${grade}${index}`] = null
+                return
               }
+
+              if (type === 'reserved') {
+                // dev가 실제로 본인이 예약한 카드인지 검증한다.
+                const { reservedDevs } = fields[ctx.currentPlayer]
+                if (!dev || !reservedDevs.includes(dev)) {
+                  return INVALID_MOVE
+                }
+                deselectDevelopment(G, ctx)
+                holdDevelopment(G, ctx, type, { ...meta, name: dev })
+                return
+              }
+
+              return INVALID_MOVE
             },
 
             deselectDevelopment(G, ctx) {
