@@ -11,7 +11,8 @@ import {
   reserveDevelopment, gainDevelopment,
   gainTokensFromHand,
   restoreTokenStore, holdToken, payDevelopmentPrice,
-  gainTokenFromStore, loseTokenToStore
+  gainTokenFromStore, loseTokenToStore,
+  getDevelopmentValues
 } from '../lib/utils'
 import { DEFAULT_SETTING } from './config'
 
@@ -121,12 +122,13 @@ const game = () => {
         console.log('onMove')
         const { fields, nobleTiles } = G
         const currentPlayer = fields[ctx.currentPlayer]
-        const { developments, hand, done } = currentPlayer
+        const { hand, done } = currentPlayer
 
         if (done) {
+          const developmentValues = getDevelopmentValues(G, ctx)
           const gettableNobles = nobleTiles.filter(
             noble => Object.keys(NOBLES[noble].condition)
-              .every(color => developments[color] >= NOBLES[noble].condition[color])
+              .every(color => developmentValues[color] >= NOBLES[noble].condition[color])
           )
 
           G.isFinal = G.isFinal || Object.keys(fields).some(
