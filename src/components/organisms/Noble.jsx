@@ -1,11 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import Cost from './Cost'
 import { NOBLES } from 'assets'
 import { VictoryPoints } from 'components'
 
 const basicSize = 150
+
+const glowPulse = keyframes`
+  0%, 100% {
+    box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.7), 0 0 0 2px rgba(255, 215, 0, 0.9);
+  }
+  50% {
+    box-shadow: 0 0 22px 8px rgba(255, 215, 0, 0.95), 0 0 0 3px rgba(255, 215, 0, 1);
+  }
+`
+
+const glowStyle = css`
+  animation: ${glowPulse} 1.4s ease-in-out infinite;
+`
 
 const background = css`
   background-repeat: no-repeat;
@@ -78,6 +91,7 @@ const Tile = styled.div`
   padding: 0;
   overflow: hidden;
   ${normalStyle}
+  ${({ glow }) => glow && glowStyle};
   @media screen and (max-device-height: 1150px) {
     height: ${basicSize * 0.7}px;
     width: ${basicSize * 0.7}px;
@@ -117,11 +131,11 @@ const Tile = styled.div`
   }
 `
 
-const Noble = ({ noble, handler }) => {
+const Noble = ({ noble, handler, glow }) => {
   const { condition, id, victoryPoint } = NOBLES[noble]
 
   return (
-    <Tile className={id} onClick={ev => {
+    <Tile className={id} glow={glow} onClick={ev => {
       handler(noble)
     }}>
       <header>
@@ -137,11 +151,13 @@ const Noble = ({ noble, handler }) => {
 }
 
 Noble.propTypes = {
-  noble: PropTypes.oneOf(Object.keys(NOBLES)).isRequired
+  noble: PropTypes.oneOf(Object.keys(NOBLES)).isRequired,
+  glow: PropTypes.bool
 }
 
 Noble.defaultProps = {
-  handler: () => { }
+  handler: () => { },
+  glow: false
 }
 
 export default Noble

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import Card from './Card'
 import Deck from './Deck'
 import Tilt from 'react-tilt'
+import { DEVELOPMENT_CARDS } from 'assets'
+import { canAffordDevelopment } from 'utils'
 
 const Effect = styled.div`
   transition: all 0.2s;
@@ -22,7 +24,7 @@ const Row = styled.div`
   }
 `
 
-const DevelopmentRow = ({ deck, list, handler, grade }) => (
+const DevelopmentRow = ({ deck, list, handler, grade, developmentValues, tokenAssets }) => (
   <Row>
     {deck && <Deck
       className="deck"
@@ -38,7 +40,11 @@ const DevelopmentRow = ({ deck, list, handler, grade }) => (
         <Effect>
           <Card onClick={() => {
             handler('board', dev, { index, grade })
-          }} grade={grade} dev={dev} />
+          }}
+          grade={grade}
+          dev={dev}
+          glow={!!dev && !!developmentValues && !!tokenAssets &&
+            canAffordDevelopment(DEVELOPMENT_CARDS[dev].cost, developmentValues, tokenAssets)} />
         </Effect>
       </Tilt>
     ))}
@@ -48,7 +54,9 @@ const DevelopmentRow = ({ deck, list, handler, grade }) => (
 DevelopmentRow.propTypes = {
   deck: PropTypes.arrayOf(PropTypes.string),
   list: PropTypes.arrayOf(PropTypes.string),
-  grade: PropTypes.oneOf([1, 2, 3])
+  grade: PropTypes.oneOf([1, 2, 3]),
+  developmentValues: PropTypes.object,
+  tokenAssets: PropTypes.object
 }
 
 export default DevelopmentRow

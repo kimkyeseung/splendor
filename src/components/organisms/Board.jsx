@@ -10,6 +10,7 @@ import MyField from './MyField'
 import Result from './Result'
 import Player from 'components/organisms/Player'
 import { DEVELOPMENT_CARDS } from 'assets'
+import { getDevelopmentValues, getGettableNobles } from 'utils'
 
 const Board = ({
   G, ctx,
@@ -58,6 +59,9 @@ const Board = ({
   const isMyTurn = playerID === ctx.currentPlayer
   const controllerVisible = !isMultiplayer || isMyTurn
 
+  const developmentValues = getDevelopmentValues(G, ctx)
+  const gettableNobles = getGettableNobles(nobleTiles, developmentValues)
+
   return (
     <>
       <BoardTemplate
@@ -81,18 +85,24 @@ const Board = ({
               list={developmentThree}
               handler={handleSpaceClick}
               grade={3}
+              developmentValues={developmentValues}
+              tokenAssets={tokenAssets}
             />
             <DevelopmentRow
               deck={developTwoDeck}
               list={developmentTwo}
               handler={handleSpaceClick}
               grade={2}
+              developmentValues={developmentValues}
+              tokenAssets={tokenAssets}
             />
             <DevelopmentRow
               deck={developOneDeck}
               list={developmentOne}
               handler={handleSpaceClick}
               grade={1}
+              developmentValues={developmentValues}
+              tokenAssets={tokenAssets}
             />
           </>
         }
@@ -109,7 +119,7 @@ const Board = ({
         }
         nobles={
           nobleTiles.map(noble => (
-            <Noble key={noble} noble={noble} />
+            <Noble key={noble} noble={noble} glow={gettableNobles.includes(noble)} />
           ))
         }
         player={

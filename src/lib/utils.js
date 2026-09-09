@@ -264,6 +264,25 @@ export const getDevelopmentValues = (G, ctx) => {
   return getDevelopmentValuesFromFields(developments)
 }
 
+export const getDevelopmentLack = (cost, developmentValues, tokenAssets) => {
+  const total = {}
+
+  Object.keys(developmentValues).forEach(color => {
+    total[color] = developmentValues[color] + tokenAssets[color]
+  })
+
+  return Object.keys(cost).reduce((diffAmount, color) => cost[color] > total[color]
+    ? diffAmount + (cost[color] - total[color])
+    : diffAmount, 0)
+}
+
+export const canAffordDevelopment = (cost, developmentValues, tokenAssets) =>
+  tokenAssets.yellow >= getDevelopmentLack(cost, developmentValues, tokenAssets)
+
+export const getGettableNobles = (nobleTiles, developmentValues) =>
+  nobleTiles.filter(noble => Object.keys(NOBLES[noble].condition)
+    .every(color => developmentValues[color] >= NOBLES[noble].condition[color]))
+
 export const getGameFromStorage = key => {
   let store = window.localStorage.getItem('splendor')
   store = JSON.parse(store)

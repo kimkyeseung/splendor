@@ -1,5 +1,18 @@
-import styled, { css } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import PropTypes from 'prop-types'
+
+const glowPulse = keyframes`
+  0%, 100% {
+    box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.7), 0 0 0 2px rgba(255, 215, 0, 0.9);
+  }
+  50% {
+    box-shadow: 0 0 22px 8px rgba(255, 215, 0, 0.95), 0 0 0 3px rgba(255, 215, 0, 1);
+  }
+`
+
+const glowStyle = css`
+  animation: ${glowPulse} 1.4s ease-in-out infinite;
+`
 
 const backColors = [
   '#27ae60',
@@ -308,6 +321,7 @@ const Space = styled.div`
   ${({ small }) => small && smallSize};
   ${({ blind }) => blind && backStyle};
   ${({ thumbnail }) => thumbnail && thumbnailSize};
+  ${({ glow }) => glow && glowStyle};
   @media screen and (max-device-width: 980px) {
     box-shadow: none;
   }
@@ -317,7 +331,8 @@ Space.propTypes = {
   onClick: PropTypes.func,
   blind: PropTypes.bool,
   thumbnail: PropTypes.bool,
-  small: PropTypes.bool
+  small: PropTypes.bool,
+  glow: PropTypes.bool
 }
 
 export default Space
