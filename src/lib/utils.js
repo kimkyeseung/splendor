@@ -80,11 +80,13 @@ export const reserveDevelopment = (G, ctx) => {
 
 export const gainDevelopment = (G, ctx) => {
   const { fields } = G
-  const { hand, developments, reservedDevs } = fields[ctx.currentPlayer]
+  const currentPlayer = fields[ctx.currentPlayer]
+  const { hand, developments, reservedDevs } = currentPlayer
 
   if (hand.development) {
     const { name, type } = hand.development
     developments.push(name)
+    currentPlayer.victoryPoints += DEVELOPMENT_CARDS[name].victoryPoint
     if (type === 'reserved') {
       fields[ctx.currentPlayer].reservedDevs = reservedDevs.filter(dev => dev !== name)
     }
