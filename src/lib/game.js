@@ -1,5 +1,6 @@
 import DEVELOPMENT_CARDS from '../assets/developmentCards.json'
 import NOBLES from '../assets/nobles.json'
+import { HIDDEN_DEVELOPMENT_CARD } from '../assets'
 import {
   getTokenValidator,
   buyDevelopmentValidator,
@@ -106,6 +107,17 @@ const game = () => {
     moves: {
     },
 
+    // 덱에 남은 카드의 순서/정체는 어떤 플레이어에게도 공개되지 않아야 하는
+    // 비공개 정보이므로, 서버가 각 클라이언트에 보내는 상태에서 실제 카드
+    // id 대신 길이만 유지한 뒷면 placeholder로 치환한다. (실제 게임 로직이
+    // 사용하는 G는 이 필터를 거치지 않은 원본이므로 서버 쪽 동작에는 영향 없음)
+    playerView: G => ({
+      ...G,
+      developOneDeck: G.developOneDeck.map(() => HIDDEN_DEVELOPMENT_CARD),
+      developTwoDeck: G.developTwoDeck.map(() => HIDDEN_DEVELOPMENT_CARD),
+      developThreeDeck: G.developThreeDeck.map(() => HIDDEN_DEVELOPMENT_CARD),
+    }),
+
     turn: {
       onBegin: (G, ctx) => {
         console.log('onBegin')
@@ -155,18 +167,19 @@ const game = () => {
               const { board } = G
 
               deselectDevelopment(G, ctx)
-              console.log({ type, dev, meta })
-              holdDevelopment(G, ctx, type, { ...meta, name: dev })
               const { index, grade } = meta
-              switch (type) {
-                case 'board':
-                  board[`dev${grade}${index}`] = null
-                  break
-                case 'deck':
-                  drawDevelopment(G, grade)
-                  break
-                case 'reserved':
-                  break
+
+              if (type === 'deck') {
+                // 덱의 실제 순서는 클라이언트에 공개되지 않으므로(playerView),
+                // 클라이언트가 보낸 dev 값을 신뢰하지 않고 서버가 직접 뽑은 카드를 사용한다.
+                const drawnDevelopment = drawDevelopment(G, grade)
+                holdDevelopment(G, ctx, type, { ...meta, name: drawnDevelopment })
+                return
+              }
+
+              holdDevelopment(G, ctx, type, { ...meta, name: dev })
+              if (type === 'board') {
+                board[`dev${grade}${index}`] = null
               }
             },
 

@@ -27,8 +27,9 @@ const DevelopmentRow = ({ deck, list, handler, grade }) => (
     {deck && <Deck
       className="deck"
       onClick={() => {
-        const dev = deck[deck.length - 1]
-        handler('deck', dev, { grade })
+        // 덱의 실제 카드 정체는 클라이언트에 공개되지 않으므로(playerView),
+        // 어떤 카드를 뽑을지는 서버가 직접 결정한다.
+        handler('deck', null, { grade })
       }}
       cards={deck}
       grade={grade} />}

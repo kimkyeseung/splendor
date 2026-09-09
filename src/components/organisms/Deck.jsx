@@ -41,23 +41,23 @@ const Effect = styled.div`
   }
 `
 
-const Deck = ({ cards = [], onClick, ...props }) => cards.length
+const Deck = ({ cards = [], onClick, grade, ...props }) => cards.length
   ? <Dummmy empty {...props}>
     <div className="cards">
       {cards.map((id, index) => (
         index === cards.length - 1
-          ? <Effect key={id}>
+          ? <Effect key={index}>
             <Back index={index}>
-              <Card dev={id} blind onClick={onClick} />
+              <Card dev={id} grade={grade} blind onClick={onClick} />
             </Back>
           </Effect>
-          : <Back key={id} index={index}>
-            <Card dev={id} blind onClick={onClick} />
+          : <Back key={index} index={index}>
+            <Card dev={id} grade={grade} blind onClick={onClick} />
           </Back>
       ))}
     </div>
     <div className="mobile-deck">
-      <Card dev={cards[cards.length - 1]} blind onClick={onClick} />
+      <Card dev={cards[cards.length - 1]} grade={grade} blind onClick={onClick} />
     </div>
   </Dummmy>
   : <Space empty />

@@ -5,23 +5,27 @@ import Cost from './Cost'
 import Space from './Space'
 import { VictoryPoints, Flex, Title } from 'components'
 
-import { DEVELOPMENT_CARDS } from 'assets'
+import { DEVELOPMENT_CARDS, HIDDEN_DEVELOPMENT_CARD } from 'assets'
 
-const Card = ({ dev, blind, ...props }) => {
+const Card = ({ dev, blind, grade: gradeProp, ...props }) => {
   if (!dev) {
     return <Space empty />
   }
-  const { grade, cost, value, victoryPoint, id } = DEVELOPMENT_CARDS[dev]
 
+  // 뒷면(blind) 카드는 실제 카드 정체를 숨기기 위해 서버에서 placeholder id로
+  // 치환되어 내려올 수 있으므로, DEVELOPMENT_CARDS 조회 없이 명시적으로
+  // 전달받은 grade만으로 등급별 색상을 표시한다.
   if (blind) {
     return (
-      <Space grade={grade} blind {...props}>
+      <Space grade={gradeProp || DEVELOPMENT_CARDS[dev]?.grade} blind {...props}>
         <Flex style={{ height: '100%' }} justifyContent="center">
           <Title className="title" size="card" />
         </Flex>
       </Space>
     )
   }
+
+  const { cost, value, victoryPoint, id } = DEVELOPMENT_CARDS[dev]
 
   return (
     <Space className={`DEV${id}`} {...props}>
@@ -38,7 +42,7 @@ const Card = ({ dev, blind, ...props }) => {
 }
 
 Card.propTypes = {
-  dev: PropTypes.oneOf(Object.keys(DEVELOPMENT_CARDS)),
+  dev: PropTypes.oneOf([...Object.keys(DEVELOPMENT_CARDS), HIDDEN_DEVELOPMENT_CARD]),
   blind: PropTypes.bool,
   small: PropTypes.bool,
   onClick: PropTypes.func
