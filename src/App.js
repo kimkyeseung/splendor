@@ -46,7 +46,7 @@ class App extends Component {
     this.leaveGameRoom()
   }
 
-  createGame() {
+  createGame(numPlayers = 4) {
     const { loading, joinedPlayers } = this.state
 
     if (loading) {
@@ -56,7 +56,7 @@ class App extends Component {
     this.setState({
       loading: true,
     }, () => {
-      api.createRoom()
+      api.createRoom(numPlayers)
         .then((gameId) => {
           const { history } = this.props
           this.setState({ gameId, loading: false }, () => {

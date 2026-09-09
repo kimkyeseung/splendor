@@ -11,7 +11,10 @@ class LobbyContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      gameID: props.gameId || props.match.params.id
+      gameID: props.gameId || props.match.params.id,
+      // 방 생성 시 정해진 전체 자리 수. whosInRoom이 돌려주는 players 배열은
+      // (참가 여부와 무관하게) 항상 이 개수만큼의 슬롯을 담고 있다.
+      totalSeats: null
     }
     this.server = ON_DEVELOPMENT
       ? GAME_SERVER_URL
@@ -80,6 +83,7 @@ class LobbyContainer extends Component {
       setPlayerInfo(storedData.playerID, storedData.credentials)
       return api.whosInRoom(gameID)
         .then((players) => {
+          this.setState({ totalSeats: players.length })
           updateJoinedPlayers(players.filter((p) => p.name))
         },
           (err) => {
@@ -93,6 +97,7 @@ class LobbyContainer extends Component {
 
     return api.whosInRoom(gameID)
       .then((players) => {
+        this.setState({ totalSeats: players.length })
         const joinedPlayers = players.filter((p) => p.name)
         updateJoinedPlayers(joinedPlayers, () => {
           // 신규 참가자는 클라이언트에서 인원수로 자리 번호를 추측하지 않고,
@@ -119,6 +124,7 @@ class LobbyContainer extends Component {
 
     return api.whosInRoom(gameID).then(
       (players) => {
+        this.setState({ totalSeats: players.length })
         const joinedPlayers = []
         let started = false
         players.forEach(p => {
@@ -175,7 +181,7 @@ class LobbyContainer extends Component {
   }
 
   render() {
-    const { gameID: id } = this.state
+    const { gameID: id, totalSeats } = this.state
     const { history, joinedPlayers, gameId, myId } = this.props
 
     if (!gameId && !id) {
@@ -196,6 +202,7 @@ class LobbyContainer extends Component {
     return (
       <Lobby
         players={joinedPlayers}
+        totalSeats={totalSeats}
         myId={myId}
         gameId={id}
         isHost={joinedPlayers[0]?.id === myId}

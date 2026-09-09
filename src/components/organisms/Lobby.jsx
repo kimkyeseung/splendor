@@ -74,8 +74,11 @@ const GameId = styled(Flex)`
 
 
 const Lobby = ({
-  gameId, players = [], isHost, startGame, myId, serverURL, updatePlayerName
+  gameId, players = [], totalSeats, isHost, startGame, myId, serverURL, updatePlayerName
 }) => {
+  // 방 생성 시 정한 자리 수를 아직 모르면(최초 로딩 등) 4로만 표시해두고,
+  // 실제 게임 시작 가능 여부는 seats를 알기 전까지 비활성 상태로 둔다.
+  const seats = totalSeats ?? 4
   const textAreaRef = useRef(null)
 
   const copyText = () => {
@@ -108,7 +111,7 @@ const Lobby = ({
       <Label>Player List</Label>
       <Blank height={10} mHeight={1} />
       <List>
-        {Array(4).fill(1).map((n, index) => {
+        {Array(seats).fill(1).map((n, index) => {
           const isMe = myId === (players[index] && players[index].id)
 
           return players[index] ? (
@@ -134,7 +137,10 @@ const Lobby = ({
       </List>
       <Blank height={20} mHeight={4} />
       <Flex>
-        {isHost && <Button primary disabled={players.length < 2} onClick={ev => {
+        {/* 정해진 자리가 다 차기 전에 시작하면, 아무도 없는 자리까지 턴
+            순서에 섞여 들어가 그 자리에서 게임이 멈춰버리기 때문에
+            자리가 모두 찼을 때만 시작할 수 있게 한다. */}
+        {isHost && <Button primary disabled={players.length < seats} onClick={ev => {
           ev.preventDefault()
           startGame()
         }}>Start Game</Button>}

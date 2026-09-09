@@ -28,9 +28,9 @@ export class LobbyApi {
     }
   }
 
-  async createRoom(setupData) {
+  async createRoom(numPlayers = 4, setupData) {
     const { data } = await this.api
-      .post('/create', { numPlayers: 4, setupData })
+      .post('/create', { numPlayers, setupData })
 
     return data.matchID
   }
