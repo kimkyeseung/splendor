@@ -200,19 +200,16 @@ const game = () => {
               const currentPlayer = fields[ctx.currentPlayer]
               const { reservedDevs, tokenAssets, hand } = currentPlayer
 
-              if (reservedDevs.length < DEFAULT_SETTING.playerReserveDevelopmentLimit) {
+              if (hand.development && reservedDevs.length < DEFAULT_SETTING.playerReserveDevelopmentLimit) {
                 gainTokenFromStore(G, ctx, 'yellow')
+                reserveDevelopment(G, ctx)
 
-                if (hand.development) {
-                  reserveDevelopment(G, ctx)
-
-                  const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
-                  if (tokenCount > tokenLimit) {
-                    G.tokenOverloaded = tokenCount - tokenLimit
-                    ctx.events.setStage('returnTokens')
-                  } else {
-                    currentPlayer.done = true
-                  }
+                const tokenCount = Object.values(tokenAssets).reduce((count, token) => count + token)
+                if (tokenCount > tokenLimit) {
+                  G.tokenOverloaded = tokenCount - tokenLimit
+                  ctx.events.setStage('returnTokens')
+                } else {
+                  currentPlayer.done = true
                 }
               }
             },
