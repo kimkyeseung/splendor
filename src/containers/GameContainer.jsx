@@ -3,7 +3,7 @@ import { Client } from 'boardgame.io/react'
 import Board from './BoardContainer'
 import { LobbyApi } from 'api'
 import { SocketIO } from 'boardgame.io/multiplayer'
-import { ON_DEVELOPMENT, WEB_SERVER_URL } from 'config'
+import { ON_DEVELOPMENT, WEB_SERVER_URL, PROD_SERVER_URL } from 'config'
 import { Beforeunload } from 'react-beforeunload'
 import game from 'game'
 
@@ -101,7 +101,7 @@ class GameContainer extends Component {
       multiplayer: SocketIO({
         server: ON_DEVELOPMENT
           ? WEB_SERVER_URL
-          : window.location.origin
+          : (PROD_SERVER_URL || window.location.origin)
       })
     })
 

@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { GAME_NAME, WEB_SERVER_URL, ON_DEVELOPMENT } from 'config'
+import { GAME_NAME, WEB_SERVER_URL, ON_DEVELOPMENT, PROD_SERVER_URL } from 'config'
 
 const server = ON_DEVELOPMENT
   ? WEB_SERVER_URL
-  : window.location.origin
+  : (PROD_SERVER_URL || window.location.origin)
 
 export class LobbyApi {
   constructor() {

@@ -1,0 +1,8 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "env": {
+    "REACT_APP_GAME_SERVER_URL": "https://splendor.kimkyeseung.com",
+    "CI": "false"
+  }
+}

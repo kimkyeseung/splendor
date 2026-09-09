@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { LobbyApi } from 'api'
 import Lobby from 'components/organisms/Lobby'
 import { Flex, Button } from 'components'
-import { ON_DEVELOPMENT, GAME_SERVER_URL } from 'config'
+import { ON_DEVELOPMENT, GAME_SERVER_URL, PROD_SERVER_URL } from 'config'
 import { setGameToStorage, getGameFromStorage } from 'utils'
 
 const api = new LobbyApi()
@@ -18,7 +18,7 @@ class LobbyContainer extends Component {
     }
     this.server = ON_DEVELOPMENT
       ? GAME_SERVER_URL
-      : window.location.origin
+      : (PROD_SERVER_URL || window.location.origin)
     this.joinRoom = this.joinRoom.bind(this)
     this.checkRoomState = this.checkRoomState.bind(this)
     this.startGame = this.startGame.bind(this)

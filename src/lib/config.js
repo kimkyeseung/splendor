@@ -41,6 +41,9 @@ export const GAME_SERVER_PORT = 3000
 export const GAME_SERVER_URL = `http://localhost:${GAME_SERVER_PORT}`
 export const WEB_SERVER_URL = 'http://localhost:8000'
 export const ON_DEVELOPMENT = process.env.NODE_ENV === 'development'
+// 프론트(Vercel)와 백엔드(별도 서버)가 다른 오리진일 때 쓰는 프로덕션 서버 주소.
+// 값이 없으면(=같은 오리진에서 서빙되는 배포) window.location.origin으로 폴백한다.
+export const PROD_SERVER_URL = process.env.REACT_APP_GAME_SERVER_URL
 export const DEFAULT_SETTING = {
   victoryPointGoal: 15,
   maximumPlayerNumber: 4,
