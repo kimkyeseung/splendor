@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
+import 'react-tooltip/dist/react-tooltip.css'
 import OpponentFieldSummary from 'components/organisms/OpponentFieldSummary'
 import Card from './Card'
 import { Flex } from 'components'
@@ -94,27 +95,23 @@ const Player = ({ ctx, player, watchPlayer, field }) => {
   const { currentPlayer } = ctx
   const isActive = `${player.id}` === `${currentPlayer}`
 
-  const playerRef = useRef()
+  const [showTooltip, setShowTooltip] = useState(false)
 
   useEffect(() => {
-    if (playerRef.current) {
-      if (field.hand.tokens.length || field.hand.development || field.hand.gettableNobles.length) {
-        ReactTooltip.show(playerRef.current)
-      } else {
-        ReactTooltip.hide(playerRef.current)
-      }
-    }
-  }, [playerRef, field.hand])
+    setShowTooltip(Boolean(
+      field.hand.tokens.length || field.hand.development || field.hand.gettableNobles.length
+    ))
+  }, [field.hand])
 
   return (
-    <StyledPlayer ref={playerRef} data-tip data-for={player.id} active={isActive} onClick={() => {
+    <StyledPlayer data-tooltip-id={player.id} active={isActive} onClick={() => {
       watchPlayer(player.id)
     }}>
       <Name>{player.name || player.id}</Name>
       <OpponentFieldSummary
         active={isActive}
         field={field} />
-      <ReactTooltip id={player.id} place="right" effect="solid" type="light">
+      <Tooltip id={player.id} place="right" variant="light" isOpen={showTooltip}>
         <Flex>
           {field.hand.tokens.length
             ? <Tokens>{field.hand.tokens.map((token, i) => (
@@ -126,7 +123,7 @@ const Player = ({ ctx, player, watchPlayer, field }) => {
             ? <Card small dev={field.hand.development.name} />
             : null}
         </Flex>
-      </ReactTooltip>
+      </Tooltip>
     </StyledPlayer>
   )
 }
