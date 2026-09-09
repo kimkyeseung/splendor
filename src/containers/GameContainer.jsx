@@ -101,7 +101,7 @@ class GameContainer extends Component {
       multiplayer: SocketIO({
         server: ON_DEVELOPMENT
           ? WEB_SERVER_URL
-          : `https://${window.location.hostname}`
+          : window.location.origin
       })
     })
 

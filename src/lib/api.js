@@ -3,7 +3,7 @@ import { GAME_NAME, WEB_SERVER_URL, ON_DEVELOPMENT } from 'config'
 
 const server = ON_DEVELOPMENT
   ? WEB_SERVER_URL
-  : `https://${window.location.hostname}`
+  : window.location.origin
 
 export class LobbyApi {
   constructor() {

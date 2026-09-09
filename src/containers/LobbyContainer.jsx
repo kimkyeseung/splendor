@@ -18,7 +18,7 @@ class LobbyContainer extends Component {
     }
     this.server = ON_DEVELOPMENT
       ? GAME_SERVER_URL
-      : `https://${window.location.hostname}`
+      : window.location.origin
     this.joinRoom = this.joinRoom.bind(this)
     this.checkRoomState = this.checkRoomState.bind(this)
     this.startGame = this.startGame.bind(this)
