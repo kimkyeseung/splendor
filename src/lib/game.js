@@ -107,15 +107,23 @@ const game = () => {
     moves: {
     },
 
-    // 덱에 남은 카드의 순서/정체는 어떤 플레이어에게도 공개되지 않아야 하는
-    // 비공개 정보이므로, 서버가 각 클라이언트에 보내는 상태에서 실제 카드
-    // id 대신 길이만 유지한 뒷면 placeholder로 치환한다. (실제 게임 로직이
-    // 사용하는 G는 이 필터를 거치지 않은 원본이므로 서버 쪽 동작에는 영향 없음)
-    playerView: G => ({
+    // 덱에 남은 카드의 순서와, 다른 플레이어가 예약(reserve)한 카드의 정체는
+    // 본인 외에는 공개되지 않아야 하는 비공개 정보이므로, 서버가 각 클라이언트에
+    // 보내는 상태에서 실제 카드 id 대신 개수만 유지한 뒷면 placeholder로
+    // 치환한다. (실제 게임 로직이 사용하는 G는 이 필터를 거치지 않은 원본이므로
+    // 서버 쪽 동작에는 영향 없음)
+    playerView: (G, ctx, playerID) => ({
       ...G,
       developOneDeck: G.developOneDeck.map(() => HIDDEN_DEVELOPMENT_CARD),
       developTwoDeck: G.developTwoDeck.map(() => HIDDEN_DEVELOPMENT_CARD),
       developThreeDeck: G.developThreeDeck.map(() => HIDDEN_DEVELOPMENT_CARD),
+      fields: Object.keys(G.fields).reduce((fields, id) => {
+        const field = G.fields[id]
+        fields[id] = id === playerID
+          ? field
+          : { ...field, reservedDevs: field.reservedDevs.map(() => HIDDEN_DEVELOPMENT_CARD) }
+        return fields
+      }, {}),
     }),
 
     turn: {
