@@ -32,6 +32,9 @@ class LobbyContainer extends Component {
     clearInterval(this.interval)
   }
 
+  // playerNo를 생략하면 서버가 빈 자리를 원자적으로 배정해준다(신규 참가).
+  // 실제로 배정된 playerID는 응답으로 돌아오므로, 미리 추측한 값이 아니라
+  // 그 값을 그대로 사용해야 한다.
   joinRoom(playerNo) {
     const { setPlayerInfo, playerName } = this.props
     const { gameID } = this.state
@@ -42,12 +45,12 @@ class LobbyContainer extends Component {
     const { history } = this.props
 
     return api.joinRoom(gameID, playerName, playerNo)
-      .then((authToken) => {
-        console.log('게임에 참가하였습니다. 플레이어: ', playerNo)
-        setPlayerInfo(playerNo, authToken, () => {
+      .then(({ playerID, playerCredentials }) => {
+        console.log('게임에 참가하였습니다. 플레이어: ', playerID)
+        setPlayerInfo(playerID, playerCredentials, () => {
           setGameToStorage(gameID, {
-            playerID: playerNo,
-            credentials: authToken
+            playerID,
+            credentials: playerCredentials
           })
         })
       },
@@ -61,27 +64,23 @@ class LobbyContainer extends Component {
   checkRoomStateAndJoin = () => {
     console.log("pinging room endpoint to check whos there...")
     const { gameID } = this.state
-    const { updateJoinedPlayers, leaveGameRoom } = this.props
+    const { updateJoinedPlayers, setPlayerInfo } = this.props
     if (!gameID) {
       return Promise.resolve()
     }
 
     const storedData = getGameFromStorage(gameID)
 
-    return storedData && storedData.playerID !== undefined && storedData.credentials
-      ? leaveGameRoom(gameID, storedData.playerID, storedData.credentials)
-        .then(() => {
-          setTimeout(() => { // leaveGameRoom이 완료되더라도 실제로 반영되는데 시차가 있기때문에 1초의 여유를 줘서 재진입
-            this.joinRoom(storedData.playerID)
-          }, 1000)
-        })
-      : api.whosInRoom(gameID)
+    if (storedData && storedData.playerID !== undefined && storedData.credentials) {
+      // 이미 이 방에 내 자리가 있으면 서버에 leave를 보내지 않고 저장된
+      // 정보로 세션만 복원한다. leave 후 잠시 뒤 rejoin하는 방식은
+      // 그 사이 다른 참가자가 내 자리를 가져가거나(재접속 시 "Player X not
+      // available"로 튕겨나고 그 자리를 남이 차지), 혼자 대기 중이던 방이
+      // 참가자가 0명이 되어 서버에서 통째로 삭제되는 문제가 있었다.
+      setPlayerInfo(storedData.playerID, storedData.credentials)
+      return api.whosInRoom(gameID)
         .then((players) => {
-          const joinedPlayers = players.filter((p) => p.name)
-          updateJoinedPlayers(joinedPlayers, () => {
-            const myPlayerNum = joinedPlayers.length
-            this.joinRoom(myPlayerNum)
-          })
+          updateJoinedPlayers(players.filter((p) => p.name))
         },
           (err) => {
             console.log("room does not exist", err)
@@ -90,6 +89,24 @@ class LobbyContainer extends Component {
             })
           }
         )
+    }
+
+    return api.whosInRoom(gameID)
+      .then((players) => {
+        const joinedPlayers = players.filter((p) => p.name)
+        updateJoinedPlayers(joinedPlayers, () => {
+          // 신규 참가자는 클라이언트에서 인원수로 자리 번호를 추측하지 않고,
+          // playerID를 생략해 서버가 원자적으로 빈 자리를 배정하도록 한다.
+          this.joinRoom(undefined)
+        })
+      },
+        (err) => {
+          console.log("room does not exist", err)
+          this.setState({
+            gameID: null,
+          })
+        }
+      )
   }
 
   checkRoomState() {

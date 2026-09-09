@@ -36,13 +36,16 @@ export class LobbyApi {
   }
 
   async joinRoom(roomID, username, userid) {
+    // userid를 생략(undefined)하면 서버가 getFirstAvailablePlayerID로
+    // 빈 자리를 원자적으로 배정해준다. 그래서 실제로 배정된 playerID를
+    // 응답에서 그대로 돌려준다(호출부가 미리 추측한 값을 신뢰하면 안 됨).
     const payload = { playerID: userid, playerName: username };
     const { data } = await this.api
       .post(`/${roomID}/join`, payload)
 
-    const { playerCredentials } = data
+    const { playerID, playerCredentials } = data
 
-    return playerCredentials
+    return { playerID, playerCredentials }
   }
 
   async leaveRoom(roomId, userid, playerCredentials) {
@@ -52,6 +55,21 @@ export class LobbyApi {
     } catch (err) {
       console.log("error in leaveRoom: ", err)
     }
+  }
+
+  // beforeunload처럼 페이지가 곧 사라지는 상황에서 쓰는 leave 요청.
+  // 일반 axios 요청은 새로고침/탭 종료 시 브라우저가 중간에 끊어버릴 수 있어
+  // 서버에 내 자리가 "참가 중"으로 남아있게 될 수 있으므로, 브라우저가 페이지가
+  // 사라진 뒤에도 전송을 보장해주는 sendBeacon으로 보낸다.
+  leaveRoomBeacon(roomId, userid, playerCredentials) {
+    const payload = { playerID: userid, credentials: playerCredentials }
+
+    if (typeof navigator === 'undefined' || !navigator.sendBeacon) {
+      return this.leaveRoom(roomId, userid, playerCredentials)
+    }
+
+    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
+    navigator.sendBeacon(`${server}/games/${GAME_NAME}/${roomId}/leave`, blob)
   }
 
   async whosInRoom(roomID) {

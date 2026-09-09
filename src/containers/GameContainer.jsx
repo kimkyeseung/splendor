@@ -18,6 +18,7 @@ class GameContainer extends Component {
     this.checkRoomStateAndJoin = this.checkRoomStateAndJoin.bind(this)
     this.joinGame = this.joinGame.bind(this)
     this.leaveGame = this.leaveGame.bind(this)
+    this.leaveGameBeacon = this.leaveGameBeacon.bind(this)
   }
 
   componentDidMount() {
@@ -56,15 +57,25 @@ class GameContainer extends Component {
     leaveGameRoom(this.gameID, this.playerID, userAuthToken)
   }
 
+  // 새로고침/탭 종료로 페이지가 곧 사라지는 상황(beforeunload)에서 쓴다.
+  // 일반 axios 요청은 브라우저가 언로드 도중에 끊어버릴 수 있어, 내 자리가
+  // 서버에 "참가 중"으로 남아있게 되고, 그 상태로 재접속을 시도하면
+  // "Player X not available"로 거부되어 홈으로 튕겨나갔었다. sendBeacon은
+  // 페이지가 사라진 뒤에도 전송을 보장해준다.
+  leaveGameBeacon() {
+    const { userAuthToken } = this.props
+    api.leaveRoomBeacon(this.gameID, this.playerID, userAuthToken)
+  }
+
   joinGame() {
     const { setPlayerInfo } = this.props
 
     if (this.gameID) {
       const { history } = this.props
       api.joinRoom(this.gameID, this.playerName, this.playerID)
-        .then((authToken) => {
+        .then(({ playerCredentials }) => {
           console.log('게임에 참가하였습니다. 플레이어: ', this.playerID)
-          setPlayerInfo(this.playerID, authToken)
+          setPlayerInfo(this.playerID, playerCredentials)
         },
           (err) => {
             console.log('게임 참가에 오류가 발생하였습니다.', err)
@@ -96,7 +107,7 @@ class GameContainer extends Component {
 
     return (
       <Beforeunload onBeforeunload={ev => {
-        this.leaveGame()
+        this.leaveGameBeacon()
         ev.preventDefault()
       }}>
         <SplendorGame
