@@ -112,19 +112,30 @@ const game = () => {
     // 보내는 상태에서 실제 카드 id 대신 개수만 유지한 뒷면 placeholder로
     // 치환한다. (실제 게임 로직이 사용하는 G는 이 필터를 거치지 않은 원본이므로
     // 서버 쪽 동작에는 영향 없음)
-    playerView: (G, ctx, playerID) => ({
-      ...G,
-      developOneDeck: G.developOneDeck.map(() => HIDDEN_DEVELOPMENT_CARD),
-      developTwoDeck: G.developTwoDeck.map(() => HIDDEN_DEVELOPMENT_CARD),
-      developThreeDeck: G.developThreeDeck.map(() => HIDDEN_DEVELOPMENT_CARD),
-      fields: Object.keys(G.fields).reduce((fields, id) => {
-        const field = G.fields[id]
-        fields[id] = id === playerID
-          ? field
-          : { ...field, reservedDevs: field.reservedDevs.map(() => HIDDEN_DEVELOPMENT_CARD) }
-        return fields
-      }, {}),
-    }),
+    playerView: (G, ctx, playerID) => {
+      // Pass & Play(한 화면을 여러 명이 공유하는 로컬 모드)에서는 boardgame.io
+      // Client에 별도 playerID가 전달되지 않아 playerID가 null이 된다. 이때
+      // playerID를 그대로 기준으로 삼으면 어떤 필드와도 일치하지 않아 현재
+      // 차례인 플레이어 본인의 reservedDevs까지 항상 가려지고, MyField가 그
+      // placeholder를 실제 카드처럼 렌더링하려다 크래시가 난다. 실제
+      // 온라인 멀티플레이에서는 playerID가 항상 유효한 값이라 아래 fallback은
+      // 영향을 주지 않는다.
+      const viewerID = playerID == null ? ctx.currentPlayer : playerID
+
+      return {
+        ...G,
+        developOneDeck: G.developOneDeck.map(() => HIDDEN_DEVELOPMENT_CARD),
+        developTwoDeck: G.developTwoDeck.map(() => HIDDEN_DEVELOPMENT_CARD),
+        developThreeDeck: G.developThreeDeck.map(() => HIDDEN_DEVELOPMENT_CARD),
+        fields: Object.keys(G.fields).reduce((fields, id) => {
+          const field = G.fields[id]
+          fields[id] = id === viewerID
+            ? field
+            : { ...field, reservedDevs: field.reservedDevs.map(() => HIDDEN_DEVELOPMENT_CARD) }
+          return fields
+        }, {}),
+      }
+    },
 
     turn: {
       onBegin: (G, ctx) => {
