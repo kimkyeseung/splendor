@@ -11,7 +11,7 @@ class MainContainer extends Component {
       loading: false,
       playModal: false,
       playerNum: 2,
-      playerNames: ['0', '1', '2', '3']
+      playerNames: ['Player 1', 'Player 2', 'Player 3', 'Player 4']
     }
     this.setPlayerNum = this.setPlayerNum.bind(this)
     this.setPlayerName = this.setPlayerName.bind(this)

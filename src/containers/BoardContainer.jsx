@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import Board from 'components/organisms/Board'
 import { toast } from 'react-toastify'
+import { getTokenValidator } from '../lib/validator'
 
 class BoardContainer extends Component {
   static propTypes = {
@@ -57,9 +58,9 @@ class BoardContainer extends Component {
   }
 
   getCurrentPlayerName() {
-    const { ctx, players, matchData } = this.props
+    const { ctx, players } = this.props
 
-    return matchData.find(({ id }) =>
+    return players?.find(({ id }) =>
       ctx.currentPlayer === `${id}`)?.name || ctx.currentPlayer
   }
 
@@ -111,6 +112,13 @@ class BoardContainer extends Component {
   confirmSelectedToken() {
     const { G, ctx, moves } = this.props
     const { getTokens } = moves
+    const { tokenStore, fields } = G
+    const { hand } = fields[ctx.currentPlayer]
+
+    if (!getTokenValidator(hand.tokens, tokenStore)) {
+      toast.error('같은 색 토큰 2개 또는 서로 다른 색 토큰 3개를 선택해주세요.')
+      return
+    }
 
     getTokens()
   }
